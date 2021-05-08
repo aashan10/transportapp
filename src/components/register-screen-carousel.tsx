@@ -1,7 +1,6 @@
 import React from 'react';
 import Carousel from 'react-native-snap-carousel';
 import {Dimensions, Image, View} from 'react-native';
-import {Card} from '@ui-kitten/components';
 
 interface RegisterScreenCarouselProps {}
 interface RegisterScreenCarouselState {
@@ -63,7 +62,6 @@ class RegisterScreenCarousel extends React.Component<
   };
 
   renderItem = ({item, index}: {item: CarouselItem; index: number}) => {
-    console.log(item);
     return (
       <View
         style={{
