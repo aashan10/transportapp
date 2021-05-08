@@ -3,14 +3,7 @@ import Header from '../../../components/header';
 import Button from '../../../components/button';
 import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import {
-  View,
-  Image,
-  StyleSheet,
-  ToastAndroid,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {View, Image, StyleSheet, ToastAndroid, ScrollView} from 'react-native';
 
 const isNull = (param: any): boolean => {
   return param === null || param === undefined || param === '';
@@ -83,16 +76,7 @@ const RegisterDriverScreen = (props: any) => {
     <Layout style={{height: '100%'}}>
       <Header title={'Register as Driver'} navigation={props.navigation} />
       <Layout style={{height: '100%', marginBottom: 65}} level={'4'}>
-        <Layout
-          style={{
-            padding: 10,
-            paddingBottom: 0,
-            paddingTop: 20,
-            margin: 5,
-            borderRadius: 10,
-            flex: 1,
-            marginBottom: 165,
-          }}>
+        <Layout style={style.content}>
           <ScrollView
             style={{marginBottom: 20}}
             showsVerticalScrollIndicator={false}>
@@ -368,17 +352,6 @@ const RegisterDriverScreen = (props: any) => {
                   'Driver Registered Successfully! Please login to continue!',
                   200,
                 );
-                Alert.alert(
-                  'Data',
-                  JSON.stringify({
-                    name: name,
-                    email: email,
-                    password: password,
-                    repeatPassword: repeatPassword,
-                    address: address,
-                    phoneNumber: phone,
-                  }),
-                );
                 setLoading(false);
               }, 5000);
             } catch (e) {
@@ -412,6 +385,15 @@ const style = StyleSheet.create({
     width: '100%',
     aspectRatio: 6 / 4,
     height: 100,
+  },
+  content: {
+    padding: 10,
+    paddingBottom: 0,
+    paddingTop: 20,
+    margin: 5,
+    borderRadius: 10,
+    flex: 1,
+    marginBottom: 165,
   },
 });
 
