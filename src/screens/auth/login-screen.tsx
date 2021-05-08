@@ -1,21 +1,22 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Input, Layout, Spinner} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import {userLogin} from '../../api/requests';
+import {StyleSheet, View, ToastAndroid} from 'react-native';
+import {Exception, userLogin} from '../../api/requests';
 import UserContext from '../../contexts/user-context';
 import Button from '../../components/button';
+import {isEmpty} from '../../helpers/functions';
 
 const LoginScreen = (props: any) => {
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   useEffect(() => {
-    if (user) {
+    if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
     }
   }, [props.navigation, user]);
 
-  const [username, setUsername] = useState<string>('9806088688');
-  const [password, setPassword] = useState<string>('helloo11');
+  const [username, setUsername] = useState<string>('9862655555');
+  const [password, setPassword] = useState<string>('gopal11');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout style={style.container}>
@@ -39,14 +40,31 @@ const LoginScreen = (props: any) => {
             setLoading(true);
             userLogin({username: username, password: password})
               .then(response => {
-                console.log(response);
+                if (setUser) {
+                  setUser({token: response.token});
+                  props.navigation.navigate('home');
+                }
               })
-              .catch((err: any) => {
-                console.log(err);
+              .catch(async (err: Exception) => {
+                try {
+                  const {response} = err;
+                  if (response.status >= 400 && response.status < 500) {
+                    ToastAndroid.show(
+                      'The username and password do not match our records!',
+                      5000,
+                    );
+                  } else if (response.status >= 500) {
+                    ToastAndroid.show(
+                      'A problem occurred in server. Please try again later!',
+                      5000,
+                    );
+                  }
+                } catch (e) {
+                  ToastAndroid.show('No internet connection', 5000);
+                }
               })
               .finally(() => {
                 setLoading(false);
-                props.navigation.navigate('home');
               });
           }}
           disabled={loading}

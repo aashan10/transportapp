@@ -379,11 +379,9 @@ const RegisterDriverScreen = (props: any) => {
                     phoneNumber: phone,
                   }),
                 );
-                // props.navigation.navigate('login');
                 setLoading(false);
               }, 5000);
             } catch (e) {
-              console.log(e);
               setLoading(false);
             }
           }}

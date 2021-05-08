@@ -1,23 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Layout, List, ListItem, Text} from '@ui-kitten/components';
 import {Image, StyleSheet, View} from 'react-native';
 import Button from './button';
-
+import UserContext from '../contexts/user-context';
+const md5 = require('md5');
 const capitalize = (text: string) => {
   return text[0].toUpperCase() + text.slice(1);
 };
 
 const Drawer = (props: any) => {
+  const {user} = useContext(UserContext);
   return (
     <Layout level={'3'} style={{height: '100%'}}>
       <Layout style={style.userDetailsCard} level={'1'}>
         <Text style={style.welcomeText}>Welcome</Text>
-        <Text style={style.userName}>Aashan</Text>
+        <Text style={style.userName}>{user.name}</Text>
         <View style={style.profilePictureContainer}>
           <Image
             source={{
-              uri:
-                'https://scontent.fktm8-1.fna.fbcdn.net/v/t1.6435-9/160625821_3788193727926188_9136776959279923453_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=WY9T1WJJnzAAX-ZbUzR&_nc_ht=scontent.fktm8-1.fna&oh=fcd226b34d26e6c0f150e18b2a2267e7&oe=60B97229',
+              uri: 'https://www.gravatar.com/avatar/' + md5(user.email),
             }}
             style={style.profilePicture}
           />
@@ -59,6 +60,7 @@ const Drawer = (props: any) => {
 const style = StyleSheet.create({
   userDetailsCard: {
     margin: 10,
+    marginTop: 40,
     height: 150,
     borderRadius: 10,
   },
