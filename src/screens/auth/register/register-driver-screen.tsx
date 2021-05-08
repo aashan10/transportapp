@@ -80,222 +80,240 @@ const RegisterDriverScreen = (props: any) => {
   });
 
   return (
-    <Layout style={{height: '100%', flex: 1}} level={'4'}>
+    <Layout style={{height: '100%'}}>
       <Header title={'Register as Driver'} navigation={props.navigation} />
-      <Layout
-        level={'1'}
-        style={{
-          padding: 10,
-          paddingBottom: 0,
-          paddingTop: 20,
-          margin: 5,
-          borderRadius: 10,
-          flex: 1,
-          marginBottom: 65,
-        }}>
-        <ScrollView style={{marginBottom: 20}}>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Full Name
-            </Text>
-            <Input
-              status={error.name ? 'danger' : ''}
-              onChangeText={text => {
-                setName(text);
-                setError({...error, name: null});
-              }}
-              placeholder={'John Doe'}
-              autoFocus={true}
-            />
-            {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Email</Text>
-            <Input
-              status={error.email ? 'danger' : ''}
-              onChangeText={text => {
-                setEmail(text);
-                setError({...error, email: null});
-              }}
-              placeholder={'someone@example.com'}
-            />
-            {error.email ? <Text status={'danger'}>{error.email}</Text> : null}
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Address</Text>
-            <Input
-              status={error.address ? 'danger' : ''}
-              onChangeText={text => {
-                setAddress(text);
-                setError({...error, address: null});
-              }}
-              placeholder={'Kalanki, Kathmandu'}
-            />
-            {error.address ? (
-              <Text status={'danger'}>{error.address}</Text>
-            ) : null}
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Phone Number
-            </Text>
-            <Input
-              status={error.phone ? 'danger' : ''}
-              onChangeText={text => {
-                setPhone(text);
-                setError({...error, phone: null});
-              }}
-              placeholder={'98xxxxxxxx'}
-            />
-            {error.phone ? <Text status={'danger'}>{error.phone}</Text> : null}
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Password</Text>
-            <Input
-              status={error.password ? 'danger' : ''}
-              onChangeText={text => {
-                setPassword(text);
-                setError({...error, password: null});
-              }}
-              accessoryRight={() => {
-                return (
-                  <Button
-                    onPress={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                    appearance={'ghost'}
-                    accessoryLeft={iconProps => {
-                      return (
-                        <Icon
-                          {...iconProps}
-                          name={
-                            showPassword ? 'eye-off-outline' : 'eye-outline'
-                          }
-                        />
-                      );
-                    }}
-                  />
-                );
-              }}
-              placeholder={'Password'}
-              secureTextEntry={!showPassword}
-            />
-            {error.password ? (
-              <Text status={'danger'}>{error.password}</Text>
-            ) : null}
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Confirm Password
-            </Text>
-            <Input
-              status={error.repeatPassword ? 'danger' : ''}
-              accessoryRight={() => {
-                return (
-                  <Button
-                    onPress={() => {
-                      setShowRepeatPassword(!showRepeatPassword);
-                    }}
-                    accessoryLeft={iconProps => {
-                      return (
-                        <Icon
-                          {...iconProps}
-                          name={
-                            showRepeatPassword
-                              ? 'eye-off-outline'
-                              : 'eye-outline'
-                          }
-                        />
-                      );
-                    }}
-                    appearance={'ghost'}
-                  />
-                );
-              }}
-              onChangeText={text => {
-                setRepeatPassword(text);
-                setError({...error, repeatPassword: null});
-              }}
-              placeholder={'Confirm Password'}
-              secureTextEntry={!showRepeatPassword}
-            />
-            {error.repeatPassword ? (
-              <Text status={'danger'}>{error.repeatPassword}</Text>
-            ) : null}
-          </View>
+      <Layout style={{height: '100%', marginBottom: 65}} level={'4'}>
+        <Layout
+          style={{
+            padding: 10,
+            paddingBottom: 0,
+            paddingTop: 20,
+            margin: 5,
+            borderRadius: 10,
+            flex: 1,
+            marginBottom: 165,
+          }}>
+          <ScrollView
+            style={{marginBottom: 20}}
+            showsVerticalScrollIndicator={false}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                Full Name
+              </Text>
+              <Input
+                status={error.name ? 'danger' : ''}
+                onChangeText={text => {
+                  setName(text);
+                  setError({...error, name: null});
+                }}
+                placeholder={'John Doe'}
+                autoFocus={true}
+              />
+              {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Email</Text>
+              <Input
+                status={error.email ? 'danger' : ''}
+                onChangeText={text => {
+                  setEmail(text);
+                  setError({...error, email: null});
+                }}
+                placeholder={'someone@example.com'}
+              />
+              {error.email ? (
+                <Text status={'danger'}>{error.email}</Text>
+              ) : null}
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                Address
+              </Text>
+              <Input
+                status={error.address ? 'danger' : ''}
+                onChangeText={text => {
+                  setAddress(text);
+                  setError({...error, address: null});
+                }}
+                placeholder={'Kalanki, Kathmandu'}
+              />
+              {error.address ? (
+                <Text status={'danger'}>{error.address}</Text>
+              ) : null}
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                Phone Number
+              </Text>
+              <Input
+                status={error.phone ? 'danger' : ''}
+                onChangeText={text => {
+                  setPhone(text);
+                  setError({...error, phone: null});
+                }}
+                placeholder={'98xxxxxxxx'}
+              />
+              {error.phone ? (
+                <Text status={'danger'}>{error.phone}</Text>
+              ) : null}
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                Password
+              </Text>
+              <Input
+                status={error.password ? 'danger' : ''}
+                onChangeText={text => {
+                  setPassword(text);
+                  setError({...error, password: null});
+                }}
+                accessoryRight={() => {
+                  return (
+                    <Button
+                      size={'small'}
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                      appearance={'ghost'}
+                      accessoryLeft={iconProps => {
+                        return (
+                          <Icon
+                            {...iconProps}
+                            name={
+                              showPassword ? 'eye-outline' : 'eye-off-outline'
+                            }
+                          />
+                        );
+                      }}
+                    />
+                  );
+                }}
+                placeholder={'Password'}
+                secureTextEntry={!showPassword}
+              />
+              {error.password ? (
+                <Text status={'danger'}>{error.password}</Text>
+              ) : null}
+            </View>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                Confirm Password
+              </Text>
+              <Input
+                status={error.repeatPassword ? 'danger' : ''}
+                accessoryRight={() => {
+                  return (
+                    <Button
+                      size={'small'}
+                      onPress={() => {
+                        setShowRepeatPassword(!showRepeatPassword);
+                      }}
+                      accessoryLeft={iconProps => {
+                        return (
+                          <Icon
+                            {...iconProps}
+                            name={
+                              !showRepeatPassword
+                                ? 'eye-off-outline'
+                                : 'eye-outline'
+                            }
+                          />
+                        );
+                      }}
+                      appearance={'ghost'}
+                    />
+                  );
+                }}
+                onChangeText={text => {
+                  setRepeatPassword(text);
+                  setError({...error, repeatPassword: null});
+                }}
+                placeholder={'Confirm Password'}
+                secureTextEntry={!showRepeatPassword}
+              />
+              {error.repeatPassword ? (
+                <Text status={'danger'}>{error.repeatPassword}</Text>
+              ) : null}
+            </View>
 
-          <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-            Attachments
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View style={{display: 'flex', flex: 1, marginRight: 5}}>
-              {blueBookPhoto === undefined ? (
-                <Button
-                  onPress={async () => {
-                    ImagePicker.openPicker({})
-                      .then(res => {
-                        setBlueBookPhoto(res);
-                      })
-                      .catch(() => {});
-                  }}
-                  appearance={'outline'}>
-                  Choose Bluebook Photo
-                </Button>
-              ) : (
-                <View>
-                  <Image
-                    source={{uri: blueBookPhoto.path}}
-                    style={style.image}
-                  />
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+              Attachments
+            </Text>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{display: 'flex', flex: 1, marginRight: 5}}>
+                {blueBookPhoto === undefined ? (
                   <Button
-                    appearance={'ghost'}
-                    accessoryLeft={(iconProps: any) => (
-                      <Icon name={'trash'} {...iconProps} />
-                    )}
-                    status={'danger'}
-                    onPress={() => {
-                      setBlueBookPhoto(undefined);
-                    }}>
-                    Remove Bluebook Photo
+                    size={'small'}
+                    onPress={async () => {
+                      ImagePicker.openPicker({})
+                        .then(res => {
+                          setBlueBookPhoto(res);
+                        })
+                        .catch(() => {});
+                    }}
+                    appearance={'outline'}>
+                    Choose Bluebook Photo
                   </Button>
-                </View>
-              )}
-            </View>
-            <View style={{display: 'flex', flex: 1, marginLeft: 5}}>
-              {licensePhoto === undefined ? (
-                <Button
-                  onPress={async () => {
-                    ImagePicker.openPicker({})
-                      .then(res => {
-                        setLicensePhoto(res);
-                      })
-                      .catch(() => {});
-                  }}
-                  appearance={'outline'}>
-                  Choose License Photo
-                </Button>
-              ) : (
-                <View>
-                  <Image
-                    source={{uri: licensePhoto.path}}
-                    style={style.image}
-                  />
+                ) : (
+                  <View>
+                    <Image
+                      source={{uri: blueBookPhoto.path}}
+                      style={style.image}
+                    />
+                    <Button
+                      size={'small'}
+                      appearance={'ghost'}
+                      accessoryLeft={(iconProps: any) => (
+                        <Icon name={'trash'} {...iconProps} />
+                      )}
+                      status={'danger'}
+                      onPress={() => {
+                        setBlueBookPhoto(undefined);
+                      }}>
+                      Remove Bluebook Photo
+                    </Button>
+                  </View>
+                )}
+              </View>
+              <View style={{display: 'flex', flex: 1, marginLeft: 5}}>
+                {licensePhoto === undefined ? (
                   <Button
-                    appearance={'ghost'}
-                    accessoryLeft={(iconProps: any) => (
-                      <Icon name={'trash'} {...iconProps} />
-                    )}
-                    status={'danger'}
-                    onPress={() => {
-                      setLicensePhoto(undefined);
-                    }}>
-                    Remove License Photo
+                    size={'small'}
+                    onPress={async () => {
+                      ImagePicker.openPicker({})
+                        .then(res => {
+                          setLicensePhoto(res);
+                        })
+                        .catch(() => {});
+                    }}
+                    appearance={'outline'}>
+                    Choose License Photo
                   </Button>
-                </View>
-              )}
+                ) : (
+                  <View>
+                    <Image
+                      source={{uri: licensePhoto.path}}
+                      style={style.image}
+                    />
+                    <Button
+                      appearance={'ghost'}
+                      size={'small'}
+                      accessoryLeft={(iconProps: any) => (
+                        <Icon name={'trash'} {...iconProps} />
+                      )}
+                      status={'danger'}
+                      onPress={() => {
+                        setLicensePhoto(undefined);
+                      }}>
+                      Remove License Photo
+                    </Button>
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </Layout>
       </Layout>
       <Layout style={style.bottomButtonContainer} level={'4'}>
         <Button

@@ -14,7 +14,8 @@ const CustomStatusBar = () => {
 
   return (
     <StatusBar
-      backgroundColor={theme['background-basic-color-1']}
+      backgroundColor={'rgba(0,0,0,0)'}
+      translucent={true}
       barStyle={barStyle}
     />
   );

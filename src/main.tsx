@@ -18,7 +18,12 @@ const Main = () => {
             <ApplicationProvider {...eva} theme={theme}>
               <CustomStatusBar />
               <UserProvider>
-                <Layout style={{height: '100%', width: '100%'}}>
+                <Layout
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                  }}>
                   <NavigationContainer>
                     <AuthNavigation />
                   </NavigationContainer>

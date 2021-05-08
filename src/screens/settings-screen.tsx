@@ -9,9 +9,9 @@ import {ThemeContext} from '../contexts/theme-context';
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
   return (
-    <Layout style={{height: '100%'}} level={'4'}>
+    <Layout style={{height: '100%'}}>
       <Header navigation={navigation} />
-      <Layout style={style.container}>
+      <Layout style={style.container} level={'4'}>
         <ListItem style={style.listItem}>
           <Text>Night Mode</Text>
           <Button appearance={'ghost'} size={'small'} onPress={toggleTheme}>
@@ -28,12 +28,12 @@ const style = StyleSheet.create({
     paddingLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderRadius: 10,
   },
   container: {
-    borderRadius: 10,
-    marginVertical: 5,
     overflow: 'hidden',
-    marginHorizontal: 5,
+    padding: 5,
+    height: '100%',
   },
 });
 
