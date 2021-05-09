@@ -5,9 +5,12 @@ import Button from '../components/button';
 import Header from '../components/header';
 import {Layout, ListItem, Text} from '@ui-kitten/components';
 import {ThemeContext} from '../contexts/theme-context';
+import LocalizationContext from '../contexts/localization-context';
 
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
+  const {currentLanguage, setLanguage} = useContext(LocalizationContext);
+
   return (
     <Layout style={{height: '100%'}}>
       <Header navigation={navigation} />
@@ -16,6 +19,22 @@ const SettingsScreen = ({navigation}: any) => {
           <Text>Night Mode</Text>
           <Button appearance={'ghost'} size={'small'} onPress={toggleTheme}>
             {theme === eva.light ? 'Enable' : 'Disable'}
+          </Button>
+        </ListItem>
+
+        <ListItem style={style.listItem}>
+          <Text>Language</Text>
+          <Button
+            appearance={'ghost'}
+            size={'small'}
+            onPress={() => {
+              if (currentLanguage.appName === 'Nepal Transport Company') {
+                setLanguage('np');
+              } else {
+                setLanguage('en');
+              }
+            }}>
+            {currentLanguage.changeLanguage}
           </Button>
         </ListItem>
       </Layout>
@@ -29,6 +48,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 10,
+    marginBottom: 5,
   },
   container: {
     overflow: 'hidden',

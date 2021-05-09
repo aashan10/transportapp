@@ -1,5 +1,6 @@
 import {
   BASE_URL,
+  DRIVER_EXPLORE,
   USER_LOGIN,
   USER_PROFILE,
   VENDOR_ITEM_UPLOAD,
@@ -51,7 +52,15 @@ export const userInfo = async (token: string) => {
   throw new Exception(response);
 };
 
-export const createNewItemRequest = async (props: { quantity: number; price: number; latitude: number; name: string; from: string; to: string; longitude: number }) => {
+export const createNewItemRequest = async (props: {
+  quantity: number;
+  price: number;
+  latitude: number;
+  name: string;
+  from: string;
+  to: string;
+  longitude: number;
+}) => {
   const response = await fetch(getUrl(VENDOR_ITEM_UPLOAD), {
     headers: getHeaders({
       'auth-token': sharedData.user.token,
@@ -66,6 +75,18 @@ export const createNewItemRequest = async (props: { quantity: number; price: num
       quantity: props.quantity,
       deliveryPrice: props.price,
     }),
+  });
+
+  if (response.ok) {
+    return await response.json();
+  }
+  throw new Exception(response);
+};
+
+export const getDriverFeeds = async () => {
+  const response = await fetch(getUrl(DRIVER_EXPLORE), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    method: 'GET',
   });
 
   if (response.ok) {

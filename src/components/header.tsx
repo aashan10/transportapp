@@ -1,15 +1,16 @@
 import {Button, Icon, Text, TopNavigation} from '@ui-kitten/components';
-import React from 'react';
+import React, {useContext} from 'react';
+import LocalizationContext from '../contexts/localization-context';
 
 const Header = ({navigation, title, style}: any) => {
   const shouldGoBack = typeof navigation.openDrawer === 'undefined';
-
+  const {currentLanguage} = useContext(LocalizationContext);
   return (
     <TopNavigation
       alignment={'center'}
       title={() => (
         <Text style={{fontWeight: 'bold'}}>
-          {title ?? 'Nepal Transport Company'}
+          {title ?? currentLanguage.appName}
         </Text>
       )}
       style={[

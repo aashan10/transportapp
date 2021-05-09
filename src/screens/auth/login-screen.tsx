@@ -5,18 +5,19 @@ import {Exception, userLogin} from '../../api/requests';
 import UserContext from '../../contexts/user-context';
 import Button from '../../components/button';
 import {isEmpty} from '../../helpers/functions';
+import LocalizationContext from '../../contexts/localization-context';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
-
+  const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
     }
   }, [props.navigation, user]);
 
-  const [username, setUsername] = useState<string>('9862655555');
-  const [password, setPassword] = useState<string>('gopal11');
+  const [username, setUsername] = useState<string>('98123456');
+  const [password, setPassword] = useState<string>('changeme');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout style={style.container}>
@@ -74,7 +75,7 @@ const LoginScreen = (props: any) => {
             }
             return <Spinner size={'small'} style={{borderColor: 'white'}} />;
           }}>
-          {loading ? undefined : 'Login'}
+          {loading ? undefined : currentLanguage.login}
         </Button>
         <Button
           onPress={() => {
@@ -82,7 +83,7 @@ const LoginScreen = (props: any) => {
           }}
           style={style.spacedComponent}
           appearance={'ghost'}>
-          Not registered? Register Here
+          {currentLanguage.registerHere}
         </Button>
       </View>
     </Layout>

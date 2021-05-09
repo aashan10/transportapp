@@ -7,32 +7,35 @@ import CustomStatusBar from './components/status-bar';
 import {UserProvider} from './contexts/user-context';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import ThemeProvider, {ThemeContext} from './contexts/theme-context';
+import {LocalizationProvider} from './contexts/localization-context';
 
 const Main = () => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ThemeProvider>
-        <ThemeContext.Consumer>
-          {({theme}) => (
-            <ApplicationProvider {...eva} theme={theme}>
-              <CustomStatusBar />
-              <UserProvider>
-                <Layout
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    backgroundColor: 'transparent',
-                  }}>
-                  <NavigationContainer>
-                    <AuthNavigation />
-                  </NavigationContainer>
-                </Layout>
-              </UserProvider>
-            </ApplicationProvider>
-          )}
-        </ThemeContext.Consumer>
-      </ThemeProvider>
+      <LocalizationProvider>
+        <ThemeProvider>
+          <ThemeContext.Consumer>
+            {({theme}) => (
+              <ApplicationProvider {...eva} theme={theme}>
+                <CustomStatusBar />
+                <UserProvider>
+                  <Layout
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      backgroundColor: 'transparent',
+                    }}>
+                    <NavigationContainer>
+                      <AuthNavigation />
+                    </NavigationContainer>
+                  </Layout>
+                </UserProvider>
+              </ApplicationProvider>
+            )}
+          </ThemeContext.Consumer>
+        </ThemeProvider>
+      </LocalizationProvider>
     </>
   );
 };
