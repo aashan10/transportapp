@@ -14,6 +14,8 @@ export interface Language {
   price: string;
   currency: string;
   changeLanguage: string;
+  registerAsVendor: string;
+  registerAsDriver: string;
 }
 
 export const english: Language = require('./en.json');
