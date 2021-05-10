@@ -131,7 +131,13 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
           justifyContent: 'flex-end',
           flexDirection: 'row',
         }}>
-        <Button size={'small'}>Details</Button>
+        <Button
+          onPress={() => {
+            navigation.navigate('viewRequest', {item: request});
+          }}
+          size={'small'}>
+          Details
+        </Button>
       </View>
     </Card>
   );

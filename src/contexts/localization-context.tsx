@@ -8,6 +8,7 @@ interface LocalizationContextState {
 
 const LocalizationContext = createContext<LocalizationContextState>({
   currentLanguage: english,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setLanguage: (lang: string) => {},
 });
 

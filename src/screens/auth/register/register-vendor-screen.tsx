@@ -3,44 +3,167 @@ import {Icon, Input, Layout, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
 import {ScrollView, View} from 'react-native';
 import Button from '../../../components/button';
+import {EMAIL_REGEX} from '../../../helpers/constants';
+import {err} from 'react-native-svg/lib/typescript/xml';
+
+interface ErrorState {
+  email: string | null;
+  password: string | null;
+  address: string | null;
+  company: string | null;
+  name: string | null;
+  phone: string | null;
+}
+const validate = ({
+  email,
+  name,
+  company,
+  phone,
+  password,
+  address,
+}: ErrorState) => {
+  let response: ErrorState = {
+    email: null,
+    name: null,
+    password: null,
+    company: null,
+    phone: null,
+    address: null,
+  };
+  if (!email || email?.length <= 0) {
+    response.email = "The email can't be empty!";
+  } else if (!EMAIL_REGEX.test(email)) {
+    response.email = 'Please enter a valid email address!';
+  }
+  if (!name || name?.length <= 0) {
+    response.name = "The name can't be empty!";
+  }
+  if (!company || company?.length <= 0) {
+    response.company = "The company name can't be empty!";
+  }
+  if (!phone || phone?.length < 10) {
+    response.phone = 'The phone number is invalid!';
+  }
+  if (!password || password?.length < 6) {
+    response.password = 'The password must be at least 6 characters!';
+  }
+  if (!address || address?.length <= 0) {
+    response.address = "The address field can't be empty!";
+  }
+  return response;
+};
 
 const RegisterVendorScreen = (props: any) => {
   const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<number | null>(null);
+  const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [company, setCompany] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<ErrorState>({
+    email: null,
+    password: null,
+    address: null,
+    company: null,
+    name: null,
+    phone: null,
+  });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
-    <Layout style={{height: '100%'}} level={'1'}>
-      <Header title={'Register as Vendor'} navigation={props.navigation} />
+    <Layout style={{height: '100%'}} level={'4'}>
+      <Layout>
+        <Header title={'Register as Vendor'} navigation={props.navigation} />
+      </Layout>
       <Layout
-        style={{height: '100%', padding: 5, display: 'flex', flex: 10}}
-        level={'4'}>
+        style={{
+          height: '100%',
+          margin: 5,
+          padding: 5,
+          display: 'flex',
+          flex: 1,
+          borderRadius: 10,
+        }}
+        level={'1'}>
         <ScrollView
           style={{
             height: '100%',
             flex: 1,
-            backgroundColor: 'white',
             borderRadius: 10,
             padding: 10,
           }}>
           <View style={{marginBottom: 15}}>
             <Text style={{fontWeight: 'bold', marginBottom: 5}}>Full Name</Text>
-            <Input placeholder={'John Doe'} />
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Email</Text>
-            <Input placeholder={'someperson@example.com'} />
+            <Input
+              onChangeText={text => {
+                setName(text);
+                setError({...error, name: null});
+              }}
+              status={error.name ? 'danger' : ''}
+              placeholder={'John Doe'}
+            />
+            {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{fontWeight: 'bold', marginBottom: 5}}>Address</Text>
-            <Input placeholder={'Kalanki, Kathmandu'} />
+            <Input
+              onChangeText={text => {
+                setAddress(text);
+                setError({...error, address: null});
+              }}
+              status={error.address ? 'danger' : ''}
+              placeholder={'Kalanki, Kathmandu'}
+            />
+            {error.address ? (
+              <Text status={'danger'}>{error.address}</Text>
+            ) : null}
+          </View>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Company</Text>
+            <Input
+              onChangeText={text => {
+                setCompany(text);
+                setError({...error, company: null});
+              }}
+              status={error.company ? 'danger' : ''}
+              placeholder={'ABC Company'}
+            />
+            {error.company ? (
+              <Text status={'danger'}>{error.company}</Text>
+            ) : null}
+          </View>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Phone</Text>
+            <Input
+              onChangeText={text => {
+                setPhone(text);
+                setError({...error, phone: null});
+              }}
+              status={error.phone ? 'danger' : ''}
+              placeholder={'98xxxxxxxx'}
+            />
+            {error.phone ? <Text status={'danger'}>{error.phone}</Text> : null}
+          </View>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Email</Text>
+            <Input
+              onChangeText={text => {
+                setEmail(text);
+                setError({...error, email: null});
+              }}
+              status={error.email ? 'danger' : ''}
+              placeholder={'someperson@example.com'}
+            />
+            {error.email ? <Text status={'danger'}>{error.email}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{fontWeight: 'bold', marginBottom: 5}}>Password</Text>
             <Input
+              onChangeText={text => {
+                setPassword(text);
+                setError({...error, password: null});
+              }}
+              status={error.password ? 'danger' : ''}
               accessoryRight={() => {
                 return (
                   <Button
@@ -61,10 +184,9 @@ const RegisterVendorScreen = (props: any) => {
               placeholder={'someperson@example.com'}
               secureTextEntry={!showPassword}
             />
-          </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Phone</Text>
-            <Input placeholder={'98xxxxxxxx'} />
+            {error.password ? (
+              <Text status={'danger'}>{error.password}</Text>
+            ) : null}
           </View>
         </ScrollView>
       </Layout>
@@ -83,7 +205,31 @@ const RegisterVendorScreen = (props: any) => {
           }}>
           Cancel
         </Button>
-        <Button style={{minWidth: 150}}>Register</Button>
+        <Button
+          onPress={() => {
+            const validation = validate({
+              name: name,
+              address: address,
+              email: email,
+              password: password,
+              company: company,
+              phone: phone,
+            });
+            if (
+              validation.name ||
+              validation.address ||
+              validation.company ||
+              validation.email ||
+              validation.phone ||
+              validation.password
+            ) {
+              setError(validation);
+            } else {
+            }
+          }}
+          style={{minWidth: 150}}>
+          Register
+        </Button>
       </Layout>
     </Layout>
   );

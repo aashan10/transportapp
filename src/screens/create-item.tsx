@@ -20,7 +20,11 @@ const CreateItem = ({navigation}: any) => {
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
-        <Header navigation={navigation} title={'Create New Request'} />
+        <Header
+          back={true}
+          navigation={navigation}
+          title={'Create New Request'}
+        />
       </Layout>
       <Layout style={{flex: 1, margin: 5, borderRadius: 10}} level={'1'}>
         <ScrollView style={{flex: 1, padding: 10, paddingVertical: 20}}>

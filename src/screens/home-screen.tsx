@@ -53,20 +53,21 @@ const HomeScreen = ({navigation}: any) => {
             />
           }
           style={{height: '100%', flex: 1}}>
-          <Card style={{borderRadius: 10}}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text>Requests</Text>
-              <Button
-                onPress={() => {
-                  navigation.navigate('create Request');
-                }}
-                size={'small'}>
-                {currentLanguage.addNewRequest}
-              </Button>
-            </View>
-          </Card>
-
+          {user.role === 'vendor' ? (
+            <Card style={{borderRadius: 10}}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text>Requests</Text>
+                <Button
+                  onPress={() => {
+                    navigation.navigate('createRequest');
+                  }}
+                  size={'small'}>
+                  {currentLanguage.addNewRequest}
+                </Button>
+              </View>
+            </Card>
+          ) : null}
           {posts.map(post => {
             return <DeliveryRequest navigation={navigation} request={post} />;
           })}

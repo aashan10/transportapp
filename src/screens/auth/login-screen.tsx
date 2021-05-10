@@ -16,8 +16,8 @@ const LoginScreen = (props: any) => {
     }
   }, [props.navigation, user]);
 
-  const [username, setUsername] = useState<string>('98123456');
-  const [password, setPassword] = useState<string>('changeme');
+  const [username, setUsername] = useState<string>('9800000000');
+  const [password, setPassword] = useState<string>('Ashan@123');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout style={style.container}>

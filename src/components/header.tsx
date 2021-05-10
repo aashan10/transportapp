@@ -2,8 +2,8 @@ import {Button, Icon, Text, TopNavigation} from '@ui-kitten/components';
 import React, {useContext} from 'react';
 import LocalizationContext from '../contexts/localization-context';
 
-const Header = ({navigation, title, style}: any) => {
-  const shouldGoBack = typeof navigation.openDrawer === 'undefined';
+const Header = ({navigation, title, style, back}: any) => {
+  const shouldGoBack = typeof navigation.openDrawer === 'undefined' || back;
   const {currentLanguage} = useContext(LocalizationContext);
   return (
     <TopNavigation
