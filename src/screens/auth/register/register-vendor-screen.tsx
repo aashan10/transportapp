@@ -4,7 +4,6 @@ import Header from '../../../components/header';
 import {ScrollView, View} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import {err} from 'react-native-svg/lib/typescript/xml';
 
 interface ErrorState {
   email: string | null;

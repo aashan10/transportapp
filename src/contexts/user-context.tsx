@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
-import {Exception, userInfo} from '../api/requests';
-import {ToastAndroid} from "react-native";
+import {userInfo} from '../api/requests';
+import {ToastAndroid} from 'react-native';
+import {getToken, setToken} from '../storage/user-storage';
 
 interface UserInterface {
   token: string;
@@ -60,6 +61,17 @@ const UserProvider = ({children}: UserProviderProps) => {
   });
   const {token} = user;
   useEffect(() => {
+    getToken()
+      .then(storageToken => {
+        if (
+          storageToken !== null &&
+          storageToken !== '' &&
+          storageToken !== user.token
+        ) {
+          setUser({...user, token: storageToken});
+        }
+      })
+      .catch();
     userInfo(user.token)
       .then(response => {
         const {name, email, phoneNumber, address, role} = response;
@@ -71,9 +83,17 @@ const UserProvider = ({children}: UserProviderProps) => {
           role: role,
           phoneNumber: phoneNumber,
         });
+        setToken(token)
+          .then()
+          .catch(() => {
+            ToastAndroid.show(
+              'Unable to persist login information. You might need to re-login once the application is reopened',
+              5000,
+            );
+          });
         sharedData.user = user;
       })
-      .catch(() => {
+      .catch(async () => {
         ToastAndroid.show('Unable to fetch user data', 5000);
       });
   }, [token, user.token]);
@@ -84,6 +104,14 @@ const UserProvider = ({children}: UserProviderProps) => {
         setUser: (userData: Partial<UserInterface>) => {
           const newUserData = {...user, ...userData};
           setUser(newUserData);
+          setToken(newUserData.token)
+            .then()
+            .catch(() => {
+              ToastAndroid.show(
+                'Unable to persist login information. You might need to re-login once the application is reopened',
+                5000,
+              );
+            });
         },
       }}>
       {children}

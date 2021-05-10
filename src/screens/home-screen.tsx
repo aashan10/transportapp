@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}: any) => {
     setLoading(true);
     getDriverFeeds()
       .then(feeds => {
-        console.log(feeds);
+        setPosts(feeds);
       })
       .catch(err => {})
       .finally(() => {

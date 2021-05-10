@@ -4,14 +4,23 @@ import {Image, StyleSheet, View} from 'react-native';
 import Button from './button';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
+import {setToken} from '../storage/user-storage';
+import {userInfo} from '../api/requests';
+
 const md5 = require('md5');
 const capitalize = (text: string) => {
   return text[0].toUpperCase() + text.slice(1);
 };
 
 const Drawer = (props: any) => {
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
+  userInfo(user.token)
+    .then()
+    .catch(async () => {
+      await setToken('');
+      props.navigation.navigate('login');
+    });
   return (
     <Layout level={'3'} style={{height: '100%'}}>
       <Layout style={style.userDetailsCard} level={'1'}>
@@ -51,7 +60,9 @@ const Drawer = (props: any) => {
         <Button
           appearance={'ghost'}
           status={'danger'}
-          onPress={() => {
+          onPress={async () => {
+            await setToken('');
+            setUser({...user, token: ''});
             props.navigation.navigate('login');
           }}>
           {currentLanguage.logout}
