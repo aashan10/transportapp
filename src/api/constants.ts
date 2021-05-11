@@ -11,3 +11,4 @@ export const DERIVER_ITEM_ACCEPTED_LIST='driver/itemAcceptedList';
 export const DRIVER_ITEM_REACHED='driver/itemReached';
 export const DRIVER_DELIVERY_DETAIL='driver/deliveryDetail';
 export const DRIVER_CURRENT_ADDRESS='driver/currentAddress';
+export const DRIVER_REGISTER = '';

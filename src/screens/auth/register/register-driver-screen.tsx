@@ -3,8 +3,8 @@ import Header from '../../../components/header';
 import Button from '../../../components/button';
 import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import {View, Image, StyleSheet, ToastAndroid, ScrollView} from 'react-native';
-
+import {View, Image, StyleSheet, ScrollView} from 'react-native';
+import {registerDriver} from '../../../api/requests';
 const isNull = (param: any): boolean => {
   return param === null || param === undefined || param === '';
 };
@@ -16,6 +16,8 @@ const validate = ({
   email,
   repeatPassword,
   address,
+  licensePhoto,
+  blueBookPhoto,
 }: ErrorValidationState) => {
   return {
     name: isNull(name) ? "Name can't be empty!" : null,
@@ -36,6 +38,10 @@ const validate = ({
       ? 'Password and repeat password must be same!'
       : null,
     address: isNull(address) ? "Address can't be empty!" : null,
+    licensePhoto: isNull(licensePhoto) ? 'Please choose a license photo' : null,
+    blueBookPhoto: isNull(blueBookPhoto)
+      ? 'Please choose a bluebook photo'
+      : null,
   };
 };
 
@@ -46,6 +52,8 @@ interface ErrorValidationState {
   phone: string | null;
   password: string | null;
   repeatPassword: string | null;
+  licensePhoto: string | null;
+  blueBookPhoto: string | null;
 }
 
 const RegisterDriverScreen = (props: any) => {
@@ -57,12 +65,12 @@ const RegisterDriverScreen = (props: any) => {
   );
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [name, setName] = useState<string>('Aashan');
+  const [email, setEmail] = useState<string>('ashan@gmail.com');
+  const [address, setAddress] = useState<string>('Kalanki');
+  const [phone, setPhone] = useState<string>('9800000000');
+  const [password, setPassword] = useState<string>('Ashan@123');
+  const [repeatPassword, setRepeatPassword] = useState<string>('Ashan@123');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Partial<ErrorValidationState>>({
     name: null,
@@ -70,6 +78,8 @@ const RegisterDriverScreen = (props: any) => {
     email: null,
     password: null,
     repeatPassword: null,
+    licensePhoto: null,
+    blueBookPhoto: null,
   });
 
   return (
@@ -230,9 +240,13 @@ const RegisterDriverScreen = (props: any) => {
                   <Button
                     size={'small'}
                     onPress={async () => {
-                      ImagePicker.openPicker({})
+                      ImagePicker.openPicker({
+                        includeBase64: true,
+                        mediaType: 'photo',
+                      })
                         .then(res => {
                           setBlueBookPhoto(res);
+                          setError({...error, blueBookPhoto: null});
                         })
                         .catch(() => {});
                     }}
@@ -259,15 +273,22 @@ const RegisterDriverScreen = (props: any) => {
                     </Button>
                   </View>
                 )}
+                {error.blueBookPhoto ? (
+                  <Text status={'danger'}>{error.blueBookPhoto}</Text>
+                ) : null}
               </View>
               <View style={{display: 'flex', flex: 1, marginLeft: 5}}>
                 {licensePhoto === undefined ? (
                   <Button
                     size={'small'}
                     onPress={async () => {
-                      ImagePicker.openPicker({})
+                      ImagePicker.openPicker({
+                        includeBase64: true,
+                        mediaType: 'photo',
+                      })
                         .then(res => {
                           setLicensePhoto(res);
+                          setError({...error, licensePhoto: null});
                         })
                         .catch(() => {});
                     }}
@@ -294,6 +315,9 @@ const RegisterDriverScreen = (props: any) => {
                     </Button>
                   </View>
                 )}
+                {error.licensePhoto ? (
+                  <Text status={'danger'}>{error.licensePhoto}</Text>
+                ) : null}
               </View>
             </View>
           </ScrollView>
@@ -314,46 +338,64 @@ const RegisterDriverScreen = (props: any) => {
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }
-          onPress={() => {
+          onPress={async () => {
             try {
               setLoading(true);
-              setError(
-                validate({
-                  name: name,
-                  password: password,
-                  email: email,
-                  phone: phone,
-                  address: address,
-                  repeatPassword: repeatPassword,
-                }),
-              );
+              const validation = validate({
+                name: name,
+                password: password,
+                email: email,
+                phone: phone,
+                address: address,
+                repeatPassword: repeatPassword,
+                // @ts-ignore
+                licensePhoto: licensePhoto?.data ?? null,
+                // @ts-ignore
+                blueBookPhoto: blueBookPhoto?.data ?? null,
+              });
+              setLoading(false);
+              setError(validation);
               if (
-                error.repeatPassword !== null ||
-                error.phone !== null ||
-                error.name !== null ||
-                error.address !== null ||
-                error.email !== null ||
-                error.password !== null
+                validation.repeatPassword !== null ||
+                validation.phone !== null ||
+                validation.name !== null ||
+                validation.address !== null ||
+                validation.email !== null ||
+                validation.password !== null ||
+                validation.blueBookPhoto !== null ||
+                validation.licensePhoto !== null
               ) {
-                throw new Error(
-                  JSON.stringify({
-                    phone: phone,
-                    name: name,
-                    email: email,
-                    password: password,
-                    address: address,
-                    repeatPassword: repeatPassword,
-                    error: error,
-                  }),
-                );
+                throw new Error('Please fill up the required fields!');
+              } else {
+                registerDriver({
+                  name: name,
+                  email: email,
+                  address: address,
+                  phone: phone,
+                  password: password,
+                  // @ts-ignore
+                  licensePhoto: licensePhoto?.data
+                    ? 'data:' +
+                      licensePhoto.mime +
+                      ';base64,' +
+                      // @ts-ignore
+                      licensePhoto.data
+                    : '',
+                  // @ts-ignore
+                  blueBookPhoto: blueBookPhoto?.data
+                    ? 'data:' +
+                      blueBookPhoto.mime +
+                      ';base64,' +
+                      // @ts-ignore
+                      blueBookPhoto.data
+                    : '',
+                })
+                  .then()
+                  .catch()
+                  .finally(() => {
+                    setLoading(false);
+                  });
               }
-              setTimeout(() => {
-                ToastAndroid.show(
-                  'Driver Registered Successfully! Please login to continue!',
-                  200,
-                );
-                setLoading(false);
-              }, 5000);
             } catch (e) {
               setLoading(false);
             }

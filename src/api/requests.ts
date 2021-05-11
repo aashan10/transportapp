@@ -4,8 +4,10 @@ import {
   USER_LOGIN,
   USER_PROFILE,
   VENDOR_ITEM_UPLOAD,
+  VENDOR_REGISTER,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
+import RNFS from 'react-native-fs';
 
 export const getUrl = (path: string) => {
   return BASE_URL + path;
@@ -93,6 +95,60 @@ export const getDriverFeeds = async () => {
     return await response.json();
   }
   throw new Exception(response);
+};
+
+export const registerDriver = async (props: {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  address: string;
+  blueBookPhoto: string;
+  licensePhoto: string;
+}) => {
+  RNFS.writeFile(
+    RNFS.DownloadDirectoryPath + '/request.json',
+    JSON.stringify(props),
+    'utf8',
+  )
+    .then(() => {
+      console.log('Logged Request');
+    })
+    .catch(e => {
+      console.log('Logging error', e);
+    });
+  const response = await fetch(getUrl(''), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    method: 'POST',
+    body: JSON.stringify(props),
+  });
+
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw new Exception(response);
+  }
+};
+
+export const registerVendor = async (data: {
+  name: string;
+  companyName: string;
+  address: string;
+  password: string;
+  email: string;
+  phoneNumber: string;
+}) => {
+  const response = await fetch(getUrl(VENDOR_REGISTER), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    body: JSON.stringify(data),
+    method: 'POST',
+  });
+
+  if (response.ok) {
+    return response;
+  } else {
+    throw new Exception(response);
+  }
 };
 
 export class Exception {
