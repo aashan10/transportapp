@@ -4,3 +4,4 @@ export const VENDOR_ITEM_UPLOAD = 'vendor/itemUpload';
 export const USER_LOGIN = 'login';
 export const USER_PROFILE = 'profile';
 export const DRIVER_EXPLORE = 'driver/explore';
+export const DRIVER_REGISTER = '';
