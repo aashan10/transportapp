@@ -13,5 +13,9 @@
   "deliveryLocation": "वितरण स्थान",
   "price": "मूल्य",
   "currency": "रु. ",
-  "changeLanguage": "Set English"
+  "changeLanguage": "Set English",
+  "verifiedAccount": "प्रमाणित खाता",
+  "details":"विवरण",
+  "request":"अनुरोध"
+
 }
