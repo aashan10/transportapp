@@ -13,5 +13,10 @@
   "deliveryLocation": "Delivery Location",
   "price": "Price",
   "currency": "Rs. ",
-  "changeLanguage": "नेपाली सेट गर्नुहोस"
+  "changeLanguage": "नेपाली सेट गर्नुहोस",
+  "verifiedAccount": "Verifed Account",
+  "details":"Details",
+  "request":"Requests"
+
+
 }
