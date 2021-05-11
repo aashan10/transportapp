@@ -19,7 +19,7 @@ export interface Language {
   verifiedAccount: string;
   details: String;
   request: String;
-
+  itemName: String;
 }
 
 export const english: Language = require('./en.json');
