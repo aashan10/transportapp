@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Icon, Input, Layout, Text} from '@ui-kitten/components';
+import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
-import {ScrollView, View} from 'react-native';
+import {Alert, ScrollView, ToastAndroid, View} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import {err} from 'react-native-svg/lib/typescript/xml';
+import {Exception, registerVendor} from '../../../api/requests';
 
 interface ErrorState {
   email: string | null;
@@ -206,6 +206,10 @@ const RegisterVendorScreen = (props: any) => {
           Cancel
         </Button>
         <Button
+          disabled={loading}
+          accessoryLeft={() =>
+            loading ? <Spinner size={'small'} /> : <View />
+          }
           onPress={() => {
             const validation = validate({
               name: name,
@@ -225,6 +229,33 @@ const RegisterVendorScreen = (props: any) => {
             ) {
               setError(validation);
             } else {
+              setLoading(true);
+              registerVendor({
+                name: name,
+                companyName: company,
+                email: email,
+                password: password,
+                phoneNumber: phone,
+                address: address,
+              })
+                .then(async response => {
+                  ToastAndroid.show(await response.text(), 5000);
+                  props.navigation.navigate('login');
+                })
+                .catch(async (exception: any) => {
+                  if (exception instanceof Exception) {
+                    Alert.alert('Error', await exception.response.text());
+                  } else {
+                    Alert.alert(
+                      'Error',
+                      'Something went wrong! Please try again!' +
+                        exception.message,
+                    );
+                  }
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
             }
           }}
           style={{minWidth: 150}}>

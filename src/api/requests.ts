@@ -4,6 +4,7 @@ import {
   USER_LOGIN,
   USER_PROFILE,
   VENDOR_ITEM_UPLOAD,
+  VENDOR_REGISTER,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
 import RNFS from 'react-native-fs';
@@ -105,7 +106,6 @@ export const registerDriver = async (props: {
   blueBookPhoto: string;
   licensePhoto: string;
 }) => {
-  console.log(RNFS.DownloadDirectoryPath + '/request.json');
   RNFS.writeFile(
     RNFS.DownloadDirectoryPath + '/request.json',
     JSON.stringify(props),
@@ -125,6 +125,27 @@ export const registerDriver = async (props: {
 
   if (response.ok) {
     return await response.json();
+  } else {
+    throw new Exception(response);
+  }
+};
+
+export const registerVendor = async (data: {
+  name: string;
+  companyName: string;
+  address: string;
+  password: string;
+  email: string;
+  phoneNumber: string;
+}) => {
+  const response = await fetch(getUrl(VENDOR_REGISTER), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    body: JSON.stringify(data),
+    method: 'POST',
+  });
+
+  if (response.ok) {
+    return response;
   } else {
     throw new Exception(response);
   }
