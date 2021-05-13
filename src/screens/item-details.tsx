@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Layout, Text} from '@ui-kitten/components';
 import Header from '../components/header';
 import {ScrollView} from 'react-native';
 import Button from '../components/button';
+import UserContext from '../contexts/user-context';
+import { acceptDeliveryRequest } from '../api/requests';
 
 interface ItemDetailsProps {
   navigation: any;
@@ -11,6 +13,7 @@ interface ItemDetailsProps {
 }
 
 interface RequestInterface {
+  _id: string;
   itemName: string;
   deliveryPrice: string;
   deliveryFrom: string;
@@ -18,12 +21,13 @@ interface RequestInterface {
   containerSize: string;
   containerType: string;
   quantity: string;
-
-
+  driverAccepted?: boolean;
 }
 
 const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
+  const {user} = useContext(UserContext);
   const [request, setRequest] = useState<RequestInterface>({
+    _id: '',
     itemName: '',
     deliveryPrice: '',
     deliveryFrom:'',
@@ -31,8 +35,8 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     containerSize:'',
     containerType:'',
     quantity:'',
-
   });
+  const [isVendor, setIsVendor] = useState<boolean>(user.role === 'vendor');
   useEffect(() => {
     setRequest(route.params.item);
   }, [route.params]);
@@ -52,10 +56,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             <Text>Quantity: {request.quantity}</Text>
             <Text>Container Type: {request.containerType}</Text>
             <Text>Container Size: {request.containerSize}</Text>
-
-
-
-            
         </ScrollView>
       </Layout>
       <Layout
@@ -74,8 +74,13 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           }}>
           Cancel
         </Button>
-        <Button style={{minWidth: 150}} onPress={() => {}}>
-          Accept Request
+        <Button disabled={isVendor} style={{minWidth: 150}} onPress={() => {
+          acceptDeliveryRequest({
+            itemId: request._id,
+            vendorId: user.id
+          })
+        }}>
+          {isVendor ? (request.driverAccepted ? 'Accepted By Driver' : 'Pending') : 'Accept Request'}
         </Button>
       </Layout>
     </Layout>

@@ -177,23 +177,25 @@ const RegisterDriverScreen = (props: any) => {
                 onValueChange={(itemValue) => {
                   setType(itemValue);
                 }}>
-                <Picker.Item label="Java" value="java" />
-                <Picker.Item label="JavaScript" value="js" />
-                <Picker.Item label="Truck" value="truck" />
+                <Picker.Item label="Truck" value="Truck" />
+                <Picker.Item label="Container" value="Container" />
+                <Picker.Item label="Open Truck" value="open Truck" />
+                <Picker.Item label="Triper" value="Triper" />
               </Picker>
               {error.vehicleType ? <Text status={'danger'}>{error.vehicleType}</Text> : null}
             </View>
             <View style={{ marginBottom: 15 }}>
               <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
                 Vehicle Size    </Text>
-              <Input
-                status={error.vehicleSize ? 'danger' : ''}
-                onChangeText={text => {
-                  setSize(text);
-                  setError({ ...error, vehicleSize: null });
-                }}
-                placeholder={'4'}
-              />
+                <Picker.Item label="4" value="4"/>
+                <Picker.Item label="6" value="6"/>
+                <Picker.Item label="10" value="10"/>
+                <Picker.Item label="12" value="12"/>
+                <Picker.Item label="16" value="16"/>
+                <Picker.Item label="18" value="18" />
+                <Picker.Item label="20" value="20"/>
+                <Picker.Item label="22" value="22" />
+
               {error.vehicleSize ? (
                 <Text status={'danger'}>{error.vehicleSize}</Text>
               ) : null}

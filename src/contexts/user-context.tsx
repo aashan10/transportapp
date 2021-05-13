@@ -4,6 +4,7 @@ import {ToastAndroid} from 'react-native';
 import {getToken, setToken} from '../storage/user-storage';
 
 interface UserInterface {
+  id: string,
   token: string;
   name: string;
   address: string;
@@ -20,6 +21,7 @@ declare global {
 
 let sharedData: Global = {
   user: {
+    id: '',
     token: '',
     name: '',
     phoneNumber: '',
@@ -36,6 +38,7 @@ interface UserContextState {
 
 export const UserContext = createContext<UserContextState>({
   user: {
+    id: '',
     token: '',
     name: '',
     address: '',
@@ -52,6 +55,7 @@ interface UserProviderProps {
 
 const UserProvider = ({children}: UserProviderProps) => {
   const [user, setUser] = useState<UserInterface>({
+    id: '',
     token: '',
     email: '',
     phoneNumber: '',
@@ -74,9 +78,12 @@ const UserProvider = ({children}: UserProviderProps) => {
       .catch();
     userInfo(user.token)
       .then(response => {
-        const {name, email, phoneNumber, address, role} = response;
+        console.log("User Info", response);
+        
+        const {name, email, phoneNumber, address, role, _id} = response;
         setUser({
           ...user,
+          id: _id,
           name: name[0].toUpperCase() + name.slice(1),
           email: email,
           address: address,

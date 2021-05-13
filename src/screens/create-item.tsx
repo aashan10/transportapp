@@ -9,6 +9,8 @@ import Geolocation, {
 } from '@react-native-community/geolocation';
 import { requestLocationPermission } from '../helpers/functions';
 import { createNewItemRequest } from '../api/requests';
+import { Picker } from '@react-native-picker/picker';
+
 
 interface ErrorState {
   name: string | null;
@@ -60,7 +62,7 @@ const validate = ({
   if (!type || type==='NaN') {
     response.type = 'The type must be define!';
   }
-  if (!size || size?.length<4) {
+  if (!size) {
     response.size = 'The Size must be define!';
   }
   
@@ -148,32 +150,36 @@ const CreateItem = ({ navigation }: any) => {
           </View>
           <View style={{ marginBottom: 15 }}>
             <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>Container Type</Text>
-            <Input
-              value={type}
-              onChangeText={text => {
-                setType(text);
-                setError({ ...error, type: null });
-
-              }}
-              status={error.type ? 'danger' : ''}
-              placeholder={'Type of Vehicle'}
-            />
+            <Picker
+                selectedValue={type}
+                onValueChange={(itemValue) => {
+                  setType(itemValue);
+                }}>
+                <Picker.Item label="Truck" value="Truck" />
+                <Picker.Item label="Container" value="Container" />
+                <Picker.Item label="Open Truck" value="open Truck" />
+                <Picker.Item label="Triper" value="Triper" />
+              </Picker>
             {error?.type ? <Text status={'danger'}>{error.type}</Text> : null}
 
           </View>
           <View style={{ marginBottom: 15 }}>
             <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>Vehicle Size </Text>
-            <Input
-              value={isNaN(size) ? undefined : size.toString()}
-              keyboardType={'numeric'}
-              onChangeText={text => {
-                setSize(parseFloat(text));
-                setError({ ...error, size: null });
+            <Picker
+                selectedValue={size}
+                onValueChange={(itemValue) => {
+                  setSize(itemValue);
+                }}>
+                <Picker.Item label="4" value="4"/>
+                <Picker.Item label="6" value="6"/>
+                <Picker.Item label="10" value="10"/>
+                <Picker.Item label="12" value="12"/>
+                <Picker.Item label="16" value="16"/>
+                <Picker.Item label="18" value="18" />
+                <Picker.Item label="20" value="20"/>
+                <Picker.Item label="22" value="22" />
 
-              }}
-              status={error.size ? 'danger' : ''}
-              placeholder={'Vehicles Wheelers'}
-            />
+              </Picker>
             {error?.size ? <Text status={'danger'}>{error.size}</Text> : null}
           </View>
           <View style={{ marginBottom: 15 }}>
@@ -235,8 +241,7 @@ const CreateItem = ({ navigation }: any) => {
                 price: price.toString(),
                 qty: qty.toString(),
                 type: type,
-                size:size.toString(),
-
+                size:size.toString()
               });
               if (
                 validation.from !== null ||
@@ -245,7 +250,7 @@ const CreateItem = ({ navigation }: any) => {
                 validation.qty !== null ||
                 validation.price !== null ||
                 validation.type !== null ||
-                validation.size!== null
+                validation.size !== null
               ) {
                 setError(validation);
               } else {

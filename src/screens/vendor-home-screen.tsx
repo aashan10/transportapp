@@ -1,24 +1,31 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Card, Layout, Text} from '@ui-kitten/components';
-import {ScrollView, View} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import {Exception, getDriverFeeds} from '../api/requests';
+import {Exception, getVendorItemsDetail} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 
-const HomeScreen = ({navigation}: any) => {
+const VendorHomeScreen = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     setLoading(true);
-    getDriverFeeds()
+    getVendorItemsDetail()
       .then(feeds => {
-        setPosts(feeds.totalItem);
+        if(feeds.message) {
+          Alert.alert('Message', feeds.message);
+        }
+        console.log(feeds);
+        
+        if(feeds.detail) {
+          setPosts(feeds.detail);
+        }
       })
       .catch(err => {})
       .finally(() => {
@@ -39,9 +46,16 @@ const HomeScreen = ({navigation}: any) => {
               refreshing={loading}
               onRefresh={() => {
                 setLoading(true);
-                getDriverFeeds()
+                getVendorItemsDetail()
                   .then(feeds => {
-                    setPosts(feeds.totalItem);
+                    if(feeds.message) {
+                      Alert.alert('Message', feeds.message);
+                    }
+                    console.log(feeds);
+                    
+                    if(feeds.detail) {
+                      setPosts(feeds.detail);
+                    }
                   })
                   .catch(async (err: Exception) => {
                     console.log(await err.response.text());
@@ -69,7 +83,9 @@ const HomeScreen = ({navigation}: any) => {
             </Card>
           ) : null}
           {posts.map(post => {
-            return <DeliveryRequest navigation={navigation} request={post} />;
+            return (
+              <DeliveryRequest navigation={navigation} request={post} />
+            );
           })}
         </ScrollView>
       </Layout>
@@ -77,4 +93,4 @@ const HomeScreen = ({navigation}: any) => {
   );
 };
 
-export default HomeScreen;
+export default VendorHomeScreen;
