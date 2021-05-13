@@ -42,6 +42,7 @@ const HomeScreen = ({navigation}: any) => {
                 getDriverFeeds()
                   .then(feeds => {
                     setPosts(feeds.totalItem);
+                    console.log(feeds.totalItem[0]);
                   })
                   .catch(async (err: Exception) => {
                     console.log(await err.response.text());
@@ -69,7 +70,13 @@ const HomeScreen = ({navigation}: any) => {
             </Card>
           ) : null}
           {posts.map(post => {
-            return <DeliveryRequest navigation={navigation} request={post} />;
+            return (
+              <DeliveryRequest
+                key={post.key}
+                navigation={navigation}
+                request={post}
+              />
+            );
           })}
         </ScrollView>
       </Layout>

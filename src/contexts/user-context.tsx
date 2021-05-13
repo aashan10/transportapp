@@ -4,7 +4,7 @@ import {ToastAndroid} from 'react-native';
 import {getToken, setToken} from '../storage/user-storage';
 
 interface UserInterface {
-  id: string,
+  id: string;
   token: string;
   name: string;
   address: string;
@@ -46,6 +46,7 @@ export const UserContext = createContext<UserContextState>({
     phoneNumber: '',
     role: '',
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setUser: (user: Partial<UserInterface>) => {},
 });
 
@@ -78,12 +79,11 @@ const UserProvider = ({children}: UserProviderProps) => {
       .catch();
     userInfo(user.token)
       .then(response => {
-        console.log("User Info", response);
-        
-        const {name, email, phoneNumber, address, role, _id} = response;
+        console.log('User Info', response);
+
+        const {name, email, phoneNumber, address, role} = response;
         setUser({
           ...user,
-          id: _id,
           name: name[0].toUpperCase() + name.slice(1),
           email: email,
           address: address,

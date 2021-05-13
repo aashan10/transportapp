@@ -18,12 +18,12 @@ const VendorHomeScreen = ({navigation}: any) => {
     setLoading(true);
     getVendorItemsDetail()
       .then(feeds => {
-        if(feeds.message) {
+        if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
         console.log(feeds);
-        
-        if(feeds.detail) {
+
+        if (feeds.detail) {
           setPosts(feeds.detail);
         }
       })
@@ -48,12 +48,12 @@ const VendorHomeScreen = ({navigation}: any) => {
                 setLoading(true);
                 getVendorItemsDetail()
                   .then(feeds => {
-                    if(feeds.message) {
+                    if (feeds.message) {
                       Alert.alert('Message', feeds.message);
                     }
                     console.log(feeds);
-                    
-                    if(feeds.detail) {
+
+                    if (feeds.detail) {
                       setPosts(feeds.detail);
                     }
                   })
@@ -82,9 +82,13 @@ const VendorHomeScreen = ({navigation}: any) => {
               </View>
             </Card>
           ) : null}
-          {posts.map(post => {
+          {posts.map((post, index) => {
             return (
-              <DeliveryRequest navigation={navigation} request={post} />
+              <DeliveryRequest
+                key={index}
+                navigation={navigation}
+                request={post}
+              />
             );
           })}
         </ScrollView>

@@ -9,14 +9,18 @@ interface DeliveryRequestProps {
   request: {
     deliveryFrom: string;
     deliveryTo: string;
-    deliveryPrice: number;
+    deliveryPriceByVendor: number | null;
+    deliveryPriceByAdmin: number | null;
     adminApproved: boolean;
     quantity: number;
+    vendorId: string;
   };
 }
 
 const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
   const {currentLanguage} = useContext(LocalizationContext);
+  const price =
+    request.deliveryPriceByAdmin ?? request.deliveryPriceByAdmin ?? '';
   return (
     <Card
       header={() => {
@@ -65,7 +69,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                       currentLanguage.price +
                       ' : ' +
                       currentLanguage.currency +
-                      request.deliveryPrice +
+                      price +
                       '\n',
 
                     [
@@ -122,7 +126,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
       }}
       style={{borderRadius: 10, marginTop: 10, padding: 0}}>
       <View>
-        <Text>Rs. {request.deliveryPrice}</Text>
+        <Text>Rs. {price}</Text>
         <Text>{request.quantity} items to be delivered</Text>
       </View>
       <View
