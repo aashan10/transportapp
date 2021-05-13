@@ -5,6 +5,15 @@ import {
   USER_PROFILE,
   VENDOR_ITEM_UPLOAD,
   VENDOR_REGISTER,
+  DRIVER_REGISTER,
+  DRIVER_CURRENT_ADDRESS,
+  DRIVER_DELIVERY_DETAIL,
+  DRIVER_ITEM_REACHED,
+  DRIVER_ITEM_ACCEPTED_LIST,
+  DRIVER_DELIVERY_ACCEPT,
+  DRIVER_NEAR_YOU,
+  VENDOR_ITEM_DETAIL,
+  
 } from './constants';
 import {sharedData} from '../contexts/user-context';
 import RNFS from 'react-native-fs';
@@ -62,6 +71,8 @@ export const createNewItemRequest = async (props: {
   from: string;
   to: string;
   longitude: number;
+  type: string;
+  size: number;
 }) => {
   const response = await fetch(getUrl(VENDOR_ITEM_UPLOAD), {
     headers: getHeaders({
@@ -76,6 +87,9 @@ export const createNewItemRequest = async (props: {
       deliveryTo: props.to,
       quantity: props.quantity,
       deliveryPrice: props.price,
+      containerType:props.type,
+      containerSize:props.size,
+
     }),
   });
 
@@ -97,11 +111,25 @@ export const getDriverFeeds = async () => {
   throw new Exception(response);
 };
 
+export const getVendorItemsDetail = async () => {
+  const response = await fetch(getUrl(VENDOR_ITEM_DETAIL), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    method: 'GET',
+  });
+
+  if (response.ok) {
+    return await response.json();
+  }
+  throw new Exception(response);
+};
+
 export const registerDriver = async (props: {
   name: string;
   phone: string;
   email: string;
   password: string;
+  vehicleSize: string;
+  vehicleType: string;
   address: string;
   blueBookPhoto: string;
   licensePhoto: string;
@@ -150,6 +178,20 @@ export const registerVendor = async (data: {
     throw new Exception(response);
   }
 };
+
+
+export const acceptDeliveryRequest = async (payload: {itemId: string, vendorId: string}) => {
+  const response = await fetch(getUrl(DRIVER_DELIVERY_ACCEPT), {
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  if(response.ok) {
+    return await response.json();
+  } 
+  throw new Exception(response);
+}
 
 export class Exception {
   constructor(public response: Response) {}
