@@ -10,8 +10,29 @@ interface ItemDetailsProps {
   route: any;
 }
 
+interface RequestInterface {
+  itemName: string;
+  deliveryPrice: string;
+  deliveryFrom: string;
+  deliveryTo: string;
+  containerSize: string;
+  containerType: string;
+  quantity: string;
+
+
+}
+
 const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
-  const [request, setRequest] = useState(null);
+  const [request, setRequest] = useState<RequestInterface>({
+    itemName: '',
+    deliveryPrice: '',
+    deliveryFrom:'',
+    deliveryTo:'',
+    containerSize:'',
+    containerType:'',
+    quantity:'',
+
+  });
   useEffect(() => {
     setRequest(route.params.item);
   }, [route.params]);
@@ -24,10 +45,17 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
         style={{flex: 1, height: '100%', margin: 5, borderRadius: 10}}
         level={'1'}>
         <ScrollView style={{padding: 10}}>
-            <Text>Delivery From: {request?.deliveryFrom}</Text>
-            <Text>Delivery To: {request?.deliveryTo}</Text>
-            <Text>Price: Rs.{request?.deliveryPrice}</Text>
-            <Text>Item: {request?.itemName}</Text>
+            <Text>Delivery From: {request.deliveryFrom}</Text>
+            <Text>Delivery To: {request.deliveryTo}</Text>
+            <Text>Price: Rs.{request.deliveryPrice}</Text>
+            <Text>Item: {request.itemName}</Text>
+            <Text>Quantity: {request.quantity}</Text>
+            <Text>Container Type: {request.containerType}</Text>
+            <Text>Container Size: {request.containerSize}</Text>
+
+
+
+            
         </ScrollView>
       </Layout>
       <Layout

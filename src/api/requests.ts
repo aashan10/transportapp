@@ -5,6 +5,15 @@ import {
   USER_PROFILE,
   VENDOR_ITEM_UPLOAD,
   VENDOR_REGISTER,
+  DRIVER_REGISTER,
+  DRIVER_CURRENT_ADDRESS,
+  DRIVER_DELIVERY_DETAIL,
+  DRIVER_ITEM_REACHED,
+  DERIVER_ITEM_ACCEPTED_LIST,
+  DRIVER_DELIVERY_ACCEPT,
+  DRIVER_NEAR_YOU,
+  VENDOR_ITEM_DETAIL,
+  
 } from './constants';
 import {sharedData} from '../contexts/user-context';
 import RNFS from 'react-native-fs';
@@ -62,6 +71,8 @@ export const createNewItemRequest = async (props: {
   from: string;
   to: string;
   longitude: number;
+  type: string;
+  size: number;
 }) => {
   const response = await fetch(getUrl(VENDOR_ITEM_UPLOAD), {
     headers: getHeaders({
@@ -76,6 +87,9 @@ export const createNewItemRequest = async (props: {
       deliveryTo: props.to,
       quantity: props.quantity,
       deliveryPrice: props.price,
+      containerType:props.type,
+      containerSize:props.size,
+
     }),
   });
 
@@ -102,6 +116,8 @@ export const registerDriver = async (props: {
   phone: string;
   email: string;
   password: string;
+  vehicleSize: string;
+  vehicleTpye: string;
   address: string;
   blueBookPhoto: string;
   licensePhoto: string;
