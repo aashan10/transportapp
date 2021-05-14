@@ -7,12 +7,11 @@ import RegisterVendorScreen from '../screens/auth/register/register-vendor-scree
 import RegisterDriverScreen from '../screens/auth/register/register-driver-screen';
 import UserContext from '../contexts/user-context';
 import ForgotPasswordScreen from '../screens/auth/recover/forgot-password-screen';
+import EmailVerificationScreen from '../screens/auth/recover/email-verification-screen';
 
 const AuthNavigation = () => {
   const {user} = useContext(UserContext);
   const Navigator = createStackNavigator();
-
-  console.log(user.token);
   return (
     <Navigator.Navigator
       screenOptions={{headerShown: false}}
@@ -22,6 +21,10 @@ const AuthNavigation = () => {
       <Navigator.Screen
         name={'forgotPassword'}
         component={ForgotPasswordScreen}
+      />
+      <Navigator.Screen
+        name={'recoverPassword'}
+        component={EmailVerificationScreen}
       />
       <Navigator.Screen
         name={'registerVendor'}

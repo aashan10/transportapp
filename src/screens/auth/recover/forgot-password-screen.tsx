@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
 import Button from '../../../components/button';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {EMAIL_REGEX} from '../../../helpers/constants';
+import {forgotPassword, Exception} from '../../../api/requests';
 
 interface ForgotPasswordScreenProps {
   navigation: any;
@@ -37,16 +38,24 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           />
           <Text status={'danger'}>{error}</Text>
         </View>
-
-        <Layout
-          style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
-          <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
-            To reset your password, we need to make sure that the account
-            actually belongs to you! Please provide us your email address that
-            you used at the time of registration and we will send you a
-            verification code which can be used in the next screen to reset your
-            password!
-          </Text>
+        <Layout>
+          <Layout
+            style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
+            <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
+              To reset your password, we need to make sure that the account
+              actually belongs to you! Please provide us your email address that
+              you used at the time of registration and we will send you a
+              verification code which can be used in the next screen to reset
+              your password!
+            </Text>
+          </Layout>
+          <Button
+            onPress={() => {
+              navigation.navigate('recoverPassword');
+            }}
+            appearance={'ghost'}>
+            I have a confirmation code.
+          </Button>
         </Layout>
       </Layout>
       <Layout
@@ -73,17 +82,42 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
               setError('Please enter a valid email address!');
             } else {
               setError('');
+              setLoading(true);
+              forgotPassword(email)
+                .then(() => {
+                  Alert.alert(
+                    'Email Sent',
+                    'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+                  );
+                  navigation.navigate('recoverPassword');
+                })
+                .catch(async (err: any) => {
+                  if (err instanceof Exception) {
+                    const {response} = err;
+                    try {
+                      const msg = await response.text();
+                      Alert.alert('Error', msg);
+                    } catch (e) {
+                      Alert.alert(
+                        'Error',
+                        'There was an error processing your request' +
+                          e.message,
+                      );
+                    }
+                  } else {
+                    Alert.alert('Error', err.message);
+                  }
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
             }
           }}
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
-          }
-          accessoryRight={() => (
-            <Text style={{paddingLeft: 20}}>
-              {loading ? 'Loading' : 'Continue'}
-            </Text>
-          )}
-        />
+          }>
+          {loading ? 'Loading' : 'Continue'}
+        </Button>
       </Layout>
     </Layout>
   );

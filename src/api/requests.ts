@@ -8,7 +8,6 @@ import {
   DRIVER_DELIVERY_ACCEPT,
   VENDOR_ITEM_DETAIL,
   MAIL_RESEND,
-  MAIL_VERIFICATION,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
 import RNFS from 'react-native-fs';
@@ -189,8 +188,17 @@ export const acceptDeliveryRequest = async (payload: {
   throw new Exception(response);
 };
 
-export const forgotPassword = async (password: string) => {
-  // const response = await fetch(getUrl())
+export const forgotPassword = async (email: string) => {
+  const response = await fetch(getUrl(MAIL_RESEND), {
+    headers: getHeaders({}),
+    body: JSON.stringify({email: email}),
+    method: 'POST',
+  });
+
+  if (response.ok) {
+    return response;
+  }
+  throw new Exception(response);
 };
 
 export class Exception {
