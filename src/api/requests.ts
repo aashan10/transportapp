@@ -15,6 +15,11 @@ import {
   VENDOR_ITEM_DETAIL,
   MAIL_RESEND,
   MAIL_VERIFICATION,
+  PROFILE_FORGETPASSWORD,
+  PROFILE_NEWPASSWORD,
+  PROFILE_PROFILEIMG,
+  PROFILE_USER_UPDATE,
+  PROFILE_PASSWORDCHANGE,
   
 } from './constants';
 import {sharedData} from '../contexts/user-context';
