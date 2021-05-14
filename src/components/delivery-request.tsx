@@ -9,8 +9,8 @@ interface DeliveryRequestProps {
   request: {
     deliveryFrom: string;
     deliveryTo: string;
-    deliveryPriceByVendor: number | null;
-    deliveryPriceByAdmin: number | null;
+    deliveryPriceByVendor: number ;
+    deliveryPriceByAdmin: number ;
     adminApproved: boolean;
     quantity: number;
     vendorId: string;

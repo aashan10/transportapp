@@ -155,6 +155,7 @@ const CreateItem = ({ navigation }: any) => {
                 onValueChange={(itemValue) => {
                   setType(itemValue);
                 }}>
+                 <Picker.Item label="Vehicle Type" value="Vehicle Type" />
                 <Picker.Item label="Truck" value="Truck" />
                 <Picker.Item label="Container" value="Container" />
                 <Picker.Item label="Open Truck" value="open Truck" />
@@ -170,6 +171,7 @@ const CreateItem = ({ navigation }: any) => {
                 onValueChange={(itemValue) => {
                   setSize(itemValue);
                 }}>
+                <Picker.Item label="Number of Wheels" value="Number of Wheels"/>
                 <Picker.Item label="4" value="4"/>
                 <Picker.Item label="6" value="6"/>
                 <Picker.Item label="10" value="10"/>
