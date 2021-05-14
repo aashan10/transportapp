@@ -16,7 +16,7 @@
   "changeLanguage": "नेपाली सेट गर्नुहोस",
   "verifiedAccount": "Verifed Account",
   "details":"Details",
-  "request":"Requests"
-
-
+  "request":"Requests",
+  "username": "Phone Number",
+  "password": "Password"
 }

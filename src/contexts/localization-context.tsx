@@ -13,7 +13,7 @@ const LocalizationContext = createContext<LocalizationContextState>({
 });
 
 const LocalizationProvider = ({children}: {children: React.ReactNode}) => {
-  const [language, setLanguage] = useState<Language>(english);
+  const [language, setLanguage] = useState<Language>(nepali);
 
   return (
     <LocalizationContext.Provider

@@ -17,9 +17,11 @@ export interface Language {
   registerAsVendor: string;
   registerAsDriver: string;
   verifiedAccount: string;
-  details: String;
-  request: String;
-  itemName: String;
+  details: string;
+  request: string;
+  itemName: string;
+  username: string;
+  password: string;
 }
 
 export const english: Language = require('./en.json');

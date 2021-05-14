@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Input, Layout, Spinner} from '@ui-kitten/components';
+import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View, ToastAndroid} from 'react-native';
 import {Exception, userLogin} from '../../api/requests';
 import UserContext from '../../contexts/user-context';
 import Button from '../../components/button';
 import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
+import {useFocusEffect} from '@react-navigation/native';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -14,29 +15,65 @@ const LoginScreen = (props: any) => {
     if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
     }
-  }, [props.navigation, user]);
+  }, [props.navigation, user, props.route]);
 
-  const [username, setUsername] = useState<string>('9712345678');
-  const [password, setPassword] = useState<string>('gopal11');
+  useFocusEffect(() => {
+    if (!isEmpty(user.token)) {
+      props.navigation.navigate('home');
+    }
+  });
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <Layout style={style.container}>
       <View style={style.centeredContent}>
+        <Text
+          style={{
+            marginBottom: 100,
+            width: '100%',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 20,
+          }}>
+          {currentLanguage.appName}
+        </Text>
         <Input
           style={style.spacedComponent}
           value={username}
           onChangeText={text => setUsername(text)}
-          placeholder={'Username'}
+          placeholder={currentLanguage.username}
         />
         <Input
-          style={style.spacedComponent}
+          style={[style.spacedComponent, {marginBottom: 50}]}
           value={password}
+          secureTextEntry={!showPassword}
           onChangeText={text => setPassword(text)}
-          placeholder={'Password'}
+          placeholder={currentLanguage.password}
+          accessoryRight={() => {
+            return (
+              <Button
+                appearance={'ghost'}
+                size={'small'}
+                onPress={() => {
+                  setShowPassword(!showPassword);
+                }}
+                accessoryLeft={iconProps => {
+                  return (
+                    <Icon
+                      {...iconProps}
+                      name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                    />
+                  );
+                }}
+              />
+            );
+          }}
         />
         <Button
           style={style.spacedComponent}
-          appearance={'outline'}
+          appearance={'primary'}
           onPress={() => {
             setLoading(true);
             userLogin({username: username, password: password})
