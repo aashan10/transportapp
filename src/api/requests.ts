@@ -80,9 +80,9 @@ export const createNewItemRequest = async (props: {
       deliveryFrom: props.from,
       deliveryTo: props.to,
       quantity: props.quantity,
+      deliveryPriceByVendor: props.price,
       containerType: props.type,
       containerSize: props.size,
-      deliveryPriceByVendor: props.price,
     }),
   });
 
