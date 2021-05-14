@@ -114,14 +114,24 @@ const LoginScreen = (props: any) => {
           }}>
           {loading ? undefined : currentLanguage.login}
         </Button>
-        <Button
-          onPress={() => {
-            props.navigation.navigate('register');
-          }}
-          style={style.spacedComponent}
-          appearance={'ghost'}>
-          {currentLanguage.registerHere}
-        </Button>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Button
+            onPress={() => {
+              props.navigation.navigate('register');
+            }}
+            style={style.spacedComponent}
+            appearance={'ghost'}>
+            {currentLanguage.registerHere}
+          </Button>
+          <Button
+            onPress={() => {
+              props.navigation.navigate('forgotPassword');
+            }}
+            style={style.spacedComponent}
+            appearance={'ghost'}>
+            {'Forgot Password'}
+          </Button>
+        </View>
       </View>
     </Layout>
   );
