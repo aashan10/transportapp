@@ -6,6 +6,7 @@ import SettingsScreen from '../screens/settings-screen';
 import UserContext from '../contexts/user-context';
 import VendorNavigation from './vendor-navigation';
 import DriverNavigation from './driver-navigation';
+import MyPickups from '../screens/my-pickups';
 
 const HomeNavigation = () => {
   const {user} = useContext(UserContext);
@@ -20,6 +21,9 @@ const HomeNavigation = () => {
         component={user.role === 'vendor' ? VendorNavigation : DriverNavigation}
       />
       <Drawer.Screen name={'settings'} component={SettingsScreen} />
+      {user.role === 'driver' ? (
+        <Drawer.Screen name={'my Pickups'} component={MyPickups} />
+      ) : null}
     </Drawer.Navigator>
   );
 };

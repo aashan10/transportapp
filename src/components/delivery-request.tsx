@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Alert, View} from 'react-native';
 import {Card, Icon, Text} from '@ui-kitten/components';
 import Button from './button';
@@ -19,8 +19,10 @@ interface DeliveryRequestProps {
 
 const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
   const {currentLanguage} = useContext(LocalizationContext);
-  const price =
-    request.deliveryPriceByAdmin ?? request.deliveryPriceByAdmin ?? '';
+  const [price, setPrice] = useState<string | number | null>('');
+  useEffect(() => {
+    setPrice(request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor);
+  }, [request]);
   return (
     <Card
       header={() => {
@@ -126,7 +128,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
       }}
       style={{borderRadius: 10, marginTop: 10, padding: 0}}>
       <View>
-        <Text>Rs. {price}</Text>
+        <Text>Rs. {price ?? ''}</Text>
         <Text>{request.quantity} items to be delivered</Text>
       </View>
       <View

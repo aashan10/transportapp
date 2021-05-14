@@ -8,11 +8,9 @@ import {acceptDeliveryRequest, Exception} from '../api/requests';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from '@react-native-community/geolocation';
 import {requestLocationPermission} from '../helpers/functions';
+import {MAPBOX_API_KEY} from '../api/constants';
 
-const ACCESS_TOKEN =
-  'pk.eyJ1IjoiYWFzaGFuMTAiLCJhIjoiY2tvbXMyZXpjMGpyZTJubzF1bTVxcW0wdCJ9.KtkWRJcyl6TAUdEknCuOeA';
-// const BAATO_TOKEN = 'bpk.zvLigQLM0WW0n9T6vPyTE3gtn0uhJLCwvqe6oilzniqv';
-MapboxGL.setAccessToken(ACCESS_TOKEN);
+MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 interface ItemDetailsProps {
   navigation: any;
@@ -65,7 +63,7 @@ const renderAnnotations = ({
             height: 7.5,
             width: 7.5,
             borderRadius: 7.5,
-            backgroundColor: 'white',
+            backgroundColor: '#00CC66',
           }}
         />
       </View>
@@ -106,7 +104,10 @@ const renderPath = ({
       }}>
       <MapboxGL.LineLayer
         id={'path'}
-        style={{lineColor: 'white', lineWidth: 5}}
+        style={{
+          lineColor: '#00CC66',
+          lineWidth: 5,
+        }}
       />
     </MapboxGL.ShapeSource>
   );
@@ -115,8 +116,8 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const {user} = useContext(UserContext);
 
   const [location, setCurrentLocation] = useState<Coordinates>({
-    latitude: 85.31853583740946,
-    longitude: 27.701739466949107,
+    longitude: 0,
+    latitude: 0,
   });
   requestLocationPermission()
     .then(() => {
@@ -164,9 +165,15 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
         <Header back={true} navigation={navigation} title={'Request Details'} />
       </Layout>
       <Layout
-        style={{flex: 1, height: '100%', margin: 5, borderRadius: 10}}
+        style={{
+          flex: 1,
+          height: '100%',
+          margin: 5,
+          borderRadius: 10,
+          overflow: 'hidden',
+        }}
         level={'1'}>
-        <ScrollView style={{padding: 10}}>
+        <ScrollView>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
@@ -253,14 +260,21 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 },
                 isDestination: true,
               })}
-              {renderPath({
-                source: location,
-                destination: {
-                  latitude: request.latitudeOfDeliveryFrom,
-                  longitude: request.longitudeOfDeliveryFrom,
-                },
-              })}
-              {renderAnnotations({coordinates: location, isDestination: false})}
+              {user.role === 'driver' ? (
+                <>
+                  {renderPath({
+                    source: location,
+                    destination: {
+                      latitude: request.latitudeOfDeliveryFrom,
+                      longitude: request.longitudeOfDeliveryFrom,
+                    },
+                  })}
+                  {renderAnnotations({
+                    coordinates: location,
+                    isDestination: false,
+                  })}
+                </>
+              ) : null}
             </MapboxGL.MapView>
           </Layout>
         </Layout>
