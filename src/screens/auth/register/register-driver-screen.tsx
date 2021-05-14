@@ -429,7 +429,7 @@ const RegisterDriverScreen = (props: any) => {
                   phone: phone,
                   password: password,
                   vehicleSize: vehicleSize,
-                  vehicleTpye: vehicleType,
+                  vehicleType: vehicleType,
                   // @ts-ignore
                   licensePhoto: licensePhoto?.data
                     ? 'data:' +

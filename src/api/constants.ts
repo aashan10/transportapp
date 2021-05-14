@@ -12,3 +12,6 @@ export const DRIVER_ITEM_REACHED='driver/itemReached';
 export const DRIVER_DELIVERY_DETAIL='driver/deliveryDetail';
 export const DRIVER_CURRENT_ADDRESS='driver/currentAddress';
 export const DRIVER_REGISTER = 'driver/register';
+export const MAIL_VERIFICATION = 'email/confirmation';
+export const MAIL_RESEND= 'email/resend';
+

@@ -13,6 +13,8 @@ import {
   DRIVER_DELIVERY_ACCEPT,
   DRIVER_NEAR_YOU,
   VENDOR_ITEM_DETAIL,
+  MAIL_RESEND,
+  MAIL_VERIFICATION,
   
 } from './constants';
 import {sharedData} from '../contexts/user-context';
@@ -86,7 +88,7 @@ export const createNewItemRequest = async (props: {
       deliveryFrom: props.from,
       deliveryTo: props.to,
       quantity: props.quantity,
-      deliveryPrice: props.price,
+      deliveryPriceByVendor: props.price,
       containerType:props.type,
       containerSize:props.size,
 
