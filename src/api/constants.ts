@@ -14,4 +14,5 @@ export const DRIVER_CURRENT_ADDRESS='driver/currentAddress';
 export const DRIVER_REGISTER = 'driver/register';
 export const MAIL_VERIFICATION = 'email/confirmation';
 export const MAIL_RESEND= 'email/resend';
-
+export const MAPBOX_API_KEY =
+  'pk.eyJ1IjoiYWFzaGFuMTAiLCJhIjoiY2tvbXMyZXpjMGpyZTJubzF1bTVxcW0wdCJ9.KtkWRJcyl6TAUdEknCuOeA';

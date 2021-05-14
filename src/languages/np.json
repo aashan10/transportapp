@@ -16,6 +16,7 @@
   "changeLanguage": "Set English",
   "verifiedAccount": "प्रमाणित खाता",
   "details":"पूरा विवरण",
-  "request":"अनुरोध"
-
+  "request":"अनुरोध",
+  "username": "फोन नम्बर",
+  "password": "पासवर्ड"
 }
