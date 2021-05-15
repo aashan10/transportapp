@@ -87,10 +87,7 @@ const LoginScreen = (props: any) => {
                 try {
                   const {response} = err;
                   if (response.status >= 400 && response.status < 500) {
-                    ToastAndroid.show(
-                      'The username and password do not match our records!',
-                      5000,
-                    );
+                    ToastAndroid.show(await response.text(), 5000);
                   } else if (response.status >= 500) {
                     ToastAndroid.show(
                       'A problem occurred in server. Please try again later!',
@@ -123,6 +120,16 @@ const LoginScreen = (props: any) => {
             appearance={'ghost'}>
             {currentLanguage.registerHere}
           </Button>
+          <Button
+            onPress={() => {
+              props.navigation.navigate('verifyAccount');
+            }}
+            style={style.spacedComponent}
+            appearance={'ghost'}>
+            {'Verify Email'}
+          </Button>
+        </View>
+        <View>
           <Button
             onPress={() => {
               props.navigation.navigate('forgotPassword');

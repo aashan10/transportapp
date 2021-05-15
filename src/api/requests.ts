@@ -8,6 +8,9 @@ import {
   DRIVER_DELIVERY_ACCEPT,
   VENDOR_ITEM_DETAIL,
   MAIL_RESEND,
+  PROFILE_NEW_PASSWORD,
+  PROFILE_FORGET_PASSWORD,
+  MAIL_VERIFICATION,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
 import RNFS from 'react-native-fs';
@@ -189,7 +192,7 @@ export const acceptDeliveryRequest = async (payload: {
 };
 
 export const forgotPassword = async (email: string) => {
-  const response = await fetch(getUrl(MAIL_RESEND), {
+  const response = await fetch(getUrl(PROFILE_FORGET_PASSWORD), {
     headers: getHeaders({}),
     body: JSON.stringify({email: email}),
     method: 'POST',
@@ -197,6 +200,49 @@ export const forgotPassword = async (email: string) => {
 
   if (response.ok) {
     return response;
+  }
+  throw new Exception(response);
+};
+
+export const resendVerificationEmail = async ({email}: {email: string}) => {
+  const response = await fetch(getUrl(MAIL_RESEND), {
+    headers: getHeaders({}),
+    method: 'POST',
+    body: JSON.stringify({email: email}),
+  });
+
+  if (response.ok) {
+    return await response.text();
+  }
+  throw new Exception(response);
+};
+
+export const changePassword = async (data: {
+  newPassword: string;
+  confirmPassword: string;
+  token: string;
+}) => {
+  const response = await fetch(getUrl(PROFILE_NEW_PASSWORD), {
+    headers: getHeaders({}),
+    body: JSON.stringify(data),
+    method: 'POST',
+  });
+
+  if (response.ok) {
+    return response;
+  }
+  throw new Exception(response);
+};
+
+export const verifyAccount = async ({token}: {token: string}) => {
+  const response = await fetch(getUrl(MAIL_VERIFICATION), {
+    headers: getHeaders({}),
+    body: JSON.stringify({token: token}),
+    method: 'POST',
+  });
+
+  if (response.ok) {
+    return await response.json();
   }
   throw new Exception(response);
 };

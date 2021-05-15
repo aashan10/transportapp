@@ -8,6 +8,8 @@ import RegisterDriverScreen from '../screens/auth/register/register-driver-scree
 import UserContext from '../contexts/user-context';
 import ForgotPasswordScreen from '../screens/auth/recover/forgot-password-screen';
 import EmailVerificationScreen from '../screens/auth/recover/email-verification-screen';
+import VerifyAccountScreen from '../screens/auth/verify/verify-account-screen';
+import SendVerificationCodeScreen from '../screens/auth/verify/send-verification-code-screen';
 
 const AuthNavigation = () => {
   const {user} = useContext(UserContext);
@@ -25,6 +27,14 @@ const AuthNavigation = () => {
       <Navigator.Screen
         name={'recoverPassword'}
         component={EmailVerificationScreen}
+      />
+      <Navigator.Screen
+        name={'sendVerificationCodeScreen'}
+        component={SendVerificationCodeScreen}
+      />
+      <Navigator.Screen
+        name={'verifyAccount'}
+        component={VerifyAccountScreen}
       />
       <Navigator.Screen
         name={'registerVendor'}

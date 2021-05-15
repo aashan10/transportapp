@@ -39,12 +39,11 @@ const RegisterScreen = (props: any) => {
             Register As Driver
           </Button>
         </View>
-        <View style={{marginHorizontal: 30, marginTop: 10}}>
+        <View style={{marginHorizontal: 20, marginTop: 10}}>
           <Button
             onPress={() => {
               props.navigation.navigate('login');
             }}
-            status={'success'}
             appearance={'outline'}>
             Already Registered? Login
           </Button>

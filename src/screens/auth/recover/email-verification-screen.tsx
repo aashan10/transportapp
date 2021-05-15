@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import {Exception, forgotPassword} from '../../../api/requests';
+import {changePassword, Exception, forgotPassword} from '../../../api/requests';
 
 interface EmailVerificationScreenProps {
   navigation: any;
@@ -150,7 +150,41 @@ const EmailVerificationScreen = ({
         <Button
           style={{minWidth: 150}}
           disabled={loading}
-          onPress={() => {}}
+          onPress={() => {
+            setLoading(true);
+            changePassword({
+              newPassword: password,
+              confirmPassword: confirmPassword,
+              token: token,
+            })
+              .then(() => {
+                Alert.alert(
+                  'Success',
+                  'Password changed successfully. Please login to continue!',
+                );
+                navigation.navigate('login');
+              })
+              .catch(async exception => {
+                if (exception instanceof Exception) {
+                  const {response} = exception;
+                  const text = await response.text();
+                  try {
+                    const json = JSON.parse(text);
+                    Alert.alert('Error', json.message);
+                  } catch (e) {
+                    Alert.alert('Error', text);
+                  }
+                } else {
+                  Alert.alert(
+                    'Error',
+                    'There was a problem processing your request',
+                  );
+                }
+              })
+              .finally(() => {
+                setLoading(false);
+              });
+          }}
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>

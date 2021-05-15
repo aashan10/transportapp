@@ -16,8 +16,8 @@ export const MAIL_VERIFICATION = 'email/confirmation';
 export const MAIL_RESEND = 'email/resend';
 export const MAPBOX_API_KEY =
   'pk.eyJ1IjoiYWFzaGFuMTAiLCJhIjoiY2tvbXMyZXpjMGpyZTJubzF1bTVxcW0wdCJ9.KtkWRJcyl6TAUdEknCuOeA';
-export const PROFILE_NEWPASSWORD= 'profile/newpassword';
-export const PROFILE_FORGETPASSWORD='profile/forgetpass';
-export const PROFILE_PASSWORDCHANGE='profile/pwchange';
-export const PROFILE_PROFILEIMG='profile/profileImg';
-export const PROFILE_USER_UPDATE='profile/user/update';
+export const PROFILE_NEW_PASSWORD = 'profile/newpassword';
+export const PROFILE_FORGET_PASSWORD = 'profile/forgetpass';
+export const PROFILE_PASSWORD_CHANGE = 'profile/pwchange';
+export const PROFILE_PROFILE_IMG = 'profile/profileImg';
+export const PROFILE_USER_UPDATE = 'profile/user/update';
