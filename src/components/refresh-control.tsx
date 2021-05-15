@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import {useContext} from 'react';
 import {ThemeContext} from '../contexts/theme-context';
-import * as eva from '@eva-design/eva';
+import {themes} from '../themes/themes';
 
 const RefreshControl = (props: RefreshControlProps) => {
   const {theme} = useContext(ThemeContext);
@@ -19,9 +19,9 @@ const RefreshControl = (props: RefreshControlProps) => {
         theme['color-warning-500'],
       ]}
       progressBackgroundColor={
-        theme === eva.light
+        theme === themes.light
           ? theme['color-basic-100']
-          : theme['color-basic-1100']
+          : theme['color-basic-800']
       }
     />
   );

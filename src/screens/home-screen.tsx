@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}: any) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user.token, navigation]);
+  }, [user.token]);
 
   return (
     <Layout style={{height: '100%', width: '100%'}}>
@@ -69,10 +69,10 @@ const HomeScreen = ({navigation}: any) => {
               </View>
             </Card>
           ) : null}
-          {posts.map(post => {
+          {posts.map((post, id) => {
             return (
               <DeliveryRequest
-                key={post.key}
+                key={id}
                 navigation={navigation}
                 request={post}
               />
