@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.transportapp"
+        applicationId "com.scriptspyder.transportapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true

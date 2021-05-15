@@ -1,4 +1,4 @@
-package com.transportapp;
+package com.scriptspyder.transportapp;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "transportapp";
+    return "JMRTransport";
   }
 }

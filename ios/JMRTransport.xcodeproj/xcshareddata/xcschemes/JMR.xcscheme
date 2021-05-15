@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "transportapp.app"
-               BlueprintName = "transportapp"
-               ReferencedContainer = "container:transportapp.xcodeproj">
+               BuildableName = "JMR.app"
+               BlueprintName = "JMR"
+               ReferencedContainer = "container:JMR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "transportappTests.xctest"
-               BlueprintName = "transportappTests"
-               ReferencedContainer = "container:transportapp.xcodeproj">
+               BuildableName = "JMRTests.xctest"
+               BlueprintName = "JMRTests"
+               ReferencedContainer = "container:JMR.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "transportapp.app"
-            BlueprintName = "transportapp"
-            ReferencedContainer = "container:transportapp.xcodeproj">
+            BuildableName = "JMR.app"
+            BlueprintName = "JMR"
+            ReferencedContainer = "container:JMR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "transportapp.app"
-            BlueprintName = "transportapp"
-            ReferencedContainer = "container:transportapp.xcodeproj">
+            BuildableName = "JMR.app"
+            BlueprintName = "JMR"
+            ReferencedContainer = "container:JMR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
