@@ -1,3 +1,6 @@
+import Nepali from './np';
+import English from './en';
+
 export interface Language {
   appName: string;
   login: string;
@@ -24,12 +27,9 @@ export interface Language {
   password: string;
 }
 
-export const english: Language = require('./en.json');
-export const nepali: Language = require('./np.json');
-
 const languages = {
-  en: english,
-  np: nepali,
+  en: English,
+  np: Nepali,
 };
 
 export default languages;
