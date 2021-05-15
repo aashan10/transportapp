@@ -4,7 +4,7 @@ import {Image, StyleSheet, View} from 'react-native';
 import Button from './button';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {setToken} from '../storage/user-storage';
+import {storeToken} from '../storage/user-storage';
 import {userInfo} from '../api/requests';
 
 const md5 = require('md5');
@@ -18,7 +18,7 @@ const Drawer = (props: any) => {
   userInfo(user.token)
     .then()
     .catch(async () => {
-      await setToken('');
+      await storeToken('');
       props.navigation.navigate('login');
     });
   return (
@@ -61,7 +61,7 @@ const Drawer = (props: any) => {
           appearance={'ghost'}
           status={'danger'}
           onPress={async () => {
-            await setToken('');
+            await storeToken('');
             setUser({...user, token: ''});
             props.navigation.navigate('login');
           }}>

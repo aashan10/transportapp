@@ -241,10 +241,11 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             status={'primary'}>
             Pickup Location
           </Text>
-          <Layout style={{borderRadius: 10, overflow: 'hidden'}}>
+          <Layout style={{borderRadius: 10, overflow: 'hidden'}} level={'4'}>
             <MapboxGL.MapView
               style={{height: 300, width: '100%'}}
               logoEnabled={false}
+              styleURL="https://api.baato.io/api/v1/styles/breeze?key=bpk.zvLigQLM0WW0n9T6vPyTE3gtn0uhJLCwvqe6oilzniqv"
               attributionEnabled={false}>
               <MapboxGL.Camera
                 zoomLevel={12}

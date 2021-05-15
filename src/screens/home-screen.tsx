@@ -15,7 +15,7 @@ const HomeScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(true);
+    setLoading(false);
     getDriverFeeds()
       .then(feeds => {
         setPosts(feeds.totalItem);
@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}: any) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user.token]);
+  }, [user.token, navigation]);
 
   return (
     <Layout style={{height: '100%', width: '100%'}}>

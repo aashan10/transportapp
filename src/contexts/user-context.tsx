@@ -1,7 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {userInfo} from '../api/requests';
 import {ToastAndroid} from 'react-native';
-import {getToken, setToken} from '../storage/user-storage';
+import {getToken, storeToken} from '../storage/user-storage';
 
 interface UserInterface {
   id: string;
@@ -66,6 +66,7 @@ const UserProvider = ({children}: UserProviderProps) => {
   });
   const {token} = user;
   useEffect(() => {
+    console.log('Token Changed');
     getToken()
       .then(storageToken => {
         if (
@@ -90,7 +91,7 @@ const UserProvider = ({children}: UserProviderProps) => {
           role: role,
           phoneNumber: phoneNumber,
         });
-        setToken(token)
+        storeToken(token)
           .then()
           .catch(() => {
             ToastAndroid.show(
@@ -111,7 +112,7 @@ const UserProvider = ({children}: UserProviderProps) => {
         setUser: (userData: Partial<UserInterface>) => {
           const newUserData = {...user, ...userData};
           setUser(newUserData);
-          setToken(newUserData.token)
+          storeToken(newUserData.token)
             .then()
             .catch(() => {
               ToastAndroid.show(
