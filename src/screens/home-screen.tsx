@@ -53,7 +53,7 @@ const HomeScreen = ({navigation}: any) => {
               }}
             />
           }
-          style={{height: '100%', flex: 1}}>
+          style={{height: '100%'}}>
           {user.role === 'vendor' ? (
             <Card style={{borderRadius: 10}}>
               <View
