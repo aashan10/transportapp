@@ -1,5 +1,5 @@
 import React, {createContext, useState} from 'react';
-import languages, {Language, english, nepali} from '../languages/language';
+import languages, {Language} from '../languages/language';
 
 interface LocalizationContextState {
   currentLanguage: Language;
@@ -7,13 +7,13 @@ interface LocalizationContextState {
 }
 
 const LocalizationContext = createContext<LocalizationContextState>({
-  currentLanguage: english,
+  currentLanguage: languages.en,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setLanguage: (lang: string) => {},
 });
 
 const LocalizationProvider = ({children}: {children: React.ReactNode}) => {
-  const [language, setLanguage] = useState<Language>(english);
+  const [language, setLanguage] = useState<Language>(languages.en);
 
   return (
     <LocalizationContext.Provider
