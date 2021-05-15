@@ -6,6 +6,7 @@ import Header from '../components/header';
 import {Layout, ListItem, Text} from '@ui-kitten/components';
 import {ThemeContext} from '../contexts/theme-context';
 import LocalizationContext from '../contexts/localization-context';
+import {themes} from '../themes/themes';
 
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
@@ -18,7 +19,7 @@ const SettingsScreen = ({navigation}: any) => {
         <ListItem style={style.listItem}>
           <Text>Night Mode</Text>
           <Button appearance={'ghost'} size={'small'} onPress={toggleTheme}>
-            {theme === eva.light ? 'Enable' : 'Disable'}
+            {theme === themes.light ? 'Enable' : 'Disable'}
           </Button>
         </ListItem>
 

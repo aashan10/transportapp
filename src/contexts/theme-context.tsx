@@ -2,6 +2,8 @@ import React, {createContext, useState} from 'react';
 import {ThemeType} from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import {Appearance} from 'react-native';
+import {themes} from '../themes/themes';
+
 
 interface ThemeContextState {
   theme: ThemeType;
@@ -9,7 +11,7 @@ interface ThemeContextState {
 }
 
 const ThemeContext = createContext<ThemeContextState>({
-  theme: eva.light,
+  theme: themes.light,
   toggleTheme: () => {},
 });
 
@@ -20,7 +22,7 @@ interface ThemeProviderProps {
 const ThemeProvider = (props: ThemeProviderProps) => {
   const userPrefersDarkMode = Appearance.getColorScheme() === 'dark';
   const [theme, setTheme] = useState<ThemeType>(
-    userPrefersDarkMode ? eva.dark : eva.light,
+    userPrefersDarkMode ? themes.dark : themes.light,
   );
 
   return (
@@ -28,10 +30,10 @@ const ThemeProvider = (props: ThemeProviderProps) => {
       value={{
         theme: theme,
         toggleTheme: () => {
-          if (theme === eva.light) {
-            setTheme(eva.dark);
+          if (theme === themes.light) {
+            setTheme(themes.dark);
           } else {
-            setTheme(eva.light);
+            setTheme(themes.light);
           }
         },
       }}>
