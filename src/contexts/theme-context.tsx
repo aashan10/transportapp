@@ -20,7 +20,7 @@ interface ThemeProviderProps {
 }
 
 const ThemeProvider = (props: ThemeProviderProps) => {
-  const userPrefersDarkMode = Appearance.getColorScheme() === 'light';
+  const userPrefersDarkMode = Appearance.getColorScheme() === 'dark';
   const [theme, setTheme] = useState<ThemeType>(
     userPrefersDarkMode ? themes.dark : themes.light,
   );

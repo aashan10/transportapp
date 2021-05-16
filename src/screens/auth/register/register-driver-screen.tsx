@@ -1,14 +1,25 @@
 import React, {useState} from 'react';
 import Header from '../../../components/header';
 import Button from '../../../components/button';
-import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
+import {
+  Icon,
+  IndexPath,
+  Input,
+  Layout,
+  Select,
+  SelectItem,
+  Spinner,
+  Text,
+} from '@ui-kitten/components';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import {View, Image, StyleSheet, ScrollView} from 'react-native';
-import {registerDriver} from '../../../api/requests';
-import {Picker} from '@react-native-picker/picker';
+import {View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
+import {Exception, getUrl, registerDriver} from '../../../api/requests';
+import {EMAIL_REGEX} from '../../../helpers/constants';
+import RNFS from 'react-native-fs';
+import {DRIVER_REGISTER} from '../../../api/constants';
 
 const isNull = (param: any): boolean => {
-  return param === null || param === undefined || param === '';
+  return param === null || param === undefined || param === '' || param === {};
 };
 
 const validate = ({
@@ -23,37 +34,65 @@ const validate = ({
   licensePhoto,
   blueBookPhoto,
 }: ErrorValidationState) => {
-  return {
-    name: isNull(name) ? "Name can't be empty!" : null,
-    phone: isNull(phone)
-      ? "Phone can't be empty"
-      : phone!.length < 10
-      ? 'Phone must be at least 10 digits'
-      : null,
-    password: isNull(password)
-      ? "Password can't be empty!"
-      : password!.length < 6
-      ? 'Password must be at least 6 characters!'
-      : null,
-    email: isNull(email) ? "Email can't be empty!" : null,
-    repeatPassword: isNull(repeatPassword)
-      ? "Repeat password can't be empty!"
-      : password !== repeatPassword
-      ? 'Password and repeat password must be same!'
-      : null,
-    address: isNull(address) ? "Address can't be empty!" : null,
-    vehicleType: isNull(vehicleType) ? "Vehicle Type can't be empty!" : null,
-    vehicleSize: isNull(vehicleSize)
-      ? "Vehicle size  can't be empty"
-      : vehicleSize!.length < 4
-      ? 'Vehicle must be greater than 4 wheels'
-      : null,
-
-    licensePhoto: isNull(licensePhoto) ? 'Please choose a license photo' : null,
-    blueBookPhoto: isNull(blueBookPhoto)
-      ? 'Please choose a bluebook photo'
-      : null,
+  const error: ErrorValidationState = {
+    address: null,
+    blueBookPhoto: null,
+    email: null,
+    licensePhoto: null,
+    name: null,
+    password: null,
+    phone: null,
+    repeatPassword: null,
+    vehicleSize: null,
+    vehicleType: null,
   };
+
+  if (isNull(address)) {
+    error.address = "Address can't be empty!";
+  }
+
+  if (isNull(phone)) {
+    error.phone = "Phone number can't be empty!";
+  } else if (phone && phone?.length < 10) {
+    error.phone = 'Please enter a valida phone number!';
+  }
+
+  if (isNull(password)) {
+    error.password = "Password can't be empty!";
+  } else if (password !== repeatPassword) {
+    error.password = 'Passwords do not match!';
+  }
+  if (isNull(repeatPassword)) {
+    error.repeatPassword = 'Confirm your password to continue!';
+  } else if (password !== repeatPassword) {
+    error.repeatPassword = 'Passwords do not match!';
+  }
+
+  if (isNull(name)) {
+    error.name = "Name can't be empty!";
+  }
+
+  if (!EMAIL_REGEX.test(email ?? '')) {
+    error.email = 'Please enter a valid email address!';
+  }
+
+  if (isNull(licensePhoto)) {
+    error.licensePhoto = 'Please choose a copy of your license photo!';
+  }
+
+  if (isNull(blueBookPhoto)) {
+    error.blueBookPhoto = 'Please choose a copy of your bluebook photo';
+  }
+
+  if (isNull(vehicleSize)) {
+    error.vehicleSize = 'Please choose the number of wheels of your vehicle!';
+  }
+
+  if (isNull(vehicleType)) {
+    error.vehicleType = 'Please choose the type of your vehicle!';
+  }
+
+  return error;
 };
 
 interface ErrorValidationState {
@@ -70,22 +109,20 @@ interface ErrorValidationState {
 }
 
 const RegisterDriverScreen = (props: any) => {
-  const [licensePhoto, setLicensePhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
-  const [blueBookPhoto, setBlueBookPhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
+  const [licensePhoto, setLicensePhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
+  const [blueBookPhoto, setBlueBookPhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
-  const [name, setName] = useState<string>('Aashan');
-  const [email, setEmail] = useState<string>('ashan@gmail.com');
-  const [address, setAddress] = useState<string>('Kalanki');
-  const [phone, setPhone] = useState<string>('9800000000');
-  const [vehicleSize, setSize] = useState<string>('');
-  const [vehicleType, setType] = useState<string>('');
-  const [password, setPassword] = useState<string>('Ashan@123');
-  const [repeatPassword, setRepeatPassword] = useState<string>('Ashan@123');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [vehicleSize, setSize] = useState<IndexPath>(new IndexPath(0));
+  const [vehicleType, setType] = useState<IndexPath>(new IndexPath(0));
+  const [password, setPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Partial<ErrorValidationState>>({
     name: null,
@@ -98,6 +135,9 @@ const RegisterDriverScreen = (props: any) => {
     licensePhoto: null,
     blueBookPhoto: null,
   });
+
+  const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
+  const types = ['Truck', 'Container', 'Open Truck', 'Tripper', 'Pickup'];
 
   return (
     <Layout style={{height: '100%'}}>
@@ -172,16 +212,18 @@ const RegisterDriverScreen = (props: any) => {
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 Vehicle Type
               </Text>
-              <Picker
-                selectedValue={vehicleType}
-                onValueChange={itemValue => {
-                  setType(itemValue);
+              <Select
+                value={types[vehicleType.row]}
+                selectedIndex={vehicleType}
+                onSelect={itemValue => {
+                  if (itemValue instanceof IndexPath) {
+                    setType(itemValue);
+                  }
                 }}>
-                <Picker.Item label="Truck" value="Truck" />
-                <Picker.Item label="Container" value="Container" />
-                <Picker.Item label="Open Truck" value="open Truck" />
-                <Picker.Item label="Tripper" value="Tripper" />
-              </Picker>
+                {types.map((type, index) => {
+                  return <SelectItem key={index} title={type} />;
+                })}
+              </Select>
               {error.vehicleType ? (
                 <Text status={'danger'}>{error.vehicleType}</Text>
               ) : null}
@@ -190,21 +232,18 @@ const RegisterDriverScreen = (props: any) => {
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 Vehicle Size
               </Text>
-              <Picker
-                selectedValue={vehicleSize}
-                onValueChange={itemValue => {
-                  setSize(itemValue);
+              <Select
+                selectedIndex={vehicleSize}
+                value={sizes[vehicleSize.row]}
+                onSelect={itemValue => {
+                  if (itemValue instanceof IndexPath) {
+                    setSize(itemValue);
+                  }
                 }}>
-                <Picker.Item label="Select Vehicle Wheel Count" value={''} />
-                <Picker.Item label="4" value="4" />
-                <Picker.Item label="6" value="6" />
-                <Picker.Item label="10" value="10" />
-                <Picker.Item label="12" value="12" />
-                <Picker.Item label="16" value="16" />
-                <Picker.Item label="18" value="18" />
-                <Picker.Item label="20" value="20" />
-                <Picker.Item label="22" value="22" />
-              </Picker>
+                {sizes.map((item, index) => {
+                  return <SelectItem key={index} title={item} />;
+                })}
+              </Select>
 
               {error.vehicleSize ? (
                 <Text status={'danger'}>{error.vehicleSize}</Text>
@@ -301,7 +340,6 @@ const RegisterDriverScreen = (props: any) => {
                     size={'small'}
                     onPress={async () => {
                       ImagePicker.openPicker({
-                        includeBase64: true,
                         mediaType: 'photo',
                       })
                         .then(res => {
@@ -343,7 +381,6 @@ const RegisterDriverScreen = (props: any) => {
                     size={'small'}
                     onPress={async () => {
                       ImagePicker.openPicker({
-                        includeBase64: true,
                         mediaType: 'photo',
                       })
                         .then(res => {
@@ -408,14 +445,11 @@ const RegisterDriverScreen = (props: any) => {
                 phone: phone,
                 address: address,
                 repeatPassword: repeatPassword,
-                vehicleSize: vehicleSize,
-                vehicleType: vehicleType,
-                // @ts-ignore
-                licensePhoto: licensePhoto?.data ?? null,
-                // @ts-ignore
-                blueBookPhoto: blueBookPhoto?.data ?? null,
+                vehicleSize: sizes[vehicleSize.row],
+                vehicleType: types[vehicleType.row],
+                licensePhoto: licensePhoto?.path ?? null,
+                blueBookPhoto: blueBookPhoto?.path ?? null,
               });
-              setLoading(false);
               setError(validation);
               if (
                 validation.repeatPassword !== null ||
@@ -437,27 +471,22 @@ const RegisterDriverScreen = (props: any) => {
                   address: address,
                   phone: phone,
                   password: password,
-                  vehicleSize: vehicleSize,
-                  vehicleType: vehicleType,
-                  // @ts-ignore
-                  licensePhoto: licensePhoto?.data
-                    ? 'data:' +
-                      licensePhoto.mime +
-                      ';base64,' +
-                      // @ts-ignore
-                      licensePhoto.data
-                    : '',
-                  // @ts-ignore
-                  blueBookPhoto: blueBookPhoto?.data
-                    ? 'data:' +
-                      blueBookPhoto.mime +
-                      ';base64,' +
-                      // @ts-ignore
-                      blueBookPhoto.data
-                    : '',
+                  vehicleSize: sizes[vehicleSize.row],
+                  vehicleType: types[vehicleType.row],
+                  licensePhoto: licensePhoto,
+                  blueBookPhoto: blueBookPhoto,
                 })
-                  .then()
-                  .catch()
+                  .then(res => res.json())
+                  .then(res => {
+                    console.log(res);
+                  })
+                  .catch(async err => {
+                    if (err instanceof Exception) {
+                      console.log('Response', err.response);
+                    } else {
+                      console.log(err.response);
+                    }
+                  })
                   .finally(() => {
                     setLoading(false);
                   });

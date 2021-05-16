@@ -11,9 +11,13 @@ import {
   PROFILE_NEW_PASSWORD,
   PROFILE_FORGET_PASSWORD,
   MAIL_VERIFICATION,
+  DRIVER_REGISTER,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
-import RNFS from 'react-native-fs';
+import axios, {AxiosResponse} from 'axios';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {requestLocationPermission} from '../helpers/functions';
+import Geolocation from '@react-native-community/geolocation';
 
 export const getUrl = (path: string) => {
   return BASE_URL + path;
@@ -69,7 +73,7 @@ export const createNewItemRequest = async (props: {
   to: string;
   longitude: number;
   type: string;
-  size: number;
+  size: string;
 }) => {
   const response = await fetch(getUrl(VENDOR_ITEM_UPLOAD), {
     headers: getHeaders({
@@ -127,31 +131,59 @@ export const registerDriver = async (props: {
   vehicleSize: string;
   vehicleType: string;
   address: string;
-  blueBookPhoto: string;
-  licensePhoto: string;
+  blueBookPhoto: ImageOrVideo | undefined;
+  licensePhoto: ImageOrVideo | undefined;
 }) => {
-  RNFS.writeFile(
-    RNFS.DownloadDirectoryPath + '/request.json',
-    JSON.stringify(props),
-    'utf8',
-  )
-    .then(() => {
-      console.log('Logged Request');
-    })
-    .catch(e => {
-      console.log('Logging error', e);
+  const filename = (fullPath: string | undefined) => {
+    if (fullPath === undefined) {
+      return '';
+    }
+    const path = fullPath.split('/');
+    return path[path.length - 1];
+  };
+
+  const formData = new FormData();
+  formData.append('name', props.name);
+  formData.append('phone', props.phone);
+  formData.append('email', props.email);
+  formData.append('password', props.password);
+  try {
+    await requestLocationPermission();
+    Geolocation.getCurrentPosition(coordinates => {
+      formData.append('driverCurrentLat', coordinates.coords.latitude);
+      formData.append('driverCurrentLng', coordinates.coords.longitude);
     });
-  const response = await fetch(getUrl(''), {
-    headers: getHeaders({'auth-token': sharedData.user.token}),
-    method: 'POST',
-    body: JSON.stringify(props),
+  } catch (e) {
+    formData.append('driverCurrentLat', '');
+    formData.append('driverCurrentLng', '');
+  }
+  formData.append('impDocs[0]', {
+    type: props.licensePhoto?.mime,
+    uri: props.licensePhoto?.path,
+    name: filename(props.licensePhoto?.path),
+  });
+  formData.append('impDocs[1]', {
+    type: props.blueBookPhoto?.mime,
+    uri: props.blueBookPhoto?.path,
+    name: filename(props.blueBookPhoto?.path),
   });
 
-  if (response.ok) {
-    return await response.json();
-  } else {
-    throw new Exception(response);
+  // const response = await fetch(getUrl(DRIVER_REGISTER), {
+  //   headers: getHeaders({'Content-Type': 'multipart/form-data'}),
+  //   method: 'POST',
+  //   body: formData,
+  // });
+  // if (response.ok) {
+  //   return await response.json();
+  // } else {
+  //   throw new Exception(response);
+  // }
+
+  const response = await axios.post(getUrl(DRIVER_REGISTER), formData);
+  if (response.status === 200) {
+    return response.data;
   }
+  throw new Exception(response);
 };
 
 export const registerVendor = async (data: {
@@ -248,5 +280,5 @@ export const verifyAccount = async ({token}: {token: string}) => {
 };
 
 export class Exception {
-  constructor(public response: Response) {}
+  constructor(public response: Response | AxiosResponse<any>) {}
 }
