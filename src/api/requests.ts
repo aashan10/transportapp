@@ -14,7 +14,6 @@ import {
   DRIVER_REGISTER,
 } from './constants';
 import {sharedData} from '../contexts/user-context';
-import axios, {AxiosResponse} from 'axios';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
@@ -144,44 +143,43 @@ export const registerDriver = async (props: {
 
   const formData = new FormData();
   formData.append('name', props.name);
-  formData.append('phone', props.phone);
   formData.append('email', props.email);
+  formData.append('address', props.address);
+  formData.append('currentAddress', props.address);
+  formData.append('phoneNumber', props.phone);
   formData.append('password', props.password);
   try {
-    await requestLocationPermission();
-    Geolocation.getCurrentPosition(coordinates => {
-      formData.append('driverCurrentLat', coordinates.coords.latitude);
-      formData.append('driverCurrentLng', coordinates.coords.longitude);
-    });
+    if (await requestLocationPermission()) {
+      Geolocation.getCurrentPosition(coordinates => {
+        formData.append('driverCurrentLat', coordinates.coords.latitude);
+        formData.append('driverCurrentLng', coordinates.coords.longitude);
+      });
+    } else {
+      throw new Error();
+    }
   } catch (e) {
     formData.append('driverCurrentLat', '');
     formData.append('driverCurrentLng', '');
   }
-  formData.append('impDocs[0]', {
+  formData.append('impDocs', {
     type: props.licensePhoto?.mime,
     uri: props.licensePhoto?.path,
     name: filename(props.licensePhoto?.path),
   });
-  formData.append('impDocs[1]', {
+  formData.append('impDocs', {
     type: props.blueBookPhoto?.mime,
     uri: props.blueBookPhoto?.path,
     name: filename(props.blueBookPhoto?.path),
   });
-
-  // const response = await fetch(getUrl(DRIVER_REGISTER), {
-  //   headers: getHeaders({'Content-Type': 'multipart/form-data'}),
-  //   method: 'POST',
-  //   body: formData,
-  // });
-  // if (response.ok) {
-  //   return await response.json();
-  // } else {
-  //   throw new Exception(response);
-  // }
-
-  const response = await axios.post(getUrl(DRIVER_REGISTER), formData);
-  if (response.status === 200) {
-    return response.data;
+  const response = await fetch(getUrl(DRIVER_REGISTER), {
+    method: 'POST',
+    body: formData,
+    headers: getHeaders({
+      'Content-Type': 'multipart/form-data',
+    }),
+  });
+  if (response.ok) {
+    return await response.json();
   }
   throw new Exception(response);
 };
@@ -280,5 +278,5 @@ export const verifyAccount = async ({token}: {token: string}) => {
 };
 
 export class Exception {
-  constructor(public response: Response | AxiosResponse<any>) {}
+  constructor(public response: Response) {}
 }

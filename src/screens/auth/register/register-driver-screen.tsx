@@ -476,15 +476,26 @@ const RegisterDriverScreen = (props: any) => {
                   licensePhoto: licensePhoto,
                   blueBookPhoto: blueBookPhoto,
                 })
-                  .then(res => res.json())
                   .then(res => {
-                    console.log(res);
+                    Alert.alert(
+                      'Success',
+                      res.success ??
+                        'Registration is completed. Please wait for admin approval!',
+                    );
+                    props.navigation.navigate('login');
                   })
                   .catch(async err => {
                     if (err instanceof Exception) {
-                      console.log('Response', err.response);
+                      Alert.alert(
+                        'Error',
+                        (await err.response.json()).message ??
+                          'There was an error!',
+                      );
                     } else {
-                      console.log(err.response);
+                      Alert.alert(
+                        'Error',
+                        'There was an error processing the request!',
+                      );
                     }
                   })
                   .finally(() => {
