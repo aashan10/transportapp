@@ -28,11 +28,12 @@ interface RequestInterface {
   containerSize: string;
   containerType: string;
   quantity: string;
-  driverAccepted?: boolean;
   vendorId: string;
   latitudeOfDeliveryFrom: number;
   longitudeOfDeliveryFrom: number;
   acceptedAt: undefined | string;
+  itemReachedAt: string | false;
+  vendorPhoneNumber?: string;
 }
 
 const renderAnnotations = ({
@@ -123,7 +124,6 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
   });
 
   const setCurrentCoordinates = useCallback(throttle(({ lat, lng }: { lat: number, lng: number }) => {
-    console.log({ lat, lng });
     setCurrentLocation({ latitude: lat, longitude: lng });
   }, 3000), []);
 
@@ -153,18 +153,32 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
     vendorId: '',
     latitudeOfDeliveryFrom: 85.31853583740946,
     longitudeOfDeliveryFrom: 27.701739466949107,
-    acceptedAt: undefined
+    acceptedAt: undefined,
+    itemReachedAt: false,
   });
   const [isVendor] = useState<boolean>(user.role === 'vendor');
   const [price, setPrice] = useState<string | number>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isDelivered, setDelivered] = useState<boolean>(false);
   useEffect(() => {
+    console.log(route.params.item);
     setRequest(route.params.item);
     const finalPrice =
       request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor ?? '';
     setPrice(finalPrice);
-    setDelivered(request.acceptedAt !== undefined);
+    switch(request.itemReachedAt) {
+      case undefined:
+        setDelivered(false);
+        break;
+      case null: 
+        setDelivered(false);
+        break;
+      case false:
+        setDelivered(false);
+        break;
+      default:
+        setDelivered(true);
+    }
   }, [request.deliveryPriceByAdmin, route.params]);
 
   return (
@@ -224,6 +238,16 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
             </Text>
             <Text style={{ flex: 2 }}>{request.containerType}</Text>
           </ListItem>
+
+          {request.vendorPhoneNumber ? (
+            <ListItem
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+              Vendor Phone Number
+            </Text>
+            <Text style={{ flex: 2 }}>{request.vendorPhoneNumber}</Text>
+          </ListItem>
+          ) : null}
           <ListItem
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
@@ -318,7 +342,7 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
           Cancel
         </Button>
         <Button
-          disabled={isVendor || loading || isDelivered}
+          disabled={isDelivered || loading || (request.acceptedAt !== null && isVendor)}
           style={{ minWidth: 150 }}
           onPress={() => {
             if (!isVendor) {
@@ -333,6 +357,7 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
                  }).finally(() => { 
                    setLoading(false);
                  });
+
               } else {
                 acceptDeliveryRequest({
                   vendorId: request.vendorId,
@@ -342,9 +367,12 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
                     console.log(response);
                     Alert.alert(
                       'Success',
-                      'You requested for delivering the item! Please wait for vendor confirmation',
+                      'You requested for delivering the item! Please check the detail of vendor in my pickups page',
                     );
-                  })
+                navigation.navigate('my Pickups');
+
+                  } 
+                  )
                   .catch(async (err: Exception) => {
                     try {
                       const { message } = await err.response.json();
@@ -358,18 +386,14 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
                   });
               }
             }
-          }}
+            
+          }
+        }
           accessoryLeft={() => {
             return <>{loading ? <Spinner size={'small'} /> : null}</>;
           }}>
-          {loading
-            ? 'Loading'
-            : isVendor
-              ? request.driverAccepted
-                ? 'Accepted By Driver'
-                : 'Pending'
-              : (
-                request.acceptedAt ? 'Delivery Completed' : 'Accept Request'
+              {request.itemReachedAt ? 'Completed' : (
+                isVendor ? (request.acceptedAt ? 'Accepted By Driver' : 'Pending') : (request.acceptedAt ? 'Complete Delivery' : 'Accept Delivery Request')
               )}
         </Button>
       </Layout>

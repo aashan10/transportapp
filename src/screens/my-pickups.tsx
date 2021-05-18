@@ -44,14 +44,16 @@ const MyPickups = ({ navigation }: any) => {
             .then(feeds => {
               if (feeds.message) {
                 Alert.alert('Message', feeds.message);
-              }
-              console.log(feeds);
-      
+              }      
               if (feeds.acceptedItem) {
                 setPosts(feeds.acceptedItem);
+              } else {
+                setPosts([]);
               }
             })
-            .catch(err => { })
+            .catch(err => {
+              setPosts([]);
+             })
             .finally(() => {
               setLoading(false);
             });
