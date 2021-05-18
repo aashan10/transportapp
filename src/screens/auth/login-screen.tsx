@@ -7,6 +7,7 @@ import Button from '../../components/button';
 import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
 import {useFocusEffect} from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -29,6 +30,7 @@ const LoginScreen = (props: any) => {
   return (
     <Layout style={style.container}>
       <View style={style.centeredContent}>
+        <ScrollView>
         <Text
           style={{
             marginBottom: 100,
@@ -139,6 +141,7 @@ const LoginScreen = (props: any) => {
             {'Forgot Password'}
           </Button>
         </View>
+        </ScrollView>
       </View>
     </Layout>
   );

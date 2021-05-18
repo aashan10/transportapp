@@ -1,24 +1,70 @@
-import React from 'react';
-import {Text, Layout} from '@ui-kitten/components';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, Layout } from '@ui-kitten/components';
 import Header from '../components/header';
+import UserContext from '../contexts/user-context';
+import LocalizationContext from '../contexts/localization-context';
+import { getDriverItemsDetail } from '../api/requests';
+import { Alert, ScrollView } from 'react-native';
+import DeliveryRequest from '../components/delivery-request';
+import RefreshControl from '../components/refresh-control';
 
-const MyPickups = ({navigation}: any) => {
+const MyPickups = ({ navigation }: any) => {
+  const [posts, setPosts] = useState<Array<any>>([]);
+  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { currentLanguage } = useContext(LocalizationContext);
+  useEffect(() => {
+    setLoading(true);
+    getDriverItemsDetail()
+      .then(feeds => {
+        if (feeds.message) {
+          Alert.alert('Message', feeds.message);
+        }
+        console.log(feeds);
+
+        if (feeds.detail) {
+          setPosts(feeds.detail);
+        }
+      })
+      .catch(err => {
+        setPosts([]);
+       })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [user.token, navigation]);
   return (
-    <Layout style={{height: '100%'}} level={'4'}>
+    <Layout style={{ height: '100%' }} level={'4'}>
       <Layout>
         <Header title={'My Pickups'} navigation={navigation} />
       </Layout>
-      <Layout
-        style={{
-          flex: 1,
-          borderRadius: 10,
-          margin: 5,
-          padding: 10,
-          overflow: 'hidden',
-        }}
-        level={'1'}>
-        <Text style={{fontWeight: 'bold'}}>My Pickups</Text>
-      </Layout>
+      <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={() => {
+          setLoading(true);
+          getDriverItemsDetail()
+            .then(feeds => {
+              if (feeds.message) {
+                Alert.alert('Message', feeds.message);
+              }      
+              if (feeds.acceptedItem) {
+                setPosts(feeds.acceptedItem);
+              } else {
+                setPosts([]);
+              }
+            })
+            .catch(err => {
+              setPosts([]);
+             })
+            .finally(() => {
+              setLoading(false);
+            });
+         }} />} style={{ height: '100%', flex: 1, margin: 5 }}>
+          {
+            posts.map((post, key) => {
+              return <DeliveryRequest key={key} request={post} navigation={navigation} />
+            })
+          }
+        </ScrollView>
+
     </Layout>
   );
 };

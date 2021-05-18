@@ -22,6 +22,7 @@ const Header = ({navigation, title, style, back}: any) => {
           <Button
             appearance={'ghost'}
             onPress={() => {
+              console.log('Clicked');
               if (shouldGoBack) {
                 navigation.goBack();
               } else {
