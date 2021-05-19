@@ -7,7 +7,7 @@ import Button from '../../components/button';
 import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
 import {useFocusEffect} from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -41,107 +41,106 @@ const LoginScreen = (props: any) => {
           {currentLanguage.appName}
         </Text>
         <ScrollView>
-
-        <Input
-          style={style.spacedComponent}
-          value={username}
-          onChangeText={text => setUsername(text)}
-          placeholder={currentLanguage.username}
-        />
-        <Input
-          style={[style.spacedComponent, {marginBottom: 50}]}
-          value={password}
-          secureTextEntry={!showPassword}
-          onChangeText={text => setPassword(text)}
-          placeholder={currentLanguage.password}
-          accessoryRight={() => {
-            return (
-              <Button
-                appearance={'ghost'}
-                size={'small'}
-                onPress={() => {
-                  setShowPassword(!showPassword);
-                }}
-                accessoryLeft={iconProps => {
-                  return (
-                    <Icon
-                      {...iconProps}
-                      name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-                    />
-                  );
-                }}
-              />
-            );
-          }}
-        />
-        <Button
-          style={style.spacedComponent}
-          appearance={'primary'}
-          onPress={() => {
-            setLoading(true);
-            userLogin({username: username, password: password})
-              .then(response => {
-                if (setUser) {
-                  setUser({token: response.token});
-                  props.navigation.navigate('home');
-                }
-              })
-              .catch(async (err: Exception) => {
-                try {
-                  const {response} = err;
-                  if (response.status >= 400 && response.status < 500) {
-                    ToastAndroid.show((await response.json()).message, 5000);
-                  } else if (response.status >= 500) {
-                    ToastAndroid.show(
-                      'A problem occurred in server. Please try again later!',
-                      5000,
+          <Input
+            style={style.spacedComponent}
+            value={username}
+            onChangeText={text => setUsername(text)}
+            placeholder={currentLanguage.username}
+          />
+          <Input
+            style={[style.spacedComponent, {marginBottom: 50}]}
+            value={password}
+            secureTextEntry={!showPassword}
+            onChangeText={text => setPassword(text)}
+            placeholder={currentLanguage.password}
+            accessoryRight={() => {
+              return (
+                <Button
+                  appearance={'ghost'}
+                  size={'small'}
+                  onPress={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                  accessoryLeft={iconProps => {
+                    return (
+                      <Icon
+                        {...iconProps}
+                        name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                      />
                     );
+                  }}
+                />
+              );
+            }}
+          />
+          <Button
+            style={style.spacedComponent}
+            appearance={'primary'}
+            onPress={() => {
+              setLoading(true);
+              userLogin({username: username, password: password})
+                .then(response => {
+                  if (setUser) {
+                    setUser({token: response.token});
+                    props.navigation.navigate('home');
                   }
-                } catch (e) {
-                  ToastAndroid.show('No internet connection', 5000);
-                }
-              })
-              .finally(() => {
-                setLoading(false);
-              });
-          }}
-          disabled={loading}
-          accessoryLeft={() => {
-            if (!loading) {
-              return <View />;
-            }
-            return <Spinner size={'small'} style={{borderColor: 'white'}} />;
-          }}>
-          {loading ? undefined : currentLanguage.login}
-        </Button>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Button
-            onPress={() => {
-              props.navigation.navigate('register');
+                })
+                .catch(async (err: Exception) => {
+                  try {
+                    const {response} = err;
+                    if (response.status >= 400 && response.status < 500) {
+                      ToastAndroid.show((await response.json()).message, 5000);
+                    } else if (response.status >= 500) {
+                      ToastAndroid.show(
+                        'A problem occurred in server. Please try again later!',
+                        5000,
+                      );
+                    }
+                  } catch (e) {
+                    ToastAndroid.show('No internet connection', 5000);
+                  }
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
             }}
-            style={style.spacedComponent}
-            appearance={'ghost'}>
-            {currentLanguage.registerHere}
+            disabled={loading}
+            accessoryLeft={() => {
+              if (!loading) {
+                return <View />;
+              }
+              return <Spinner size={'small'} style={{borderColor: 'white'}} />;
+            }}>
+            {loading ? undefined : currentLanguage.login}
           </Button>
-          <Button
-            onPress={() => {
-              props.navigation.navigate('verifyAccount');
-            }}
-            style={style.spacedComponent}
-            appearance={'ghost'}>
-            {'Verify Email'}
-          </Button>
-        </View>
-        <View>
-          <Button
-            onPress={() => {
-              props.navigation.navigate('forgotPassword');
-            }}
-            style={style.spacedComponent}
-            appearance={'ghost'}>
-            {'Forgot Password'}
-          </Button>
-        </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Button
+              onPress={() => {
+                props.navigation.navigate('register');
+              }}
+              style={style.spacedComponent}
+              appearance={'ghost'}>
+              {currentLanguage.registerHere}
+            </Button>
+            <Button
+              onPress={() => {
+                props.navigation.navigate('verifyAccount');
+              }}
+              style={style.spacedComponent}
+              appearance={'ghost'}>
+              {'Verify Email'}
+            </Button>
+          </View>
+          <View>
+            <Button
+              onPress={() => {
+                props.navigation.navigate('forgotPassword');
+              }}
+              style={style.spacedComponent}
+              appearance={'ghost'}>
+              {'Forgot Password'}
+            </Button>
+          </View>
         </ScrollView>
       </View>
     </Layout>

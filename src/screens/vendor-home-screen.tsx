@@ -27,7 +27,7 @@ const VendorHomeScreen = ({navigation}: any) => {
           setPosts(feeds.detail);
         }
       })
-      .catch(err => {})
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });

@@ -4,7 +4,11 @@ import Header from '../../../components/header';
 import {Alert, View} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import {Exception, forgotPassword, resendVerificationEmail} from '../../../api/requests';
+import {
+  Exception,
+  forgotPassword,
+  resendVerificationEmail,
+} from '../../../api/requests';
 
 interface VerifyAccountScreenProps {
   navigation: any;

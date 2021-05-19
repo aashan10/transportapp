@@ -20,7 +20,7 @@ const HomeScreen = ({navigation}: any) => {
       .then(feeds => {
         setPosts(feeds.totalItem);
       })
-      .catch(err => {})
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });

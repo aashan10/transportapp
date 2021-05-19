@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {createContext, useEffect, useState} from 'react';
 import {userInfo} from '../api/requests';
 import {ToastAndroid} from 'react-native';
@@ -46,7 +47,6 @@ export const UserContext = createContext<UserContextState>({
     phoneNumber: '',
     role: '',
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setUser: (user: Partial<UserInterface>) => {},
 });
 

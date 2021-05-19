@@ -15,16 +15,16 @@ import {
   DRIVER_REGISTER,
   DRIVER_ITEM_REACHED,
 } from './constants';
-import { sharedData } from '../contexts/user-context';
-import { ImageOrVideo } from 'react-native-image-crop-picker';
-import { requestLocationPermission } from '../helpers/functions';
+import {sharedData} from '../contexts/user-context';
+import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
 
 export const getUrl = (path: string) => {
   return BASE_URL + path;
 };
 
-const getHeaders = (headers: { [text: string]: string }) => {
+const getHeaders = (headers: {[text: string]: string}) => {
   return {
     'Content-Type': 'application/json',
     ...headers,
@@ -57,7 +57,7 @@ export const userLogin = async ({
 export const userInfo = async (token: string) => {
   const response = await fetch(getUrl(USER_PROFILE), {
     method: 'GET',
-    headers: getHeaders({ 'auth-token': token }),
+    headers: getHeaders({'auth-token': token}),
   });
   if (response.ok) {
     return await response.json();
@@ -102,7 +102,7 @@ export const createNewItemRequest = async (props: {
 
 export const getDriverFeeds = async () => {
   const response = await fetch(getUrl(DRIVER_EXPLORE), {
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
+    headers: getHeaders({'auth-token': sharedData.user.token}),
     method: 'GET',
   });
 
@@ -114,7 +114,7 @@ export const getDriverFeeds = async () => {
 
 export const getVendorItemsDetail = async () => {
   const response = await fetch(getUrl(VENDOR_ITEM_DETAIL), {
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
+    headers: getHeaders({'auth-token': sharedData.user.token}),
     method: 'GET',
   });
 
@@ -126,7 +126,7 @@ export const getVendorItemsDetail = async () => {
 
 export const getDriverItemsDetail = async () => {
   const response = await fetch(getUrl(DRIVER_ITEM_ACCEPTED_LIST), {
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
+    headers: getHeaders({'auth-token': sharedData.user.token}),
     method: 'GET',
   });
 
@@ -207,7 +207,7 @@ export const registerVendor = async (data: {
   phoneNumber: string;
 }) => {
   const response = await fetch(getUrl(VENDOR_REGISTER), {
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
+    headers: getHeaders({'auth-token': sharedData.user.token}),
     body: JSON.stringify(data),
     method: 'POST',
   });
@@ -224,7 +224,7 @@ export const acceptDeliveryRequest = async (payload: {
   vendorId: string;
 }) => {
   const response = await fetch(getUrl(DRIVER_DELIVERY_ACCEPT), {
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
+    headers: getHeaders({'auth-token': sharedData.user.token}),
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -238,7 +238,7 @@ export const acceptDeliveryRequest = async (payload: {
 export const forgotPassword = async (email: string) => {
   const response = await fetch(getUrl(PROFILE_FORGET_PASSWORD), {
     headers: getHeaders({}),
-    body: JSON.stringify({ email: email }),
+    body: JSON.stringify({email: email}),
     method: 'POST',
   });
 
@@ -248,11 +248,11 @@ export const forgotPassword = async (email: string) => {
   throw new Exception(response);
 };
 
-export const resendVerificationEmail = async ({ email }: { email: string }) => {
+export const resendVerificationEmail = async ({email}: {email: string}) => {
   const response = await fetch(getUrl(MAIL_RESEND), {
     headers: getHeaders({}),
     method: 'POST',
-    body: JSON.stringify({ email: email }),
+    body: JSON.stringify({email: email}),
   });
 
   if (response.ok) {
@@ -278,10 +278,10 @@ export const changePassword = async (data: {
   throw new Exception(response);
 };
 
-export const verifyAccount = async ({ token }: { token: string }) => {
+export const verifyAccount = async ({token}: {token: string}) => {
   const response = await fetch(getUrl(MAIL_VERIFICATION), {
     headers: getHeaders({}),
-    body: JSON.stringify({ token: token }),
+    body: JSON.stringify({token: token}),
     method: 'POST',
   });
 
@@ -291,19 +291,25 @@ export const verifyAccount = async ({ token }: { token: string }) => {
   throw new Exception(response);
 };
 
-export const itemReached = async ({ itemId, vendorId }: { itemId: string, vendorId: string }) => {
+export const itemReached = async ({
+  itemId,
+  vendorId,
+}: {
+  itemId: string;
+  vendorId: string;
+}) => {
   const response = await fetch(getUrl(DRIVER_ITEM_REACHED), {
     method: 'POST',
-    headers: getHeaders({ 'auth-token': sharedData.user.token }),
-    body: JSON.stringify({ itemId: itemId, vendorId: vendorId })
+    headers: getHeaders({'auth-token': sharedData.user.token}),
+    body: JSON.stringify({itemId: itemId, vendorId: vendorId}),
   });
 
-  if(response.ok) {
+  if (response.ok) {
     return await response.json();
   }
   throw new Exception(response);
-}
+};
 
 export class Exception {
-  constructor(public response: Response) { }
+  constructor(public response: Response) {}
 }

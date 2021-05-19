@@ -4,7 +4,6 @@ import * as eva from '@eva-design/eva';
 import {Appearance} from 'react-native';
 import {themes} from '../themes/themes';
 
-
 interface ThemeContextState {
   theme: ThemeType;
   toggleTheme: () => void;

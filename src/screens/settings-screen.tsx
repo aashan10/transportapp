@@ -1,17 +1,15 @@
-import * as eva from '@eva-design/eva';
 import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import Button from '../components/button';
 import Header from '../components/header';
 import {Layout, ListItem, Text} from '@ui-kitten/components';
 import {ThemeContext} from '../contexts/theme-context';
-import LocalizationContext from '../contexts/localization-context';
+// import LocalizationContext from '../contexts/localization-context';
 import {themes} from '../themes/themes';
-import English from '../languages/en';
 
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
-  const {currentLanguage, setLanguage} = useContext(LocalizationContext);
+  // const {currentLanguage, setLanguage} = useContext(LocalizationContext);
 
   return (
     <Layout style={{height: '100%'}}>

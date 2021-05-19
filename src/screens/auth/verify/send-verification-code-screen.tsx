@@ -3,7 +3,7 @@ import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
 import {Alert, View} from 'react-native';
 import Button from '../../../components/button';
-import {changePassword, Exception, verifyAccount} from '../../../api/requests';
+import {verifyAccount} from '../../../api/requests';
 
 interface SendVerificationCodeScreenInterface {
   navigation: any;
@@ -96,16 +96,13 @@ const SendVerificationCodeScreen = ({
                 Alert.alert('Success', 'The account has been verified!');
                 navigation.navigate('LoginScreen');
               })
-              .catch(err => {
+              .catch(() => {
                 Alert.alert('Error', 'There was a problem with verification!');
               })
               .finally(() => {
                 setLoading(false);
               });
-              
-          }
-          
-        }
+          }}
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
