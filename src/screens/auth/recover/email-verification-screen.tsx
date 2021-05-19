@@ -18,8 +18,9 @@ const EmailVerificationScreen = ({
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(
+    false,
+  );
   const [showToken, setShowToken] = useState<boolean>(false);
 
   return (

@@ -1,7 +1,7 @@
 import {Language} from './language';
 
 const Nepali: Language = {
-  appName: 'नेपाल ट्रान्सपोर्ट कम्पनि',
+  appName: 'जय माता राधिका ट्रान्सपोर्ट',
   login: 'लगइन गर्नुहोस',
   registerHere: 'रजिस्टर गर्नुहोस',
   welcome: 'नमस्कार',
@@ -21,9 +21,33 @@ const Nepali: Language = {
   request: 'अनुरोध',
   username: 'फोन नम्बर',
   password: 'पासवर्ड',
-  itemName: '',
+  itemName: 'सामानको  नाम',
   registerAsDriver: '',
   registerAsVendor: '',
+  verifyEmail: 'ईमेल प्रमाणित गर्नुहोस्',
+  forgotPassword: 'पासवर्ड भुल्नु भयो',
+  loginAlert: 'सर्वरमा समस्या आयो, फेरी प्रयास गर्नु होला ।',
+  containerType: 'गाडीको प्रकार',
+  containerSize: 'टायरको संख्या',
+  pickUp: 'सामान भएको स्थान',
+  Drop: 'छोड्ने ठाउँ',
+  quantity: 'सामानको मात्रा',
+  Price: 'मूल्य',
+  phone: 'फोन नम्बर',
+  location: 'पिकअप स्थान',
+  yourLocation: 'तपाईंको हालको स्थान',
+  cancel: 'रद्द गर्नुहोस्',
+  requestDetail: 'अनुरोध विवरण',
+  pending: 'पूरा भएको छैन',
+  createItems: 'नयाँ अनुरोध सिर्जना गर्नुहोस्',
+  detail: 'विस्तृत रूपमा हेर्नुहोस्',
+  itemsToDelivery: 'वटा समान',
+  night: 'राती मोड',
+  setting: 'सेटिंग्स',
+  language: 'भाषा',
+  vendorHome: '',
+  driverHome: '',
+  myPickups: ''
 };
 
 export default Nepali;

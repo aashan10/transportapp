@@ -17,6 +17,8 @@ import Geolocation, {
 } from '@react-native-community/geolocation';
 import {requestLocationPermission} from '../helpers/functions';
 import {createNewItemRequest} from '../api/requests';
+import LocalizationContext from '../contexts/localization-context';
+import {useContext} from 'react';
 
 interface ErrorState {
   name: string | null;
@@ -64,6 +66,8 @@ const validate = ({name, to, from, qty, price, type, size}: ErrorState) => {
 };
 
 const CreateItem = ({navigation}: any) => {
+  const {currentLanguage} = useContext(LocalizationContext);
+
   const [name, setName] = useState<string>('');
   const [to, setTo] = useState<string>('');
   const [from, setFrom] = useState<string>('');
@@ -72,6 +76,7 @@ const CreateItem = ({navigation}: any) => {
   const [type, setType] = useState<IndexPath | Array<IndexPath>>(
     new IndexPath(0),
   );
+
   const [size, setSize] = useState<IndexPath | Array<IndexPath>>(
     new IndexPath(0),
   );
@@ -95,14 +100,14 @@ const CreateItem = ({navigation}: any) => {
         <Header
           back={true}
           navigation={navigation}
-          title={'Create New Request'}
+          title={currentLanguage.createItems}
         />
       </Layout>
       <Layout style={{flex: 1, margin: 5, borderRadius: 10}} level={'1'}>
         <ScrollView style={{flex: 1, padding: 10, paddingVertical: 20}}>
           <View style={{marginBottom: 15}}>
             <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Item Name
+              {currentLanguage.itemName}
             </Text>
             <Input
               onChangeText={text => {
@@ -116,7 +121,7 @@ const CreateItem = ({navigation}: any) => {
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Pickup From
+              {currentLanguage.pickUp}
             </Text>
             <Input
               value={from}
@@ -130,7 +135,9 @@ const CreateItem = ({navigation}: any) => {
             {error?.from ? <Text status={'danger'}>{error.from}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Drop To</Text>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+              {currentLanguage.Drop}
+            </Text>
             <Input
               value={to}
               onChangeText={text => {
@@ -144,7 +151,7 @@ const CreateItem = ({navigation}: any) => {
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Container Type
+              {currentLanguage.containerType}
             </Text>
             <Select
               selectedIndex={type}
@@ -164,7 +171,7 @@ const CreateItem = ({navigation}: any) => {
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Vehicle Size
+              {currentLanguage.containerSize}
             </Text>
             <Select
               selectedIndex={size}
@@ -183,7 +190,9 @@ const CreateItem = ({navigation}: any) => {
             {error?.size ? <Text status={'danger'}>{error.size}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Quantity</Text>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+              {currentLanguage.quantity}
+            </Text>
             <Input
               value={isNaN(qty) ? undefined : qty.toString()}
               keyboardType={'numeric'}
@@ -197,7 +206,9 @@ const CreateItem = ({navigation}: any) => {
             {error?.qty ? <Text status={'danger'}>{error.qty}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Price</Text>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+              {currentLanguage.price}
+            </Text>
             <Input
               value={isNaN(price) ? undefined : price.toString()}
               keyboardType={'numeric'}
@@ -226,7 +237,7 @@ const CreateItem = ({navigation}: any) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           onPress={async () => {
@@ -302,7 +313,7 @@ const CreateItem = ({navigation}: any) => {
           }}
           disabled={loading}
           style={{minWidth: 150}}>
-          Create New Request
+          {currentLanguage.createItems}
         </Button>
       </Layout>
     </Layout>

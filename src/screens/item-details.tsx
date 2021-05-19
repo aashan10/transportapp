@@ -10,6 +10,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {requestLocationPermission} from '../helpers/functions';
 import {MAPBOX_API_KEY} from '../api/constants';
 import {throttle} from 'underscore';
+import LocalizationContext from '../contexts/localization-context';
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
 interface ItemDetailsProps {
@@ -117,6 +118,7 @@ const renderPath = ({
 
 const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const {user} = useContext(UserContext);
+  const {currentLanguage} = useContext(LocalizationContext);
 
   const [location, setCurrentLocation] = useState<Coordinates>({
     longitude: 0,
@@ -197,7 +199,11 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   return (
     <Layout level={'4'} style={{height: '100%'}}>
       <Layout style={{width: '100%'}}>
-        <Header back={true} navigation={navigation} title={'Request Details'} />
+        <Header
+          back={true}
+          navigation={navigation}
+          title={currentLanguage.requestDetail}
+        />
       </Layout>
       <Layout
         style={{
@@ -212,42 +218,42 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Delivery From
+              {currentLanguage.pickUp}
             </Text>
             <Text style={{flex: 2}}>{request.deliveryFrom}</Text>
           </ListItem>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Delivery To
+              {currentLanguage.Drop}
             </Text>
             <Text style={{flex: 2}}>{request.deliveryTo}</Text>
           </ListItem>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Price
+              {currentLanguage.price}
             </Text>
             <Text style={{flex: 2}}>Rs. {price}</Text>
           </ListItem>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Item Name
+              {currentLanguage.itemName}
             </Text>
             <Text style={{flex: 2}}>{request.itemName}</Text>
           </ListItem>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Quantity
+              {currentLanguage.quantity}
             </Text>
             <Text style={{flex: 2}}>{request.quantity}</Text>
           </ListItem>
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Vehicle Type
+              {currentLanguage.containerType}
             </Text>
             <Text style={{flex: 2}}>{request.containerType}</Text>
           </ListItem>
@@ -256,7 +262,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-                Vendor Phone Number
+                {currentLanguage.phone}
               </Text>
               <Text style={{flex: 2}}>{request.vendorPhoneNumber}</Text>
             </ListItem>
@@ -264,7 +270,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              Vehicle Size
+              {currentLanguage.containerSize}
             </Text>
             <Text style={{flex: 2}}>{request.containerSize}</Text>
           </ListItem>
@@ -284,7 +290,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               paddingBottom: 10,
             }}
             status={'primary'}>
-            Pickup Location
+            {currentLanguage.pickupLocation}
           </Text>
           <View
             style={{
@@ -310,7 +316,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   }}
                 />
               </View>
-              <Text>Your Current Location</Text>
+              <Text>{currentLanguage.yourLocation}</Text>
             </View>
             <View>
               <View
@@ -330,7 +336,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   }}
                 />
               </View>
-              <Text>Pickup Location</Text>
+              <Text>{currentLanguage.pickupLocation}</Text>
             </View>
           </View>
           <Layout style={{borderRadius: 10, overflow: 'hidden'}}>
@@ -385,7 +391,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           disabled={
@@ -451,7 +457,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             : isVendor
             ? request.acceptedAt
               ? 'Accepted By Driver'
-              : 'Pending'
+              : '{currentLanguage.pending}'
             : request.acceptedAt
             ? 'Complete Delivery'
             : 'Accept Delivery Request'}

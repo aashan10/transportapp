@@ -92,7 +92,8 @@ const LoginScreen = (props: any) => {
                       ToastAndroid.show((await response.json()).message, 5000);
                     } else if (response.status >= 500) {
                       ToastAndroid.show(
-                        'A problem occurred in server. Please try again later!',
+                        currentLanguage.loginAlert,
+
                         5000,
                       );
                     }
@@ -128,7 +129,7 @@ const LoginScreen = (props: any) => {
               }}
               style={style.spacedComponent}
               appearance={'ghost'}>
-              {'Verify Email'}
+              {currentLanguage.verifyEmail}
             </Button>
           </View>
           <View>
@@ -138,7 +139,7 @@ const LoginScreen = (props: any) => {
               }}
               style={style.spacedComponent}
               appearance={'ghost'}>
-              {'Forgot Password'}
+              {currentLanguage.forgotPassword}
             </Button>
           </View>
         </ScrollView>

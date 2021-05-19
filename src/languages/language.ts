@@ -25,6 +25,30 @@ export interface Language {
   itemName: string;
   username: string;
   password: string;
+  verifyEmail: string;
+  forgotPassword: string;
+  loginAlert: string;
+  containerType: string;
+  containerSize: string;
+  pickUp: string;
+  Drop: string;
+  quantity: string;
+  Price: string;
+  phone: string;
+  location: string;
+  yourLocation: string;
+  cancel: string;
+  pending: string;
+  createItems: string;
+  detail: string;
+  requestDetail: string;
+  itemsToDelivery: string;
+  language: string;
+  night: string;
+  setting: string;
+  vendorHome: string;
+  driverHome: string;
+  myPickups: string;
 }
 
 const languages = {
