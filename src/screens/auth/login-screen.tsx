@@ -7,6 +7,7 @@ import Button from '../../components/button';
 import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
 import {useFocusEffect} from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -39,6 +40,8 @@ const LoginScreen = (props: any) => {
           }}>
           {currentLanguage.appName}
         </Text>
+        <ScrollView>
+
         <Input
           style={style.spacedComponent}
           value={username}
@@ -87,7 +90,7 @@ const LoginScreen = (props: any) => {
                 try {
                   const {response} = err;
                   if (response.status >= 400 && response.status < 500) {
-                    ToastAndroid.show(await response.text(), 5000);
+                    ToastAndroid.show((await response.json()).message, 5000);
                   } else if (response.status >= 500) {
                     ToastAndroid.show(
                       'A problem occurred in server. Please try again later!',
@@ -139,6 +142,7 @@ const LoginScreen = (props: any) => {
             {'Forgot Password'}
           </Button>
         </View>
+        </ScrollView>
       </View>
     </Layout>
   );
@@ -146,7 +150,7 @@ const LoginScreen = (props: any) => {
 
 const style = StyleSheet.create({
   spacedComponent: {
-    marginTop: 20,
+    marginTop: 15,
   },
   centeredContent: {
     marginTop: '60%',

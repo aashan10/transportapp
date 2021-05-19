@@ -7,6 +7,7 @@ import {Layout, ListItem, Text} from '@ui-kitten/components';
 import {ThemeContext} from '../contexts/theme-context';
 import LocalizationContext from '../contexts/localization-context';
 import {themes} from '../themes/themes';
+import English from '../languages/en';
 
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
@@ -23,13 +24,13 @@ const SettingsScreen = ({navigation}: any) => {
           </Button>
         </ListItem>
 
-        <ListItem style={style.listItem}>
+        {/* <ListItem style={style.listItem}>
           <Text>Language</Text>
           <Button
             appearance={'ghost'}
             size={'small'}
             onPress={() => {
-              if (currentLanguage.appName === 'Nepal Transport Company') {
+              if (currentLanguage.appName === English.appName) {
                 setLanguage('np');
               } else {
                 setLanguage('en');
@@ -37,7 +38,7 @@ const SettingsScreen = ({navigation}: any) => {
             }}>
             {currentLanguage.changeLanguage}
           </Button>
-        </ListItem>
+        </ListItem> */}
       </Layout>
     </Layout>
   );

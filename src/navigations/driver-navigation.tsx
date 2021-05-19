@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CreateItem from '../screens/create-item';
 import ItemDetails from '../screens/item-details';
 import HomeScreen from '../screens/home-screen';
+import MyPickups from '../screens/my-pickups';
 
 const Driver = createStackNavigator();
 

@@ -94,6 +94,7 @@ const SendVerificationCodeScreen = ({
             verifyAccount({token: token})
               .then(() => {
                 Alert.alert('Success', 'The account has been verified!');
+                navigation.navigate('LoginScreen');
               })
               .catch(err => {
                 Alert.alert('Error', 'There was a problem with verification!');
@@ -101,7 +102,10 @@ const SendVerificationCodeScreen = ({
               .finally(() => {
                 setLoading(false);
               });
-          }}
+              
+          }
+          
+        }
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
