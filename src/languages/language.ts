@@ -49,6 +49,40 @@ export interface Language {
   vendorHome: string;
   driverHome: string;
   myPickups: string;
+  alreadyRegister: string;
+  name: string;
+  email: string;
+  address: string;
+  cPassword: string;
+  attachement: string;
+  blueBook: string;
+  license: string;
+  register: string;
+  rBluebook: string;
+  rlicense: string;
+  company: string;
+  recoverMessage: string;
+  eid: string;
+  haveCode: string;
+  continue: string;
+  recoverAccount: string;
+  eSent: string;
+  eContent: string;
+  chnageAcPass: string;
+  newPass: string;
+  confirmCode: string;
+  changeAccDes: string;
+  verifyAc: string;
+  verifyDes: string;
+  accountOTP: string;
+  otpMessage: string;
+  truck: string;
+  otruck: string;
+  container: string;
+  tripper: string;
+  pickup: string;
+  registerDriver: string;
+  registerVendor: string;
 }
 
 const languages = {

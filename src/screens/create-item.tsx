@@ -83,7 +83,13 @@ const CreateItem = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
-  const types = ['Truck', 'Container', 'Open Truck', 'Tripper', 'Pickup'];
+  const types = [
+    currentLanguage.truck,
+    currentLanguage.container,
+    currentLanguage.otruck,
+    currentLanguage.tripper,
+    currentLanguage.pickup,
+  ];
 
   const [error, setError] = useState<ErrorState>({
     name: null,

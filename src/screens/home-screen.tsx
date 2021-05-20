@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Card, Layout, Text} from '@ui-kitten/components';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Alert} from 'react-native';
 import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import {Exception, getDriverFeeds} from '../api/requests';
+import {getDriverFeeds} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 
@@ -15,10 +15,13 @@ const HomeScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(false);
+    setLoading(true);
     getDriverFeeds()
       .then(feeds => {
         setPosts(feeds.totalItem);
+        if (feeds.totalItem && feeds.totalItem.length === 0) {
+          Alert.alert('', 'No requests are available at the moment!');
+        }
       })
       .catch(() => {})
       .finally(() => {
@@ -42,10 +45,18 @@ const HomeScreen = ({navigation}: any) => {
                 getDriverFeeds()
                   .then(feeds => {
                     setPosts(feeds.totalItem);
-                    console.log(feeds.totalItem[0]);
+                    if (feeds.totalItem && feeds.totalItem.length === 0) {
+                      Alert.alert(
+                        '',
+                        'No requests are available at the moment!',
+                      );
+                    }
                   })
-                  .catch(async (err: Exception) => {
-                    console.log(await err.response.text());
+                  .catch(() => {
+                    Alert.alert(
+                      'Error',
+                      'There was an error fetching the items!',
+                    );
                   })
                   .finally(() => {
                     setLoading(false);

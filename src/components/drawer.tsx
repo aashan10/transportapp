@@ -8,24 +8,24 @@ import {storeToken} from '../storage/user-storage';
 import {userInfo} from '../api/requests';
 
 const md5 = require('md5');
-const capitalize = (text: string) => {
-  return text[0].toUpperCase() + text.slice(1);
-};
 
-const NavButton = ({item, navigation}: {item: any, navigation: any}) => {
-  const [label, setLabel] = useState<string>(item.item.params.title ?? '')
-              useEffect(() => {
-                setLabel(item.item.params.title);
-              }, [item]);
-              return (
-                <ListItem
-                  onPress={() => {
-                    navigation.navigate(item.item.name);
-                  }}>
-                  <Text style={{paddingLeft: 20}}>{label}</Text>
-                </ListItem>
-              );
-}
+const NavButton = (props: {item: any; navigation: any}) => {
+  const [label, setLabel] = useState<string>(
+    props.item.item.params.title ?? '',
+  );
+  useEffect(() => {
+    console.log(props.item.item.params);
+    setLabel(props.item.item.params.title);
+  }, [props.item, props.navigation]);
+  return (
+    <ListItem
+      onPress={() => {
+        props.navigation.navigate(props.item.item.name);
+      }}>
+      <Text style={{paddingLeft: 20}}>{label}</Text>
+    </ListItem>
+  );
+};
 
 const Drawer = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -56,7 +56,9 @@ const Drawer = (props: any) => {
         <Layout level={'1'} style={style.menuContainer}>
           <List
             data={props.state.routes}
-            renderItem={item => <NavButton navigation={props.navigation} item={item} />}
+            renderItem={item => (
+              <NavButton navigation={props.navigation} item={item} {...props} />
+            )}
           />
         </Layout>
       </View>

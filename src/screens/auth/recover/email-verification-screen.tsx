@@ -5,6 +5,8 @@ import {View, Alert} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
 import {changePassword, Exception, forgotPassword} from '../../../api/requests';
+import {useContext} from 'react';
+import LocalizationContext from '../../../contexts/localization-context';
 
 interface EmailVerificationScreenProps {
   navigation: any;
@@ -13,6 +15,7 @@ interface EmailVerificationScreenProps {
 const EmailVerificationScreen = ({
   navigation,
 }: EmailVerificationScreenProps) => {
+  const {currentLanguage} = useContext(LocalizationContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -43,7 +46,7 @@ const EmailVerificationScreen = ({
         <View>
           <View>
             <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-              New Password
+              {currentLanguage.newPass}
             </Text>
             <Input
               value={password}
@@ -70,7 +73,7 @@ const EmailVerificationScreen = ({
 
           <View>
             <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-              Confirm Password
+              {currentLanguage.cPassword}
             </Text>
             <Input
               value={confirmPassword}
@@ -98,7 +101,7 @@ const EmailVerificationScreen = ({
 
           <View>
             <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-              Confirmation Code
+              {currentLanguage.confirmCode}
             </Text>
             <Input
               value={token}
@@ -126,8 +129,7 @@ const EmailVerificationScreen = ({
         <Layout
           style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
           <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-            On the confirmation code field, please enter the confirmation code
-            sent to your email address.
+            {currentLanguage.changeAccDes}
           </Text>
         </Layout>
       </Layout>
@@ -145,7 +147,7 @@ const EmailVerificationScreen = ({
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           style={{minWidth: 150}}

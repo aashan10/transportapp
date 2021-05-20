@@ -10,7 +10,6 @@ import MyPickups from '../screens/my-pickups';
 import LocalizationContext from '../contexts/localization-context';
 
 const HomeNavigation = () => {
-
   const Drawer = createDrawerNavigator();
   const {user} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
@@ -21,16 +20,25 @@ const HomeNavigation = () => {
       drawerContent={(props: any) => <DrawerComponent {...props} />}>
       <Drawer.Screen
         name={user.role === 'vendor' ? 'vendor Home' : 'driver Home'}
-        initialParams={{title: user.role === 'vendor' ? currentLanguage.vendorHome : currentLanguage.driverHome}}
+        initialParams={{
+          title:
+            user.role === 'vendor'
+              ? currentLanguage.vendorHome
+              : currentLanguage.driverHome,
+        }}
         component={user.role === 'vendor' ? VendorNavigation : DriverNavigation}
       />
-      <Drawer.Screen 
+      <Drawer.Screen
         initialParams={{title: currentLanguage.setting}}
-        name={'settings'} component={SettingsScreen} />
+        name={'settings'}
+        component={SettingsScreen}
+      />
       {user.role === 'driver' ? (
-        <Drawer.Screen name={'my Pickups'} 
-        initialParams={{title: currentLanguage.myPickups}}
-        component={MyPickups} />
+        <Drawer.Screen
+          name={'my Pickups'}
+          initialParams={{title: currentLanguage.myPickups}}
+          component={MyPickups}
+        />
       ) : null}
     </Drawer.Navigator>
   );

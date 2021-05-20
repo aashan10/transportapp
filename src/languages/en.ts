@@ -47,7 +47,46 @@ const English: Language = {
   setting: 'Setting',
   vendorHome: 'Vendor Home',
   driverHome: 'Driver Home',
-  myPickups: 'My Pickups'
+  myPickups: 'My Pickups',
+  alreadyRegister: 'Already Registered? Login',
+  name: 'Full Name',
+  email: 'Email',
+  address: 'Address',
+  cPassword: 'Confirm Password',
+  attachement: 'Attachements',
+  blueBook: 'Choose Bluebook Photo',
+  license: 'Choose License Photo',
+  register: 'Register',
+  rBluebook: 'Remove Bluebook Photo',
+  rlicense: 'Remove License Photo',
+  company: 'Company',
+  recoverMessage:
+    'To reset your password, we need to make sure that the account actually belongs to you! Please provide us your email address that you used at the time of registration and we will send you a verification code which can be used in the next screen to reset our password!',
+  eid: 'Email ID',
+  haveCode: 'I have a Confirmation code',
+  continue: 'Continue',
+  recoverAccount: 'Recover Account',
+  eSent: 'Email Sent',
+  eContent:
+    'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+  chnageAcPass: 'Change Account Password',
+  confirmCode: 'Confirmation Code',
+  newPass: 'New Password',
+  changeAccDes:
+    ' On the confirmation code field, please enter the confirmation code sent to your email address.',
+  verifyAc: 'Verify Account',
+  verifyDes:
+    'To verify your email, we need to make sure that the email account actually belongs to you! Please provide us your email address that you used at the time of registration and we will send you a verification code which can be used in the next screen to verify your email!',
+  accountOTP: 'Account OTP Verification',
+  otpMessage:
+    ' On the confirmation code field, please enter the confirmation code sent to your email address.',
+  truck: 'Truck',
+  otruck: 'Open Truck',
+  container: 'Container',
+  tripper: 'Tripper',
+  pickup: 'PickUp',
+  registerDriver: 'Register as Driver',
+  registerVendor: 'Register as vendor',
 };
 
 export default English;

@@ -4,6 +4,8 @@ import Header from '../../../components/header';
 import {Alert, View} from 'react-native';
 import Button from '../../../components/button';
 import {verifyAccount} from '../../../api/requests';
+import {useContext} from 'react';
+import LocalizationContext from '../../../contexts/localization-context';
 
 interface SendVerificationCodeScreenInterface {
   navigation: any;
@@ -12,6 +14,8 @@ interface SendVerificationCodeScreenInterface {
 const SendVerificationCodeScreen = ({
   navigation,
 }: SendVerificationCodeScreenInterface) => {
+  const {currentLanguage} = useContext(LocalizationContext);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [showToken, setShowToken] = useState<boolean>(false);
@@ -22,7 +26,7 @@ const SendVerificationCodeScreen = ({
         <Header
           navigation={navigation}
           back={true}
-          title={'Account OTP Verification'}
+          title={currentLanguage.accountOTP}
         />
       </Layout>
       <Layout
@@ -36,7 +40,7 @@ const SendVerificationCodeScreen = ({
         <View>
           <View>
             <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-              Confirmation Code
+              {currentLanguage.confirmCode}
             </Text>
             <Input
               value={token}
@@ -65,8 +69,7 @@ const SendVerificationCodeScreen = ({
         <Layout
           style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
           <Text style={{fontWeight: 'bold', paddingVertical: 10}}>
-            On the confirmation code field, please enter the confirmation code
-            sent to your email address.
+            {currentLanguage.otpMessage}
           </Text>
         </Layout>
       </Layout>
@@ -84,7 +87,7 @@ const SendVerificationCodeScreen = ({
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           style={{minWidth: 150}}
@@ -94,7 +97,7 @@ const SendVerificationCodeScreen = ({
             verifyAccount({token: token})
               .then(() => {
                 Alert.alert('Success', 'The account has been verified!');
-                navigation.navigate('LoginScreen');
+                navigation.navigate('login');
               })
               .catch(() => {
                 Alert.alert('Error', 'There was a problem with verification!');
