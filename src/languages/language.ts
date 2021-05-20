@@ -83,6 +83,7 @@ export interface Language {
   pickup: string;
   registerDriver: string;
   registerVendor: string;
+  
 }
 
 const languages = {

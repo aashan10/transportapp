@@ -87,6 +87,7 @@ const Nepali: Language = {
   pickup: 'पिकअप',
   registerDriver: 'चालकको रूपमा दर्ता गर्नुहोस्',
   registerVendor: 'विक्रेताको रूपमा दर्ता गर्नुहोस्',
+  
 };
 
 export default Nepali;

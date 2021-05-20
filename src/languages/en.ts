@@ -87,6 +87,7 @@ const English: Language = {
   pickup: 'PickUp',
   registerDriver: 'Register as Driver',
   registerVendor: 'Register as vendor',
+  
 };
 
 export default English;
