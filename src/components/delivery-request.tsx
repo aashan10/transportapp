@@ -22,7 +22,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
   const [price, setPrice] = useState<string | number | null>('');
   useEffect(() => {
     setPrice(request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor);
-  }, [request]);
+  }, [request]);  
   return (
     <Card
       header={() => {
@@ -129,7 +129,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
       style={{borderRadius: 10, marginTop: 10, padding: 0}}>
       <View>
         <Text>
-          {currentLanguage.currency}. {price ?? ''}
+          {currentLanguage.currency} {price ?? ''}
         </Text>
         <Text>
           {request.quantity} {currentLanguage.itemsToDelivery}

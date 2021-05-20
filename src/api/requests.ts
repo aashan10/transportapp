@@ -34,7 +34,8 @@ export const get = async (url: string, auth: boolean = true) => {
 
   const response = await fetch(getUrl(url), payload);
   if (response.ok) {
-    return await response.json();
+    const json = await response.json();
+    return json;
   }
   throw new Exception(response);
 };
@@ -100,7 +101,18 @@ export const createNewItemRequest = async (props: {
   type: string;
   size: string;
 }) => {
-  return await post(VENDOR_ITEM_UPLOAD, props);
+  const data = {
+    itemName: props.name,
+    deliveryTo: props.to,
+    deliveryFrom: props.from,
+    quantity: props.quantity,
+    deliveryPriceByVendor: props.price,
+    containerType: props.type,
+    containerSize: props.size,
+    latitudeOfDeliveryFrom: props.latitude,
+    longitudeOfDeliveryFrom: props.longitude
+  };
+  return await post(VENDOR_ITEM_UPLOAD, data);
 };
 
 export const getDriverFeeds = async () => {

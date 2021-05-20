@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   IndexPath,
   Input,
@@ -9,16 +9,16 @@ import {
   Text,
 } from '@ui-kitten/components';
 import Header from '../components/header';
-import {ScrollView, ToastAndroid, View} from 'react-native';
+import { ScrollView, ToastAndroid, View } from 'react-native';
 import Button from '../components/button';
 import Geolocation, {
   GeolocationError,
   GeolocationResponse,
 } from '@react-native-community/geolocation';
-import {requestLocationPermission} from '../helpers/functions';
-import {createNewItemRequest} from '../api/requests';
+import { requestLocationPermission } from '../helpers/functions';
+import { createNewItemRequest } from '../api/requests';
 import LocalizationContext from '../contexts/localization-context';
-import {useContext} from 'react';
+import { useContext } from 'react';
 
 interface ErrorState {
   name: string | null;
@@ -29,7 +29,7 @@ interface ErrorState {
   type: string | null;
   size: string | null;
 }
-const validate = ({name, to, from, qty, price, type, size}: ErrorState) => {
+const validate = ({ name, to, from, qty, price, type, size }: ErrorState) => {
   let response: ErrorState = {
     name: null,
     to: null,
@@ -65,8 +65,8 @@ const validate = ({name, to, from, qty, price, type, size}: ErrorState) => {
   return response;
 };
 
-const CreateItem = ({navigation}: any) => {
-  const {currentLanguage} = useContext(LocalizationContext);
+const CreateItem = ({ navigation }: any) => {
+  const { currentLanguage } = useContext(LocalizationContext);
 
   const [name, setName] = useState<string>('');
   const [to, setTo] = useState<string>('');
@@ -101,8 +101,7 @@ const CreateItem = ({navigation}: any) => {
     size: null,
   });
   return (
-    <ScrollView>
-    <Layout style={{height: '100%'}} level={'4'}>
+    <Layout style={{ height: '100%' }} level={'4'}>
       <Layout>
         <Header
           back={true}
@@ -110,54 +109,54 @@ const CreateItem = ({navigation}: any) => {
           title={currentLanguage.createItems}
         />
       </Layout>
-      <Layout style={{flex: 1, margin: 5, borderRadius: 10}} level={'1'}>
-        <ScrollView style={{flex: 1, padding: 10, paddingVertical: 20}}>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+      <Layout style={{ flex: 1, margin: 5, borderRadius: 10 }} level={'1'}>
+        <ScrollView style={{ flex: 1, padding: 10, paddingVertical: 20 }}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.itemName}
             </Text>
             <Input
               onChangeText={text => {
                 setName(text);
-                setError({...error, name: null});
+                setError({ ...error, name: null });
               }}
               status={error.name ? 'danger' : ''}
               placeholder={'Name of item to be picked'}
             />
             {error?.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.pickUp}
             </Text>
             <Input
               value={from}
               onChangeText={text => {
                 setFrom(text);
-                setError({...error, from: null});
+                setError({ ...error, from: null });
               }}
               status={error.from ? 'danger' : ''}
               placeholder={'Pickup Address'}
             />
             {error?.from ? <Text status={'danger'}>{error.from}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.Drop}
             </Text>
             <Input
               value={to}
               onChangeText={text => {
                 setTo(text);
-                setError({...error, to: null});
+                setError({ ...error, to: null });
               }}
               status={error.to ? 'danger' : ''}
               placeholder={'Delivery Address'}
             />
             {error?.to ? <Text status={'danger'}>{error.to}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.containerType}
             </Text>
             <Select
@@ -176,8 +175,8 @@ const CreateItem = ({navigation}: any) => {
             </Select>
             {error?.type ? <Text status={'danger'}>{error.type}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.containerSize}
             </Text>
             <Select
@@ -196,8 +195,8 @@ const CreateItem = ({navigation}: any) => {
             </Select>
             {error?.size ? <Text status={'danger'}>{error.size}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.quantity}
             </Text>
             <Input
@@ -205,15 +204,15 @@ const CreateItem = ({navigation}: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setQty(parseFloat(text));
-                setError({...error, qty: null});
+                setError({ ...error, qty: null });
               }}
               status={error.qty ? 'danger' : ''}
               placeholder={'Quantity of items to be dropped'}
             />
             {error?.qty ? <Text status={'danger'}>{error.qty}</Text> : null}
           </View>
-          <View style={{marginBottom: 15}}>
-            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+          <View style={{ marginBottom: 50 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.price}
             </Text>
             <Input
@@ -221,7 +220,7 @@ const CreateItem = ({navigation}: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setPrice(parseFloat(text));
-                setError({...error, price: null});
+                setError({ ...error, price: null });
               }}
               status={error.price ? 'danger' : ''}
               placeholder={'Estimated price for delivery'}
@@ -239,7 +238,7 @@ const CreateItem = ({navigation}: any) => {
         }}
         level={'4'}>
         <Button
-          style={{minWidth: 150}}
+          style={{ minWidth: 150 }}
           appearance={'outline'}
           onPress={() => {
             navigation.goBack();
@@ -273,7 +272,7 @@ const CreateItem = ({navigation}: any) => {
                 await requestLocationPermission();
                 Geolocation.getCurrentPosition(
                   async (position: GeolocationResponse) => {
-                    const {latitude, longitude} = position.coords;
+                    const { latitude, longitude } = position.coords;
                     try {
                       setLoading(true);
                       let response = await createNewItemRequest({
@@ -319,12 +318,12 @@ const CreateItem = ({navigation}: any) => {
             return loading ? <Spinner size={'small'} /> : <View />;
           }}
           disabled={loading}
-          style={{minWidth: 150}}>
+          style={{ minWidth: 150 }}>
           {currentLanguage.createItems}
         </Button>
       </Layout>
     </Layout>
-    </ScrollView>
+
   );
 };
 
