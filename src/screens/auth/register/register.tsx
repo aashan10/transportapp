@@ -3,8 +3,12 @@ import {Layout} from '@ui-kitten/components';
 import Button from '../../../components/button';
 import {View} from 'react-native';
 import RegisterScreenCarousel from '../../../components/register-screen-carousel';
+import {useContext} from 'react';
+import LocalizationContext from '../../../contexts/localization-context';
 
 const RegisterScreen = (props: any) => {
+  const {currentLanguage} = useContext(LocalizationContext);
+
   return (
     <Layout
       style={{height: '100%', backgroundColor: 'transparent'}}
@@ -30,13 +34,13 @@ const RegisterScreen = (props: any) => {
             onPress={() => {
               props.navigation.navigate('registerVendor');
             }}>
-            Register As Vendor
+            {currentLanguage.registerAsVendor}
           </Button>
           <Button
             onPress={() => {
               props.navigation.navigate('registerDriver');
             }}>
-            Register As Driver
+            {currentLanguage.registerAsDriver}
           </Button>
         </View>
         <View style={{marginHorizontal: 20, marginTop: 10}}>
@@ -45,7 +49,7 @@ const RegisterScreen = (props: any) => {
               props.navigation.navigate('login');
             }}
             appearance={'outline'}>
-            Already Registered? Login
+            {currentLanguage.alreadyRegister}
           </Button>
         </View>
       </Layout>

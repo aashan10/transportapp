@@ -128,8 +128,12 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
       }}
       style={{borderRadius: 10, marginTop: 10, padding: 0}}>
       <View>
-        <Text>Rs. {price ?? ''}</Text>
-        <Text>{request.quantity} items to be delivered</Text>
+        <Text>
+          {currentLanguage.currency}. {price ?? ''}
+        </Text>
+        <Text>
+          {request.quantity} {currentLanguage.itemsToDelivery}
+        </Text>
       </View>
       <View
         style={{
@@ -142,7 +146,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
             navigation.navigate('viewRequest', {item: request});
           }}
           size={'small'}>
-          Details
+          {currentLanguage.detail}
         </Button>
       </View>
     </Card>

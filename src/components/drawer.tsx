@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Layout, List, ListItem, Text} from '@ui-kitten/components';
 import {Image, StyleSheet, View} from 'react-native';
 import Button from './button';
@@ -8,8 +8,23 @@ import {storeToken} from '../storage/user-storage';
 import {userInfo} from '../api/requests';
 
 const md5 = require('md5');
-const capitalize = (text: string) => {
-  return text[0].toUpperCase() + text.slice(1);
+
+const NavButton = (props: {item: any; navigation: any}) => {
+  const [label, setLabel] = useState<string>(
+    props.item.item.params.title ?? '',
+  );
+  useEffect(() => {
+    console.log(props.item.item.params);
+    setLabel(props.item.item.params.title);
+  }, [props.item, props.navigation]);
+  return (
+    <ListItem
+      onPress={() => {
+        props.navigation.navigate(props.item.item.name);
+      }}>
+      <Text style={{paddingLeft: 20}}>{label}</Text>
+    </ListItem>
+  );
 };
 
 const Drawer = (props: any) => {
@@ -41,18 +56,9 @@ const Drawer = (props: any) => {
         <Layout level={'1'} style={style.menuContainer}>
           <List
             data={props.state.routes}
-            renderItem={item => {
-              return (
-                <ListItem
-                  onPress={() => {
-                    props.navigation.navigate(item.item.name);
-                  }}>
-                  <Text style={{paddingLeft: 20}}>
-                    {capitalize(item.item.name)}
-                  </Text>
-                </ListItem>
-              );
-            }}
+            renderItem={item => (
+              <NavButton navigation={props.navigation} item={item} {...props} />
+            )}
           />
         </Layout>
       </View>

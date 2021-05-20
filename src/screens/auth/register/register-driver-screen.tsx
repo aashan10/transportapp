@@ -17,6 +17,8 @@ import {Exception, getUrl, registerDriver} from '../../../api/requests';
 import {EMAIL_REGEX} from '../../../helpers/constants';
 import RNFS from 'react-native-fs';
 import {DRIVER_REGISTER} from '../../../api/constants';
+import LocalizationContext from '../../../contexts/localization-context';
+import {useContext} from 'react';
 
 const isNull = (param: any): boolean => {
   return param === null || param === undefined || param === '' || param === {};
@@ -109,10 +111,13 @@ interface ErrorValidationState {
 }
 
 const RegisterDriverScreen = (props: any) => {
-  const [licensePhoto, setLicensePhoto] =
-    useState<ImageOrVideo | undefined>(undefined);
-  const [blueBookPhoto, setBlueBookPhoto] =
-    useState<ImageOrVideo | undefined>(undefined);
+  const {currentLanguage} = useContext(LocalizationContext);
+  const [licensePhoto, setLicensePhoto] = useState<ImageOrVideo | undefined>(
+    undefined,
+  );
+  const [blueBookPhoto, setBlueBookPhoto] = useState<ImageOrVideo | undefined>(
+    undefined,
+  );
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
@@ -137,11 +142,20 @@ const RegisterDriverScreen = (props: any) => {
   });
 
   const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
-  const types = ['Truck', 'Container', 'Open Truck', 'Tripper', 'Pickup'];
+  const types = [
+    currentLanguage.truck,
+    currentLanguage.container,
+    currentLanguage.otruck,
+    currentLanguage.tripper,
+    currentLanguage.pickup,
+  ];
 
   return (
     <Layout style={{height: '100%'}}>
-      <Header title={'Register as Driver'} navigation={props.navigation} />
+      <Header
+        title={currentLanguage.registerDriver}
+        navigation={props.navigation}
+      />
       <Layout style={{height: '100%', marginBottom: 65}} level={'4'}>
         <Layout style={style.content}>
           <ScrollView
@@ -149,7 +163,7 @@ const RegisterDriverScreen = (props: any) => {
             showsVerticalScrollIndicator={false}>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Full Name
+                {currentLanguage.name}
               </Text>
               <Input
                 status={error.name ? 'danger' : ''}
@@ -163,7 +177,9 @@ const RegisterDriverScreen = (props: any) => {
               {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
             </View>
             <View style={{marginBottom: 15}}>
-              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>Email</Text>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+                {currentLanguage.email}
+              </Text>
               <Input
                 status={error.email ? 'danger' : ''}
                 onChangeText={text => {
@@ -178,7 +194,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Address
+                {currentLanguage.address}
               </Text>
               <Input
                 status={error.address ? 'danger' : ''}
@@ -194,7 +210,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Phone Number
+                {currentLanguage.phone}
               </Text>
               <Input
                 status={error.phone ? 'danger' : ''}
@@ -210,7 +226,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Vehicle Type
+                {currentLanguage.containerType}
               </Text>
               <Select
                 value={types[vehicleType.row]}
@@ -230,7 +246,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Vehicle Size
+                {currentLanguage.containerSize}
               </Text>
               <Select
                 selectedIndex={vehicleSize}
@@ -252,7 +268,7 @@ const RegisterDriverScreen = (props: any) => {
 
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Password
+                {currentLanguage.password}
               </Text>
               <Input
                 status={error.password ? 'danger' : ''}
@@ -290,7 +306,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                Confirm Password
+                {currentLanguage.cPassword}
               </Text>
               <Input
                 status={error.repeatPassword ? 'danger' : ''}
@@ -330,7 +346,7 @@ const RegisterDriverScreen = (props: any) => {
             </View>
 
             <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-              Attachments
+              {currentLanguage.attachement}
             </Text>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -349,7 +365,7 @@ const RegisterDriverScreen = (props: any) => {
                         .catch(() => {});
                     }}
                     appearance={'outline'}>
-                    Choose Bluebook Photo
+                    {currentLanguage.blueBook}
                   </Button>
                 ) : (
                   <View>
@@ -367,7 +383,7 @@ const RegisterDriverScreen = (props: any) => {
                       onPress={() => {
                         setBlueBookPhoto(undefined);
                       }}>
-                      Remove Bluebook Photo
+                      {currentLanguage.rBluebook}
                     </Button>
                   </View>
                 )}
@@ -390,7 +406,7 @@ const RegisterDriverScreen = (props: any) => {
                         .catch(() => {});
                     }}
                     appearance={'outline'}>
-                    Choose License Photo
+                    {currentLanguage.license}
                   </Button>
                 ) : (
                   <View>
@@ -408,7 +424,7 @@ const RegisterDriverScreen = (props: any) => {
                       onPress={() => {
                         setLicensePhoto(undefined);
                       }}>
-                      Remove License Photo
+                      {currentLanguage.rlicense}
                     </Button>
                   </View>
                 )}
@@ -428,7 +444,7 @@ const RegisterDriverScreen = (props: any) => {
           appearance={'outline'}
           disabled={loading}
           style={style.bottomButton}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           disabled={loading}
@@ -507,7 +523,7 @@ const RegisterDriverScreen = (props: any) => {
             }
           }}
           style={style.bottomButton}>
-          Register
+          {currentLanguage.register}
         </Button>
       </Layout>
     </Layout>

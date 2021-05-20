@@ -5,6 +5,8 @@ import {Alert, ScrollView, ToastAndroid, View} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
 import {Exception, registerVendor} from '../../../api/requests';
+import {useContext} from 'react';
+import LocalizationContext from '../../../contexts/localization-context';
 
 interface ErrorState {
   email: string | null;
@@ -54,6 +56,7 @@ const validate = ({
 };
 
 const RegisterVendorScreen = (props: any) => {
+  const {currentLanguage} = useContext(LocalizationContext);
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -73,7 +76,10 @@ const RegisterVendorScreen = (props: any) => {
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
-        <Header title={'Register as Vendor'} navigation={props.navigation} />
+        <Header
+          title={currentLanguage.registerVendor}
+          navigation={props.navigation}
+        />
       </Layout>
       <Layout
         style={{
@@ -93,7 +99,9 @@ const RegisterVendorScreen = (props: any) => {
             padding: 10,
           }}>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Full Name</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.name}
+            </Text>
             <Input
               onChangeText={text => {
                 setName(text);
@@ -105,7 +113,9 @@ const RegisterVendorScreen = (props: any) => {
             {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Address</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.address}
+            </Text>
             <Input
               onChangeText={text => {
                 setAddress(text);
@@ -119,7 +129,9 @@ const RegisterVendorScreen = (props: any) => {
             ) : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Company</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.company}
+            </Text>
             <Input
               onChangeText={text => {
                 setCompany(text);
@@ -133,7 +145,9 @@ const RegisterVendorScreen = (props: any) => {
             ) : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Phone</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.phone}
+            </Text>
             <Input
               onChangeText={text => {
                 setPhone(text);
@@ -145,7 +159,9 @@ const RegisterVendorScreen = (props: any) => {
             {error.phone ? <Text status={'danger'}>{error.phone}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Email</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.email}
+            </Text>
             <Input
               onChangeText={text => {
                 setEmail(text);
@@ -157,7 +173,9 @@ const RegisterVendorScreen = (props: any) => {
             {error.email ? <Text status={'danger'}>{error.email}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 5}}>Password</Text>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.password}
+            </Text>
             <Input
               onChangeText={text => {
                 setPassword(text);
@@ -203,7 +221,7 @@ const RegisterVendorScreen = (props: any) => {
           onPress={() => {
             props.navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           disabled={loading}
@@ -240,7 +258,7 @@ const RegisterVendorScreen = (props: any) => {
               })
                 .then(async response => {
                   ToastAndroid.show(await response.text(), 5000);
-                  props.navigation.navigate('login');
+                  props.navigation.navigate('sendVerificationCodeScreen');
                 })
                 .catch(async (exception: any) => {
                   if (exception instanceof Exception) {
@@ -259,7 +277,7 @@ const RegisterVendorScreen = (props: any) => {
             }
           }}
           style={{minWidth: 150}}>
-          Register
+          {currentLanguage.register}
         </Button>
       </Layout>
     </Layout>

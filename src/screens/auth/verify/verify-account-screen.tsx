@@ -9,19 +9,26 @@ import {
   forgotPassword,
   resendVerificationEmail,
 } from '../../../api/requests';
+import LocalizationContext from '../../../contexts/localization-context';
+import {useContext} from 'react';
 
 interface VerifyAccountScreenProps {
   navigation: any;
 }
 
 const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
+  const {currentLanguage} = useContext(LocalizationContext);
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout level={'4'} style={{height: '100%'}}>
       <Layout>
-        <Header navigation={navigation} back={true} title={'Verify Account'} />
+        <Header
+          navigation={navigation}
+          back={true}
+          title={currentLanguage.verifyAc}
+        />
       </Layout>
       <Layout
         style={{
@@ -32,7 +39,9 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
           justifyContent: 'space-between',
         }}>
         <View>
-          <Text style={{fontWeight: 'bold', paddingBottom: 10}}>Email ID</Text>
+          <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
+            {currentLanguage.eid}
+          </Text>
           <Input
             value={email}
             onChangeText={setEmail}
@@ -46,11 +55,7 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
           <Layout
             style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
             <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
-              To verify your email, we need to make sure that the email account
-              actually belongs to you! Please provide us your email address that
-              you used at the time of registration and we will send you a
-              verification code which can be used in the next screen to verify
-              your email!
+              {currentLanguage.verifyDes}
             </Text>
           </Layout>
           <Button
@@ -58,7 +63,7 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
               navigation.navigate('sendVerificationCodeScreen');
             }}
             appearance={'ghost'}>
-            I have a confirmation code.
+            {currentLanguage.haveCode}
           </Button>
         </Layout>
       </Layout>
@@ -76,7 +81,7 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           style={{minWidth: 150}}

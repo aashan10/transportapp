@@ -4,26 +4,27 @@ import Button from '../components/button';
 import Header from '../components/header';
 import {Layout, ListItem, Text} from '@ui-kitten/components';
 import {ThemeContext} from '../contexts/theme-context';
-// import LocalizationContext from '../contexts/localization-context';
+import LocalizationContext from '../contexts/localization-context';
 import {themes} from '../themes/themes';
+import English from '../languages/en';
 
 const SettingsScreen = ({navigation}: any) => {
   const {theme, toggleTheme} = useContext(ThemeContext);
-  // const {currentLanguage, setLanguage} = useContext(LocalizationContext);
+  const {currentLanguage, setLanguage} = useContext(LocalizationContext);
 
   return (
     <Layout style={{height: '100%'}}>
       <Header navigation={navigation} />
       <Layout style={style.container} level={'4'}>
         <ListItem style={style.listItem}>
-          <Text>Night Mode</Text>
+          <Text>{currentLanguage.night}</Text>
           <Button appearance={'ghost'} size={'small'} onPress={toggleTheme}>
             {theme === themes.light ? 'Enable' : 'Disable'}
           </Button>
         </ListItem>
 
-        {/* <ListItem style={style.listItem}>
-          <Text>Language</Text>
+        <ListItem style={style.listItem}>
+          <Text>{currentLanguage.language}</Text>
           <Button
             appearance={'ghost'}
             size={'small'}
@@ -36,7 +37,7 @@ const SettingsScreen = ({navigation}: any) => {
             }}>
             {currentLanguage.changeLanguage}
           </Button>
-        </ListItem> */}
+        </ListItem>
       </Layout>
     </Layout>
   );

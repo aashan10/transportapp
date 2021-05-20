@@ -5,19 +5,27 @@ import Button from '../../../components/button';
 import {Alert, View} from 'react-native';
 import {EMAIL_REGEX} from '../../../helpers/constants';
 import {forgotPassword, Exception} from '../../../api/requests';
+import LocalizationContext from '../../../contexts/localization-context';
+import {useContext} from 'react';
 
 interface ForgotPasswordScreenProps {
   navigation: any;
 }
 
 const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
+  const {currentLanguage} = useContext(LocalizationContext);
+
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <Layout level={'4'} style={{height: '100%'}}>
       <Layout>
-        <Header navigation={navigation} back={true} title={'Recover Account'} />
+        <Header
+          navigation={navigation}
+          back={true}
+          title={currentLanguage.recoverAccount}
+        />
       </Layout>
       <Layout
         style={{
@@ -28,7 +36,9 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           justifyContent: 'space-between',
         }}>
         <View>
-          <Text style={{fontWeight: 'bold', paddingBottom: 10}}>Email ID</Text>
+          <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
+            {currentLanguage.eid}
+          </Text>
           <Input
             value={email}
             onChangeText={setEmail}
@@ -42,11 +52,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           <Layout
             style={{backgroundColor: 'orange', padding: 10, borderRadius: 10}}>
             <Text style={{fontWeight: 'bold', paddingBottom: 10}}>
-              To reset your password, we need to make sure that the account
-              actually belongs to you! Please provide us your email address that
-              you used at the time of registration and we will send you a
-              verification code which can be used in the next screen to reset
-              your password!
+              {currentLanguage.recoverMessage}
             </Text>
           </Layout>
           <Button
@@ -54,7 +60,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
               navigation.navigate('recoverPassword');
             }}
             appearance={'ghost'}>
-            I have a confirmation code.
+            {currentLanguage.haveCode}
           </Button>
         </Layout>
       </Layout>
@@ -72,7 +78,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          Cancel
+          {currentLanguage.cancel}
         </Button>
         <Button
           style={{minWidth: 150}}

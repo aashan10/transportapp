@@ -36,7 +36,7 @@ const MyPickups = ({navigation}: any) => {
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
-        <Header title={'My Pickups'} navigation={navigation} />
+        <Header title={currentLanguage.myPickups} navigation={navigation} />
       </Layout>
       <ScrollView
         refreshControl={
