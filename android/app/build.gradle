@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
 
+ext.versionMajor = 1
+ext.versionMinor = 0
+ext.versionPatch = 0
+ext.minimumSdkVersion = 19
+ext.versionClassifier = null
+ext.isSnapshot = true
+
 import com.android.build.OutputFile
 
 /**
@@ -135,8 +142,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode 2
-        versionName "2"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
     }
     splits {
         abi {
@@ -227,6 +234,22 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+private Integer generateVersionCode() {
+	return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+	String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+	if (ext.versionClassifier == null && ext.isSnapshot) {
+		ext.versionClassifier = "SNAPSHOT"
+	}
+
+	if (ext.versionClassifier != null) {
+		versionName += "-" + ext.versionClassifier
+	}
+	return versionName;
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
