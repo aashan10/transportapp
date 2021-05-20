@@ -20,8 +20,6 @@ const MyPickups = ({navigation}: any) => {
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
-        console.log(feeds);
-
         if (feeds.detail) {
           setPosts(feeds.detail);
         }

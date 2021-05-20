@@ -19,7 +19,9 @@ const SettingsScreen = ({navigation}: any) => {
         <ListItem style={style.listItem}>
           <Text>{currentLanguage.night}</Text>
           <Button appearance={'ghost'} size={'small'} onPress={toggleTheme}>
-            {theme === themes.light ? 'Enable' : 'Disable'}
+            {theme === themes.light
+              ? currentLanguage.enable
+              : currentLanguage.disable}
           </Button>
         </ListItem>
 

@@ -21,8 +21,6 @@ const VendorHomeScreen = ({navigation}: any) => {
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
-        console.log(feeds);
-
         if (feeds.detail) {
           setPosts(feeds.detail);
         }
@@ -51,14 +49,15 @@ const VendorHomeScreen = ({navigation}: any) => {
                     if (feeds.message) {
                       Alert.alert('Message', feeds.message);
                     }
-                    console.log(feeds);
-
                     if (feeds.detail) {
                       setPosts(feeds.detail);
                     }
                   })
-                  .catch(async (err: Exception) => {
-                    console.log(await err.response.text());
+                  .catch(() => {
+                    Alert.alert(
+                      'Error',
+                      'There was a problem with the server! Please try again later.',
+                    );
                   })
                   .finally(() => {
                     setLoading(false);
