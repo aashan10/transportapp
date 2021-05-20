@@ -257,7 +257,7 @@ const RegisterVendorScreen = (props: any) => {
                 address: address,
               })
                 .then(async response => {
-                  ToastAndroid.show(await response.text(), 5000);
+                  ToastAndroid.show(response.message, 5000);
                   props.navigation.navigate('sendVerificationCodeScreen');
                 })
                 .catch(async (exception: any) => {
