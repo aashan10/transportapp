@@ -112,12 +112,10 @@ interface ErrorValidationState {
 
 const RegisterDriverScreen = (props: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
-  const [licensePhoto, setLicensePhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
-  const [blueBookPhoto, setBlueBookPhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
+  const [licensePhoto, setLicensePhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
+  const [blueBookPhoto, setBlueBookPhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
