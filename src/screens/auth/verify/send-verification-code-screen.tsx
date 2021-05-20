@@ -96,11 +96,12 @@ const SendVerificationCodeScreen = ({
             setLoading(true);
             verifyAccount({token: token})
               .then(() => {
-                Alert.alert('Success', 'The account has been verified!');
+                Alert.alert(currentLanguage.alert2, 
+                  currentLanguage.message8);
                 navigation.navigate('login');
               })
               .catch(() => {
-                Alert.alert('Error', 'There was a problem with verification!');
+                Alert.alert(currentLanguage.alert1, currentLanguage.message9);
               })
               .finally(() => {
                 setLoading(false);
@@ -109,7 +110,7 @@ const SendVerificationCodeScreen = ({
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
-          {loading ? 'Loading' : 'Continue'}
+          {loading ? currentLanguage.loading : currentLanguage.continue}
         </Button>
       </Layout>
     </Layout>

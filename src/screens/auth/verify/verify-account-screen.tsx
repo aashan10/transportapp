@@ -95,9 +95,8 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
               resendVerificationEmail({email: email})
                 .then(() => {
                   Alert.alert(
-                    'Email Sent',
-                    'An email containing a token has been sent to your email address. Please check your mailbox and enter token to verify your account!',
-                  );
+                    currentLanguage.alert3,
+                    currentLanguage.message10                  );
                   navigation.navigate('sendVerificationCodeScreen');
                 })
                 .catch(async (err: any) => {
@@ -108,8 +107,8 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
                       Alert.alert('Error', msg);
                     } catch (e) {
                       Alert.alert(
-                        'Error',
-                        'There was an error processing your request' +
+                        currentLanguage.alert1,
+                        currentLanguage.message11 +
                           e.message,
                       );
                     }
@@ -125,7 +124,7 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
-          {loading ? 'Loading' : 'Continue'}
+          {loading ? currentLanguage.loading : currentLanguage.continue}
         </Button>
       </Layout>
     </Layout>

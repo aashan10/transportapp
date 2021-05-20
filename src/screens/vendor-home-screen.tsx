@@ -55,8 +55,8 @@ const VendorHomeScreen = ({navigation}: any) => {
                   })
                   .catch(() => {
                     Alert.alert(
-                      'Error',
-                      'There was a problem with the server! Please try again later.',
+                      currentLanguage.alert1,
+                      currentLanguage.message7
                     );
                   })
                   .finally(() => {

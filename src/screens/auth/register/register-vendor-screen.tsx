@@ -262,11 +262,11 @@ const RegisterVendorScreen = (props: any) => {
                 })
                 .catch(async (exception: any) => {
                   if (exception instanceof Exception) {
-                    Alert.alert('Error', await exception.response.text());
+                    Alert.alert(currentLanguage.alert1, await exception.response.text());
                   } else {
                     Alert.alert(
-                      'Error',
-                      'Something went wrong! Please try again!' +
+                      currentLanguage.alert1,
+                      currentLanguage.m4 +
                         exception.message,
                     );
                   }
