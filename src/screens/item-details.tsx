@@ -407,15 +407,15 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 })
                   .then(() => {
                     Alert.alert(
-                      'Success',
-                      'The item has been delivered successfully!',
+                      currentLanguage.alert2,
+                      currentLanguage.message3
                     );
                     navigation.goBack();
                   })
                   .catch(() => {
                     Alert.alert(
-                      'Error',
-                      'There was a problem completing the delivery!',
+                      currentLanguage.alert1,
+                      currentLanguage.message1,
                     );
                   })
                   .finally(() => {
@@ -428,9 +428,9 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 })
                   .then(response => {
                     Alert.alert(
-                      'Success',
-                      'You requested for delivering the item! Please check the detail of vendor in my pickups page',
-                    );
+                      currentLanguage.alert2,
+                      currentLanguage.message2
+                      );
                     navigation.navigate('my Pickups');
                   })
                   .catch(async (err: Exception) => {
@@ -451,14 +451,14 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             return <>{loading ? <Spinner size={'small'} /> : null}</>;
           }}>
           {request.itemReachedAt
-            ? 'Completed'
+            ? currentLanguage.complete
             : isVendor
             ? request.acceptedAt
-              ? 'Accepted By Driver'
-              : '{currentLanguage.pending}'
+              ? currentLanguage.acceptedByDriver
+              : currentLanguage.pending
             : request.acceptedAt
-            ? 'Complete Delivery'
-            : 'Accept Delivery Request'}
+            ? currentLanguage.completeDelivery
+            : currentLanguage.acceptDelivery}
         </Button>
       </Layout>
     </Layout>

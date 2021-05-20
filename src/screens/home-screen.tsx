@@ -20,7 +20,7 @@ const HomeScreen = ({navigation}: any) => {
       .then(feeds => {
         setPosts(feeds.totalItem);
         if (feeds.totalItem && feeds.totalItem.length === 0) {
-          Alert.alert('', 'No requests are available at the moment!');
+          Alert.alert('', currentLanguage.message4);
         }
       })
       .catch(() => {})
@@ -48,14 +48,14 @@ const HomeScreen = ({navigation}: any) => {
                     if (feeds.totalItem && feeds.totalItem.length === 0) {
                       Alert.alert(
                         '',
-                        'No requests are available at the moment!',
+                        currentLanguage.message5,
                       );
                     }
                   })
                   .catch(() => {
                     Alert.alert(
-                      'Error',
-                      'There was an error fetching the items!',
+                      currentLanguage.alert1,
+                      currentLanguage.message6
                     );
                   })
                   .finally(() => {

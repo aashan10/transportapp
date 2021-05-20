@@ -89,6 +89,39 @@ const English: Language = {
   registerVendor: 'Register as vendor',
   enable: 'Enable',
   disable: 'Disable',
+  acceptDelivery:'Accept Delivery Request',
+  completeDelivery:'Complete Delivery',
+  acceptedByDriver:'Accepted By Driver',
+  complete:'Completed',
+  alert2:'Success',
+  alert1:'error',
+  message2:'You requested for delivering the item! Please check the detail of vendor in my pickups page',
+  message1:'There was a problem completing the delivery!',
+  message3:'The item has been delivered successfully!',
+  message4:'No requests are available at the moment!',
+  message5:'No requests are available at the moment!',
+  message6:'There was an error fetching the items!',
+  message7:'There was a problem with the server! Please try again later.',
+  loading:'Loading',
+  message8:'The account has been verified!',
+  message9:'There was a problem with verification!',
+  message10:'An email containing a token has been sent to your email address. Please check your mailbox and enter token to verify your account!',
+  alert3:'Email Sent',
+  message11:'There was an error processing your request',
+  message12:'Registration is completed. Please wait for admin approval!',
+  m1:'Please fill up the required fields!',
+  m2:'There was an error!',
+  m3:'There was an error processing the request!',
+  m4:'Something went wrong! Please try again!',
+  m5:'Password changed successfully. Please login to continue!',
+  m6:'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+  m7:'There was an error processing your request',
+  m8:'Please enter a valid email address!',
+
+
+
+
+
 };
 
 export default English;

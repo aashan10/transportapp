@@ -101,6 +101,7 @@ const CreateItem = ({navigation}: any) => {
     size: null,
   });
   return (
+    <ScrollView>
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
         <Header
@@ -323,6 +324,7 @@ const CreateItem = ({navigation}: any) => {
         </Button>
       </Layout>
     </Layout>
+    </ScrollView>
   );
 };
 

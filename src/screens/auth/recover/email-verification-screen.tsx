@@ -160,8 +160,8 @@ const EmailVerificationScreen = ({
             })
               .then(() => {
                 Alert.alert(
-                  'Success',
-                  'Password changed successfully. Please login to continue!',
+                  currentLanguage.alert2,
+                  currentLanguage.m5
                 );
                 navigation.navigate('login');
               })
@@ -177,8 +177,8 @@ const EmailVerificationScreen = ({
                   }
                 } else {
                   Alert.alert(
-                    'Error',
-                    'There was a problem processing your request',
+                    currentLanguage.alert1,
+                    currentLanguage.m4,
                   );
                 }
               })
@@ -189,7 +189,7 @@ const EmailVerificationScreen = ({
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
-          {loading ? 'Loading' : 'Continue'}
+          {loading ? currentLanguage.loading : currentLanguage.continue}
         </Button>
       </Layout>
     </Layout>

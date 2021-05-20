@@ -85,15 +85,15 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           disabled={loading}
           onPress={() => {
             if (!EMAIL_REGEX.test(email)) {
-              setError('Please enter a valid email address!');
+              setError(currentLanguage.m8);
             } else {
               setError('');
               setLoading(true);
               forgotPassword(email)
                 .then(() => {
                   Alert.alert(
-                    'Email Sent',
-                    'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+                    currentLanguage.alert3,
+                    currentLanguage.m6
                   );
                   navigation.navigate('recoverPassword');
                 })
@@ -105,8 +105,8 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
                       Alert.alert('Error', msg);
                     } catch (e) {
                       Alert.alert(
-                        'Error',
-                        'There was an error processing your request' +
+                        currentLanguage.alert1,
+                        currentLanguage.m7 +
                           e.message,
                       );
                     }
@@ -122,7 +122,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
           accessoryLeft={() =>
             loading ? <Spinner size={'small'} /> : <View />
           }>
-          {loading ? 'Loading' : 'Continue'}
+          {loading ? currentLanguage.loading : currentLanguage.continue}
         </Button>
       </Layout>
     </Layout>

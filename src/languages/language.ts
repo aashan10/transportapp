@@ -85,6 +85,36 @@ export interface Language {
   registerVendor: string;
   enable: string;
   disable: string;
+  acceptDelivery: string;
+  completeDelivery: string;
+  acceptedByDriver: string;
+  complete: string;
+  alert1: string;
+  alert2: string;
+  message1: string;
+  message2: string;
+  message3: string;
+  message4: string;
+  message5: string;
+  message6: string;
+  message7: string;
+  loading: string;
+  message8: string;
+  message9: string;
+  message10: string;
+  alert3: string;
+  message11: string;
+  message12: string;
+  m1: string;
+  m2: string;
+  m3:string;
+  m4: string;
+  m5: string;
+  m6:string;
+  m7: string;
+  m8: string;
+
+
 }
 
 const languages = {

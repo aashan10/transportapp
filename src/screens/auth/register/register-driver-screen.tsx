@@ -477,7 +477,7 @@ const RegisterDriverScreen = (props: any) => {
                 validation.blueBookPhoto !== null ||
                 validation.licensePhoto !== null
               ) {
-                throw new Error('Please fill up the required fields!');
+                throw new Error(currentLanguage.m1);
               } else {
                 registerDriver({
                   name: name,
@@ -492,23 +492,22 @@ const RegisterDriverScreen = (props: any) => {
                 })
                   .then(res => {
                     Alert.alert(
-                      'Success',
+                      currentLanguage.alert2,
                       res.success ??
-                        'Registration is completed. Please wait for admin approval!',
-                    );
+                      currentLanguage.message12                    );
                     props.navigation.navigate('login');
                   })
                   .catch(async err => {
                     if (err instanceof Exception) {
                       Alert.alert(
-                        'Error',
+                        currentLanguage.alert1,
                         (await err.response.json()).message ??
-                          'There was an error!',
+                          currentLanguage.m2,
                       );
                     } else {
                       Alert.alert(
-                        'Error',
-                        'There was an error processing the request!',
+                        currentLanguage.alert1,
+                        currentLanguage.m3,
                       );
                     }
                   })
