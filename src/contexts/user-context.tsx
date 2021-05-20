@@ -66,7 +66,6 @@ const UserProvider = ({children}: UserProviderProps) => {
   });
   const {token} = user;
   useEffect(() => {
-    console.log('Token Changed');
     getToken()
       .then(storageToken => {
         if (
@@ -80,8 +79,6 @@ const UserProvider = ({children}: UserProviderProps) => {
       .catch();
     userInfo(user.token)
       .then(response => {
-        console.log('User Info', response);
-
         const {name, email, phoneNumber, address, role} = response;
         setUser({
           ...user,

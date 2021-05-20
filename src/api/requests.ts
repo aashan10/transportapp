@@ -72,7 +72,7 @@ const getHeaders = (headers: {[text: string]: string}) => {
 };
 
 export const userLogin = async (credentials: {
-  username: string;
+  phoneNumber: string;
   password: string;
 }) => {
   return await post(USER_LOGIN, credentials, false);

@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import HomeScreen from '../screens/home-screen';
 import DrawerComponent from '../components/drawer';
 import SettingsScreen from '../screens/settings-screen';
 import UserContext from '../contexts/user-context';
@@ -20,23 +19,18 @@ const HomeNavigation = () => {
       drawerContent={(props: any) => <DrawerComponent {...props} />}>
       <Drawer.Screen
         name={user.role === 'vendor' ? 'vendor Home' : 'driver Home'}
-        initialParams={{
-          title:
-            user.role === 'vendor'
-              ? currentLanguage.vendorHome
-              : currentLanguage.driverHome,
-        }}
+        options={{drawerLabel: user.role === 'vendor' ? currentLanguage.vendorHome : currentLanguage.driverHome}}
         component={user.role === 'vendor' ? VendorNavigation : DriverNavigation}
       />
       <Drawer.Screen
-        initialParams={{title: currentLanguage.setting}}
+        options={{drawerLabel: currentLanguage.setting}}
         name={'settings'}
         component={SettingsScreen}
       />
       {user.role === 'driver' ? (
         <Drawer.Screen
           name={'my Pickups'}
-          initialParams={{title: currentLanguage.myPickups}}
+          options={{drawerLabel: currentLanguage.myPickups}}
           component={MyPickups}
         />
       ) : null}

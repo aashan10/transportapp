@@ -15,7 +15,7 @@ const English: Language = {
   deliveryLocation: 'Delivery Location',
   price: 'Price',
   currency: 'Rs. ',
-  changeLanguage: 'नेपाली सेट गर्नुहोस',
+  changeLanguage: 'Change to Nepali',
   verifiedAccount: 'Verifed Account',
   details: 'Details',
   request: 'Requests',
@@ -42,7 +42,7 @@ const English: Language = {
   detail: 'Details',
   requestDetail: 'Request Details',
   itemsToDelivery: 'Items to be Delivered',
-  night: 'Night Mode',
+  night: 'Dark Mode',
   language: 'Language',
   setting: 'Setting',
   vendorHome: 'Vendor Home',
@@ -87,7 +87,8 @@ const English: Language = {
   pickup: 'PickUp',
   registerDriver: 'Register as Driver',
   registerVendor: 'Register as vendor',
-  
+  enable: 'Enable',
+  disable: 'Disable',
 };
 
 export default English;

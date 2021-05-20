@@ -171,7 +171,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isDelivered, setDelivered] = useState<boolean>(false);
   useEffect(() => {
-    console.log(route.params.item);
     setRequest(route.params.item);
     const finalPrice =
       request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor ?? '';
@@ -428,7 +427,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   itemId: request.itemId,
                 })
                   .then(response => {
-                    console.log(response);
                     Alert.alert(
                       'Success',
                       'You requested for delivering the item! Please check the detail of vendor in my pickups page',

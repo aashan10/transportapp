@@ -78,7 +78,7 @@ const LoginScreen = (props: any) => {
             appearance={'primary'}
             onPress={() => {
               setLoading(true);
-              userLogin({username: username, password: password})
+              userLogin({phoneNumber: username, password: password})
                 .then(response => {
                   if (setUser) {
                     setUser({token: response.token});

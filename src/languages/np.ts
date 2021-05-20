@@ -15,7 +15,7 @@ const Nepali: Language = {
   deliveryLocation: 'वितरण स्थान',
   price: 'मूल्य',
   currency: 'रु. ',
-  changeLanguage: 'Set English',
+  changeLanguage: 'अंग्रेजी सेट गर्नुहोस',
   verifiedAccount: 'प्रमाणित खाता',
   details: 'पूरा विवरण',
   request: 'अनुरोध',
@@ -42,7 +42,7 @@ const Nepali: Language = {
   createItems: 'नयाँ अनुरोध सिर्जना गर्नुहोस्',
   detail: 'विस्तृत रूपमा हेर्नुहोस्',
   itemsToDelivery: 'वटा समान',
-  night: 'राती मोड',
+  night: 'डार्क मोड',
   setting: 'सेटिंग्स',
   language: 'भाषा',
   vendorHome: 'विक्रेता पृष्ठमा जानुहोस्',
@@ -87,7 +87,8 @@ const Nepali: Language = {
   pickup: 'पिकअप',
   registerDriver: 'चालकको रूपमा दर्ता गर्नुहोस्',
   registerVendor: 'विक्रेताको रूपमा दर्ता गर्नुहोस्',
-  
+  enable: 'इनेबल गर्नुहोस',
+  disable: 'डीसेबल गर्नुहोस',
 };
 
 export default Nepali;
