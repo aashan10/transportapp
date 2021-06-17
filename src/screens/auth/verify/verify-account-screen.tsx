@@ -6,7 +6,6 @@ import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
 import {
   Exception,
-  forgotPassword,
   resendVerificationEmail,
 } from '../../../api/requests';
 import LocalizationContext from '../../../contexts/localization-context';

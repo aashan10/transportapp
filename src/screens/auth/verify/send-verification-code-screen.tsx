@@ -93,10 +93,14 @@ const SendVerificationCodeScreen = ({
           style={{minWidth: 150}}
           disabled={loading}
           onPress={() => {
+            if(token.length <= 0) {
+              Alert.alert('Invalid OTP', 'The OTP must not be empty!');
+              return;
+            }
             setLoading(true);
             verifyAccount({token: token})
               .then(() => {
-                Alert.alert(currentLanguage.alert2, 
+                Alert.alert(currentLanguage.alert2,
                   currentLanguage.message8);
                 navigation.navigate('login');
               })

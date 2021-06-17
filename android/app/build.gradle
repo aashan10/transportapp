@@ -2,10 +2,10 @@ apply plugin: "com.android.application"
 
 ext.versionMajor = 1
 ext.versionMinor = 0
-ext.versionPatch = 2
+ext.versionPatch = 3
 ext.minimumSdkVersion = 19
 ext.versionClassifier = null
-ext.isSnapshot = true
+ext.isSnapshot = false
 
 import com.android.build.OutputFile
 
