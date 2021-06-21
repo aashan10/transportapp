@@ -1,33 +1,53 @@
-import React, { useEffect } from 'react';
-import { ApplicationProvider, IconRegistry, Layout } from '@ui-kitten/components';
+import React, {useEffect} from 'react';
+import {ApplicationProvider, IconRegistry, Layout} from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigation from './navigations/auth-navigation';
 import CustomStatusBar from './components/status-bar';
-import { UserProvider } from './contexts/user-context';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import ThemeProvider, { ThemeContext } from './contexts/theme-context';
-import { LocalizationProvider } from './contexts/localization-context';
+import {UserProvider} from './contexts/user-context';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import ThemeProvider, {ThemeContext} from './contexts/theme-context';
+import {LocalizationProvider} from './contexts/localization-context';
 import {
   openSettings,
   PERMISSIONS,
   request,
   RESULTS,
 } from 'react-native-permissions';
-import { Alert } from 'react-native';
+import {Alert, Linking} from 'react-native';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 const Main = () => {
-
   useEffect(() => {
     Alert.alert(
-      'Prominent Location Access Disclosure',
-      'This app uses location services to track your current location. Please press I Agree to concent to provide the location service access to this application.'
-      ,
+      'Location Access',
+      `JMR Transport app uses location services to show your current location on map in real time. The location is required on the following features
+      
+      \t - To get the current location of the 
+      \t \t driver and show the location on the 
+      \t \t map.
+      \t - To get current location of vendor to 
+      \t \t show it in the pickup location for 
+      \t \t driver.
+      
+The location information is collected on background and is updated every few seconds for the best experience while using the application. 
+
+If you want to use these features, please press 'I Agree' to consent to providing the location information to us. For more info, please see our privacy policy.
+      `,
       [
         {
+          text: 'Privacy Policy',
+          onPress: () => {
+            Linking.openURL(
+              'https://www.freeprivacypolicy.com/live/e831f385-134e-45b6-87a7-2824cbb69d2e',
+            )
+              .then()
+              .catch();
+          },
+        },
+        {
           text: 'Cancel',
-          onPress: () => { },
+          onPress: () => {},
         },
         {
           text: 'I Agree',
@@ -38,10 +58,10 @@ const Main = () => {
                   interval: 10000,
                   fastInterval: 5000,
                 })
-                  .then((loc) => {
+                  .then(loc => {
                     console.log(loc);
                   })
-                  .catch(() => { });
+                  .catch(() => {});
                 if (permission !== RESULTS.GRANTED) {
                   Alert.alert(
                     'Location Permission Not Available',
@@ -59,20 +79,20 @@ const Main = () => {
                       onPress: () => {
                         openSettings()
                           .then()
-                          .catch(() => { });
+                          .catch(() => {});
                       },
                     },
                     {
                       text: 'Ok',
-                      onPress: () => { },
+                      onPress: () => {},
                     },
                   ],
                 );
               });
           },
-        }
-      ]
-    )
+        },
+      ],
+    );
   }, []);
 
   return (
@@ -81,7 +101,7 @@ const Main = () => {
       <LocalizationProvider>
         <ThemeProvider>
           <ThemeContext.Consumer>
-            {({ theme }) => (
+            {({theme}) => (
               <ApplicationProvider {...eva} theme={theme}>
                 <CustomStatusBar />
                 <UserProvider>
