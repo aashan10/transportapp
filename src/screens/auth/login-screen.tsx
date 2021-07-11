@@ -153,7 +153,7 @@ const style = StyleSheet.create({
     marginTop: 15,
   },
   centeredContent: {
-    marginTop: '60%',
+    marginTop: '30%',
   },
   container: {
     padding: 10,

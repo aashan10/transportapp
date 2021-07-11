@@ -3,19 +3,19 @@ import {Text, Layout} from '@ui-kitten/components';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {getDeliveryitemDetail} from '../api/requests';
+import {getDriverItemsDetail} from '../api/requests';
 import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
 
-const MyPickups = ({navigation}: any) => {
+const History = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     setLoading(true);
-    getDeliveryitemDetail()
+    getDriverItemsDetail()
       .then(feeds => {
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
@@ -42,7 +42,7 @@ const MyPickups = ({navigation}: any) => {
             refreshing={loading}
             onRefresh={() => {
               setLoading(true);
-              getDeliveryitemDetail()
+              getDriverItemsDetail()
                 .then(feeds => {
                   if (feeds.message) {
                     Alert.alert('Message', feeds.message);
@@ -71,4 +71,4 @@ const MyPickups = ({navigation}: any) => {
   );
 };
 
-export default MyPickups;
+export default History;

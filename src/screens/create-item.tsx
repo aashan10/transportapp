@@ -3,13 +3,11 @@ import {
   IndexPath,
   Input,
   Layout,
-  Select,
-  SelectItem,
   Spinner,
   Text,
 } from '@ui-kitten/components';
 import Header from '../components/header';
-import { ScrollView, ToastAndroid, View } from 'react-native';
+import { ScrollView, TextInput, ToastAndroid, View } from 'react-native';
 import Button from '../components/button';
 import Geolocation, {
   GeolocationError,
@@ -26,18 +24,16 @@ interface ErrorState {
   from: string | null;
   qty: string | null;
   price: string | null;
-  type: string | null;
-  size: string | null;
+  description: string | null;
 }
-const validate = ({ name, to, from, qty, price, type, size }: ErrorState) => {
+const validate = ({ name, to, from, qty, price, description }: ErrorState) => {
   let response: ErrorState = {
     name: null,
     to: null,
     from: null,
     qty: null,
     price: null,
-    type: null,
-    size: null,
+    description: null,
   };
 
   if (!name || name?.length <= 0) {
@@ -55,11 +51,8 @@ const validate = ({ name, to, from, qty, price, type, size }: ErrorState) => {
   if (!price || price === 'NaN') {
     response.price = 'The Price must be greater than zero!';
   }
-  if (!type || type === 'NaN') {
-    response.type = 'The type must be define!';
-  }
-  if (!size) {
-    response.size = 'The Size must be define!';
+  if (!description || description === 'NaN') {
+    response.description = 'The type must be define!';
   }
 
   return response;
@@ -73,32 +66,18 @@ const CreateItem = ({ navigation }: any) => {
   const [from, setFrom] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
-  const [type, setType] = useState<IndexPath | Array<IndexPath>>(
-    new IndexPath(0),
-  );
+  const [description, setDescription] = useState<string>('');
 
-  const [size, setSize] = useState<IndexPath | Array<IndexPath>>(
-    new IndexPath(0),
-  );
   const [loading, setLoading] = useState<boolean>(false);
 
-  const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
-  const types = [
-    currentLanguage.truck,
-    currentLanguage.container,
-    currentLanguage.otruck,
-    currentLanguage.tripper,
-    currentLanguage.pickup,
-  ];
-
+  
   const [error, setError] = useState<ErrorState>({
     name: null,
     to: null,
     from: null,
     qty: null,
     price: null,
-    type: null,
-    size: null,
+    description: null,
   });
   return (
     <Layout style={{ height: '100%' }} level={'4'}>
@@ -155,46 +134,8 @@ const CreateItem = ({ navigation }: any) => {
             />
             {error?.to ? <Text status={'danger'}>{error.to}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
-              {currentLanguage.containerType}
-            </Text>
-            <Select
-              selectedIndex={type}
-              value={
-                type instanceof Array
-                  ? types[type[0].row] ?? ''
-                  : types[type.row]
-              }
-              onSelect={itemValue => {
-                setType(itemValue);
-              }}>
-              {types.map(vehicleCount => {
-                return <SelectItem title={vehicleCount} />;
-              })}
-            </Select>
-            {error?.type ? <Text status={'danger'}>{error.type}</Text> : null}
-          </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
-              {currentLanguage.containerSize}
-            </Text>
-            <Select
-              selectedIndex={size}
-              value={
-                size instanceof Array
-                  ? sizes[size[0].row] ?? ''
-                  : sizes[size.row]
-              }
-              onSelect={itemValue => {
-                setSize(itemValue);
-              }}>
-              {sizes.map(wheelCount => {
-                return <SelectItem title={wheelCount} />;
-              })}
-            </Select>
-            {error?.size ? <Text status={'danger'}>{error.size}</Text> : null}
-          </View>
+
+
           <View style={{ marginBottom: 15 }}>
             <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.quantity}
@@ -211,7 +152,7 @@ const CreateItem = ({ navigation }: any) => {
             />
             {error?.qty ? <Text status={'danger'}>{error.qty}</Text> : null}
           </View>
-          <View style={{ marginBottom: 50 }}>
+          <View style={{ marginBottom: 15 }}>
             <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
               {currentLanguage.price}
             </Text>
@@ -227,6 +168,25 @@ const CreateItem = ({ navigation }: any) => {
             />
             {error?.price ? <Text status={'danger'}>{error.price}</Text> : null}
           </View>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+              Description
+            </Text>
+            <Input
+              multiline={true}
+              textAlignVertical= {'top'}
+              numberOfLines={6}
+              value={description}
+              onChangeText={text => {
+                setDescription(text);
+                setError({ ...error, description: null });
+              }}
+              status={error.description ? 'danger' : ''}
+              placeholder={'Delivery Description'}
+            />
+            {error?.description ? <Text status={'danger'}>{error.description}</Text> : null}
+          </View>
+
         </ScrollView>
       </Layout>
       <Layout
@@ -254,8 +214,10 @@ const CreateItem = ({ navigation }: any) => {
                 from: from,
                 price: price.toString(),
                 qty: qty.toString(),
-                type: types[type instanceof IndexPath ? type.row : 0],
-                size: sizes[size instanceof IndexPath ? size.row : 0],
+                description: description,
+
+                // type: types[type instanceof IndexPath ? type.row : 0],
+                // size: sizes[size instanceof IndexPath ? size.row : 0],
               });
               if (
                 validation.from !== null ||
@@ -263,8 +225,7 @@ const CreateItem = ({ navigation }: any) => {
                 validation.name !== null ||
                 validation.qty !== null ||
                 validation.price !== null ||
-                validation.type !== null ||
-                validation.size !== null
+                validation.description !== null
               ) {
                 setError(validation);
               } else {
@@ -283,18 +244,15 @@ const CreateItem = ({ navigation }: any) => {
                         to: to,
                         quantity: qty,
                         price: price,
-                        // @ts-ignore
-                        type: types[type.row],
-                        // @ts-ignore
-                        size: sizes[size.row],
+                        description: description,
+
                       });
                       setName('');
                       setTo('');
                       setFrom('');
                       setQty(0);
                       setPrice(0);
-                      setType(new IndexPath(0));
-                      setSize(new IndexPath(0));
+                      setDescription('');
                       ToastAndroid.show(response.message, 5000);
                       navigation.goBack();
                     } catch (e) {
@@ -323,8 +281,11 @@ const CreateItem = ({ navigation }: any) => {
         </Button>
       </Layout>
     </Layout>
-
   );
 };
 
 export default CreateItem;
+function setDescription(text: string) {
+  throw new Error('Function not implemented.');
+}
+

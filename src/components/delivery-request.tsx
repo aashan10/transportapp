@@ -22,7 +22,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
   const [price, setPrice] = useState<string | number | null>('');
   useEffect(() => {
     setPrice(request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor);
-  }, [request]);  
+  }, [request]);
   return (
     <Card
       header={() => {

@@ -56,7 +56,7 @@ const VendorHomeScreen = ({navigation}: any) => {
                   .catch(() => {
                     Alert.alert(
                       currentLanguage.alert1,
-                      currentLanguage.message7
+                      currentLanguage.message7,
                     );
                   })
                   .finally(() => {

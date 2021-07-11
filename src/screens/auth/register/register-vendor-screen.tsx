@@ -262,12 +262,14 @@ const RegisterVendorScreen = (props: any) => {
                 })
                 .catch(async (exception: any) => {
                   if (exception instanceof Exception) {
-                    Alert.alert(currentLanguage.alert1, await exception.response.text());
+                    Alert.alert(
+                      currentLanguage.alert1,
+                      await exception.response.text(),
+                    );
                   } else {
                     Alert.alert(
                       currentLanguage.alert1,
-                      currentLanguage.m4 +
-                        exception.message,
+                      currentLanguage.m4 + exception.message,
                     );
                   }
                 })

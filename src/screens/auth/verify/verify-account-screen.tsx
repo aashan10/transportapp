@@ -4,10 +4,7 @@ import Header from '../../../components/header';
 import {Alert, View} from 'react-native';
 import Button from '../../../components/button';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import {
-  Exception,
-  resendVerificationEmail,
-} from '../../../api/requests';
+import {Exception, resendVerificationEmail} from '../../../api/requests';
 import LocalizationContext from '../../../contexts/localization-context';
 import {useContext} from 'react';
 
@@ -95,7 +92,8 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
                 .then(() => {
                   Alert.alert(
                     currentLanguage.alert3,
-                    currentLanguage.message10                  );
+                    currentLanguage.message10,
+                  );
                   navigation.navigate('sendVerificationCodeScreen');
                 })
                 .catch(async (err: any) => {
@@ -107,8 +105,7 @@ const VerifyAccountScreen = ({navigation}: VerifyAccountScreenProps) => {
                     } catch (e) {
                       Alert.alert(
                         currentLanguage.alert1,
-                        currentLanguage.message11 +
-                          e.message,
+                        currentLanguage.message11 + e.message,
                       );
                     }
                   } else {
