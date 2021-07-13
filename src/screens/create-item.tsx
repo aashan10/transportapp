@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
-import {
-  IndexPath,
-  Input,
-  Layout,
-  Select,
-  SelectItem,
-  Spinner,
-  Text,
-} from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {IndexPath, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../components/header';
-import { ScrollView, ToastAndroid, View } from 'react-native';
+import {ScrollView, TextInput, ToastAndroid, View} from 'react-native';
 import Button from '../components/button';
 import Geolocation, {
   GeolocationError,
   GeolocationResponse,
 } from '@react-native-community/geolocation';
-import { requestLocationPermission } from '../helpers/functions';
-import { createNewItemRequest } from '../api/requests';
+import {requestLocationPermission} from '../helpers/functions';
+import {createNewItemRequest} from '../api/requests';
 import LocalizationContext from '../contexts/localization-context';
-import { useContext } from 'react';
+import {useContext} from 'react';
 
 interface ErrorState {
   name: string | null;
@@ -26,18 +18,16 @@ interface ErrorState {
   from: string | null;
   qty: string | null;
   price: string | null;
-  type: string | null;
-  size: string | null;
+  description: string | null;
 }
-const validate = ({ name, to, from, qty, price, type, size }: ErrorState) => {
+const validate = ({name, to, from, qty, price, description}: ErrorState) => {
   let response: ErrorState = {
     name: null,
     to: null,
     from: null,
     qty: null,
     price: null,
-    type: null,
-    size: null,
+    description: null,
   };
 
   if (!name || name?.length <= 0) {
@@ -55,41 +45,24 @@ const validate = ({ name, to, from, qty, price, type, size }: ErrorState) => {
   if (!price || price === 'NaN') {
     response.price = 'The Price must be greater than zero!';
   }
-  if (!type || type === 'NaN') {
-    response.type = 'The type must be define!';
-  }
-  if (!size) {
-    response.size = 'The Size must be define!';
+  if (!description || description === 'NaN') {
+    response.description = 'The type must be define!';
   }
 
   return response;
 };
 
-const CreateItem = ({ navigation }: any) => {
-  const { currentLanguage } = useContext(LocalizationContext);
+const CreateItem = ({navigation}: any) => {
+  const {currentLanguage} = useContext(LocalizationContext);
 
   const [name, setName] = useState<string>('');
   const [to, setTo] = useState<string>('');
   const [from, setFrom] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
-  const [type, setType] = useState<IndexPath | Array<IndexPath>>(
-    new IndexPath(0),
-  );
+  const [description, setDescription] = useState<string>('');
 
-  const [size, setSize] = useState<IndexPath | Array<IndexPath>>(
-    new IndexPath(0),
-  );
   const [loading, setLoading] = useState<boolean>(false);
-
-  const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
-  const types = [
-    currentLanguage.truck,
-    currentLanguage.container,
-    currentLanguage.otruck,
-    currentLanguage.tripper,
-    currentLanguage.pickup,
-  ];
 
   const [error, setError] = useState<ErrorState>({
     name: null,
@@ -97,11 +70,10 @@ const CreateItem = ({ navigation }: any) => {
     from: null,
     qty: null,
     price: null,
-    type: null,
-    size: null,
+    description: null,
   });
   return (
-    <Layout style={{ height: '100%' }} level={'4'}>
+    <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
         <Header
           back={true}
@@ -109,94 +81,55 @@ const CreateItem = ({ navigation }: any) => {
           title={currentLanguage.createItems}
         />
       </Layout>
-      <Layout style={{ flex: 1, margin: 5, borderRadius: 10 }} level={'1'}>
-        <ScrollView style={{ flex: 1, padding: 10, paddingVertical: 20 }}>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+      <Layout style={{flex: 1, margin: 5, borderRadius: 10}} level={'1'}>
+        <ScrollView style={{flex: 1, padding: 10, paddingVertical: 20}}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.itemName}
             </Text>
             <Input
               onChangeText={text => {
                 setName(text);
-                setError({ ...error, name: null });
+                setError({...error, name: null});
               }}
               status={error.name ? 'danger' : ''}
               placeholder={'Name of item to be picked'}
             />
             {error?.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.pickUp}
             </Text>
             <Input
               value={from}
               onChangeText={text => {
                 setFrom(text);
-                setError({ ...error, from: null });
+                setError({...error, from: null});
               }}
               status={error.from ? 'danger' : ''}
               placeholder={'Pickup Address'}
             />
             {error?.from ? <Text status={'danger'}>{error.from}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.Drop}
             </Text>
             <Input
               value={to}
               onChangeText={text => {
                 setTo(text);
-                setError({ ...error, to: null });
+                setError({...error, to: null});
               }}
               status={error.to ? 'danger' : ''}
               placeholder={'Delivery Address'}
             />
             {error?.to ? <Text status={'danger'}>{error.to}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
-              {currentLanguage.containerType}
-            </Text>
-            <Select
-              selectedIndex={type}
-              value={
-                type instanceof Array
-                  ? types[type[0].row] ?? ''
-                  : types[type.row]
-              }
-              onSelect={itemValue => {
-                setType(itemValue);
-              }}>
-              {types.map(vehicleCount => {
-                return <SelectItem title={vehicleCount} />;
-              })}
-            </Select>
-            {error?.type ? <Text status={'danger'}>{error.type}</Text> : null}
-          </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
-              {currentLanguage.containerSize}
-            </Text>
-            <Select
-              selectedIndex={size}
-              value={
-                size instanceof Array
-                  ? sizes[size[0].row] ?? ''
-                  : sizes[size.row]
-              }
-              onSelect={itemValue => {
-                setSize(itemValue);
-              }}>
-              {sizes.map(wheelCount => {
-                return <SelectItem title={wheelCount} />;
-              })}
-            </Select>
-            {error?.size ? <Text status={'danger'}>{error.size}</Text> : null}
-          </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.quantity}
             </Text>
             <Input
@@ -204,15 +137,15 @@ const CreateItem = ({ navigation }: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setQty(parseFloat(text));
-                setError({ ...error, qty: null });
+                setError({...error, qty: null});
               }}
               status={error.qty ? 'danger' : ''}
               placeholder={'Quantity of items to be dropped'}
             />
             {error?.qty ? <Text status={'danger'}>{error.qty}</Text> : null}
           </View>
-          <View style={{ marginBottom: 50 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.price}
             </Text>
             <Input
@@ -220,12 +153,32 @@ const CreateItem = ({ navigation }: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setPrice(parseFloat(text));
-                setError({ ...error, price: null });
+                setError({...error, price: null});
               }}
               status={error.price ? 'danger' : ''}
               placeholder={'Estimated price for delivery'}
             />
             {error?.price ? <Text status={'danger'}>{error.price}</Text> : null}
+          </View>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
+              {currentLanguage.Description}
+            </Text>
+            <Input
+              multiline={true}
+              textAlignVertical={'top'}
+              numberOfLines={6}
+              value={description}
+              onChangeText={text => {
+                setDescription(text);
+                setError({...error, description: null});
+              }}
+              status={error.description ? 'danger' : ''}
+              placeholder={'Delivery Description'}
+            />
+            {error?.description ? (
+              <Text status={'danger'}>{error.description}</Text>
+            ) : null}
           </View>
         </ScrollView>
       </Layout>
@@ -238,7 +191,7 @@ const CreateItem = ({ navigation }: any) => {
         }}
         level={'4'}>
         <Button
-          style={{ minWidth: 150 }}
+          style={{minWidth: 150}}
           appearance={'outline'}
           onPress={() => {
             navigation.goBack();
@@ -254,8 +207,7 @@ const CreateItem = ({ navigation }: any) => {
                 from: from,
                 price: price.toString(),
                 qty: qty.toString(),
-                type: types[type instanceof IndexPath ? type.row : 0],
-                size: sizes[size instanceof IndexPath ? size.row : 0],
+                description: description,
               });
               if (
                 validation.from !== null ||
@@ -263,8 +215,7 @@ const CreateItem = ({ navigation }: any) => {
                 validation.name !== null ||
                 validation.qty !== null ||
                 validation.price !== null ||
-                validation.type !== null ||
-                validation.size !== null
+                validation.description !== null
               ) {
                 setError(validation);
               } else {
@@ -272,7 +223,7 @@ const CreateItem = ({ navigation }: any) => {
                 await requestLocationPermission();
                 Geolocation.getCurrentPosition(
                   async (position: GeolocationResponse) => {
-                    const { latitude, longitude } = position.coords;
+                    const {latitude, longitude} = position.coords;
                     try {
                       setLoading(true);
                       let response = await createNewItemRequest({
@@ -283,18 +234,14 @@ const CreateItem = ({ navigation }: any) => {
                         to: to,
                         quantity: qty,
                         price: price,
-                        // @ts-ignore
-                        type: types[type.row],
-                        // @ts-ignore
-                        size: sizes[size.row],
+                        description: description,
                       });
                       setName('');
                       setTo('');
                       setFrom('');
                       setQty(0);
                       setPrice(0);
-                      setType(new IndexPath(0));
-                      setSize(new IndexPath(0));
+                      setDescription('');
                       ToastAndroid.show(response.message, 5000);
                       navigation.goBack();
                     } catch (e) {
@@ -318,12 +265,11 @@ const CreateItem = ({ navigation }: any) => {
             return loading ? <Spinner size={'small'} /> : <View />;
           }}
           disabled={loading}
-          style={{ minWidth: 150 }}>
+          style={{minWidth: 150}}>
           {currentLanguage.createItems}
         </Button>
       </Layout>
     </Layout>
-
   );
 };
 

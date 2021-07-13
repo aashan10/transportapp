@@ -112,10 +112,12 @@ interface ErrorValidationState {
 
 const RegisterDriverScreen = (props: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
-  const [licensePhoto, setLicensePhoto] =
-    useState<ImageOrVideo | undefined>(undefined);
-  const [blueBookPhoto, setBlueBookPhoto] =
-    useState<ImageOrVideo | undefined>(undefined);
+  const [licensePhoto, setLicensePhoto] = useState<ImageOrVideo | undefined>(
+    undefined,
+  );
+  const [blueBookPhoto, setBlueBookPhoto] = useState<ImageOrVideo | undefined>(
+    undefined,
+  );
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
@@ -141,11 +143,14 @@ const RegisterDriverScreen = (props: any) => {
 
   const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
   const types = [
+    currentLanguage.pickup,
     currentLanguage.truck,
-    currentLanguage.container,
     currentLanguage.otruck,
     currentLanguage.tripper,
-    currentLanguage.pickup,
+    currentLanguage.container,
+    currentLanguage.wheelar1,
+    currentLanguage.wheelar2,
+    currentLanguage.tailor,
   ];
 
   return (
@@ -493,8 +498,8 @@ const RegisterDriverScreen = (props: any) => {
                   .then(res => {
                     Alert.alert(
                       currentLanguage.alert2,
-                      res.success ??
-                      currentLanguage.message12                    );
+                      res.success ?? currentLanguage.message12,
+                    );
                     props.navigation.navigate('login');
                   })
                   .catch(async err => {
@@ -505,10 +510,7 @@ const RegisterDriverScreen = (props: any) => {
                           currentLanguage.m2,
                       );
                     } else {
-                      Alert.alert(
-                        currentLanguage.alert1,
-                        currentLanguage.m3,
-                      );
+                      Alert.alert(currentLanguage.alert1, currentLanguage.m3);
                     }
                   })
                   .finally(() => {

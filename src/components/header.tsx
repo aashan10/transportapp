@@ -1,9 +1,9 @@
 import {Button, Icon, Text, TopNavigation} from '@ui-kitten/components';
 import React, {useContext} from 'react';
 import LocalizationContext from '../contexts/localization-context';
-
-const Header = ({navigation, title, style, back}: any) => {
+const Header = ({navigation, title, style, back, accessoryRight}: any) => {
   const shouldGoBack = typeof navigation.openDrawer === 'undefined' || back;
+  console.log(shouldGoBack);
   const {currentLanguage} = useContext(LocalizationContext);
   return (
     <TopNavigation
@@ -37,6 +37,7 @@ const Header = ({navigation, title, style, back}: any) => {
           />
         );
       }}
+      accessoryRight={accessoryRight}
     />
   );
 };

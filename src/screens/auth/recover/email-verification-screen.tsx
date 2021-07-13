@@ -21,8 +21,9 @@ const EmailVerificationScreen = ({
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(
+    false,
+  );
   const [showToken, setShowToken] = useState<boolean>(false);
 
   return (
@@ -159,10 +160,7 @@ const EmailVerificationScreen = ({
               token: token,
             })
               .then(() => {
-                Alert.alert(
-                  currentLanguage.alert2,
-                  currentLanguage.m5
-                );
+                Alert.alert(currentLanguage.alert2, currentLanguage.m5);
                 navigation.navigate('login');
               })
               .catch(async exception => {
@@ -176,10 +174,7 @@ const EmailVerificationScreen = ({
                     Alert.alert('Error', text);
                   }
                 } else {
-                  Alert.alert(
-                    currentLanguage.alert1,
-                    currentLanguage.m4,
-                  );
+                  Alert.alert(currentLanguage.alert1, currentLanguage.m4);
                 }
               })
               .finally(() => {

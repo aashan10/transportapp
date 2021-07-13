@@ -1,33 +1,31 @@
-import React, { useEffect } from 'react';
-import { ApplicationProvider, IconRegistry, Layout } from '@ui-kitten/components';
+import React, {useEffect} from 'react';
+import {ApplicationProvider, IconRegistry, Layout} from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import AuthNavigation from './navigations/auth-navigation';
 import CustomStatusBar from './components/status-bar';
-import { UserProvider } from './contexts/user-context';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import ThemeProvider, { ThemeContext } from './contexts/theme-context';
-import { LocalizationProvider } from './contexts/localization-context';
+import {UserProvider} from './contexts/user-context';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import ThemeProvider, {ThemeContext} from './contexts/theme-context';
+import {LocalizationProvider} from './contexts/localization-context';
 import {
   openSettings,
   PERMISSIONS,
   request,
   RESULTS,
 } from 'react-native-permissions';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 const Main = () => {
-
   useEffect(() => {
     Alert.alert(
       'Prominent Location Access Disclosure',
-      'This app uses location services to track your current location. Please press I Agree to concent to provide the location service access to this application.'
-      ,
+      'This app uses location services to track your current location. Please press I Agree to concent to provide the location service access to this application.',
       [
         {
           text: 'Cancel',
-          onPress: () => { },
+          onPress: () => {},
         },
         {
           text: 'I Agree',
@@ -38,10 +36,10 @@ const Main = () => {
                   interval: 10000,
                   fastInterval: 5000,
                 })
-                  .then((loc) => {
+                  .then(loc => {
                     console.log(loc);
                   })
-                  .catch(() => { });
+                  .catch(() => {});
                 if (permission !== RESULTS.GRANTED) {
                   Alert.alert(
                     'Location Permission Not Available',
@@ -59,20 +57,20 @@ const Main = () => {
                       onPress: () => {
                         openSettings()
                           .then()
-                          .catch(() => { });
+                          .catch(() => {});
                       },
                     },
                     {
                       text: 'Ok',
-                      onPress: () => { },
+                      onPress: () => {},
                     },
                   ],
                 );
               });
           },
-        }
-      ]
-    )
+        },
+      ],
+    );
   }, []);
 
   return (
@@ -81,7 +79,7 @@ const Main = () => {
       <LocalizationProvider>
         <ThemeProvider>
           <ThemeContext.Consumer>
-            {({ theme }) => (
+            {({theme}) => (
               <ApplicationProvider {...eva} theme={theme}>
                 <CustomStatusBar />
                 <UserProvider>
