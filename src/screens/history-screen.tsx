@@ -17,11 +17,12 @@ const History = ({navigation}: any) => {
     setLoading(true);
     getDriverItemsDetail()
       .then(feeds => {
+        console.log(feeds)
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
-        if (feeds.detail) {
-          setPosts(feeds.detail);
+        if (feeds.acceptedItem) {
+          setPosts(feeds.acceptedItem);
         }
       })
       .catch(() => {
