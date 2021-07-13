@@ -2,6 +2,7 @@ import Nepali from './np';
 import English from './en';
 
 export interface Language {
+  lang: string;
   appName: string;
   login: string;
   registerHere: string;

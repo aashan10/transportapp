@@ -11,7 +11,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
-  const {currentLanguage} = useContext(LocalizationContext);
+  const {currentLanguage, setLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
@@ -29,6 +29,27 @@ const LoginScreen = (props: any) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <Layout style={style.container}>
+      <View
+        style={{
+          position: 'absolute',
+          top: 50,
+          right: 10,
+        }}>
+        <Button
+          appearance={'outline'}
+          style={{padding: 0, borderWidth: 0}}
+          accessoryLeft={() => {
+            return <Text style={{fontSize: 30}}>{currentLanguage.lang}</Text>;
+          }}
+          onPress={() => {
+            if (currentLanguage.login === 'Login') {
+              setLanguage('np');
+            } else {
+              setLanguage('en');
+            }
+          }}
+        />
+      </View>
       <View style={style.centeredContent}>
         <Text
           style={{
