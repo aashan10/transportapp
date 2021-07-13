@@ -3,7 +3,7 @@ import {Text, Layout} from '@ui-kitten/components';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {getDeliveryitemDetail, getDeliveryItemList} from '../api/requests';
+import {getDeliveryitemDetail, getDriverItemsDetail} from '../api/requests';
 import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
@@ -15,7 +15,6 @@ const History = ({navigation}: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     setLoading(true);
-<<<<<<< HEAD
     getDriverItemsDetail()
       .then(feeds => {
         console.log(feeds)
@@ -24,16 +23,6 @@ const History = ({navigation}: any) => {
         }
         if (feeds.acceptedItem) {
           setPosts(feeds.acceptedItem);
-=======
-    getDeliveryitemDetail()
-      .then((feeds: any) => {
-        console.log(feeds);
-        if (feeds.message) {
-          Alert.alert('Message', feeds.message);
-        }
-        if (feeds.sortedItems) {
-          setPosts(feeds.sortedItems);
->>>>>>> d6c5bc8ee28e845ed1f3f10d7a92082c2e9de2ac
         }
       })
       .catch(() => {

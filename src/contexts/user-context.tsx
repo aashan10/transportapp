@@ -5,6 +5,7 @@ import {ToastAndroid} from 'react-native';
 import {getToken, storeToken} from '../storage/user-storage';
 
 interface UserInterface {
+  licenseAndBillBook: any;
   id: string;
   token: string;
   name: string;
@@ -12,7 +13,6 @@ interface UserInterface {
   phoneNumber: string;
   email: string;
   role: string;
-  licenseAndBillBook: Array<string>;
 }
 
 declare global {

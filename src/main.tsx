@@ -14,35 +14,14 @@ import {
   request,
   RESULTS,
 } from 'react-native-permissions';
-<<<<<<< HEAD
-import {Alert} from 'react-native';
-=======
 import {Alert, Linking} from 'react-native';
->>>>>>> 5049501dd47113265bd1dcfadd49b421af58a3bc
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 const Main = () => {
   useEffect(() => {
     Alert.alert(
-<<<<<<< HEAD
       'Prominent Location Access Disclosure',
       'This app uses location services to track your current location. Please press I Agree to concent to provide the location service access to this application.',
-=======
-      'Location Access',
-      `JMR Transport app uses location services to show your current location on map in real time. The location is required on the following features
-      
-      \t - To get the current location of the 
-      \t \t driver and show the location on the 
-      \t \t map.
-      \t - To get current location of vendor to 
-      \t \t show it in the pickup location for 
-      \t \t driver.
-      
-The location information is collected on background and is updated every few seconds for the best experience while using the application. 
-
-If you want to use these features, please press 'I Agree' to consent to providing the location information to us. For more info, please see our privacy policy.
-      `,
->>>>>>> 5049501dd47113265bd1dcfadd49b421af58a3bc
       [
         {
           text: 'Privacy Policy',
