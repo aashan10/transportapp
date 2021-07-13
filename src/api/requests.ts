@@ -126,7 +126,7 @@ export const getDeliveryitemDetail = async () => {
   return await get(DRIVER_DELIVERY_DETAIL);
 };
 
-export const getDriverItemsDetail = async () => {
+export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
 

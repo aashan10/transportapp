@@ -14,17 +14,33 @@ interface DeliveryRequestProps {
     adminApproved: boolean;
     quantity: number;
     vendorId: string;
+    itemReachedAt?: string | boolean;
   };
 }
 
 const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
   const {currentLanguage} = useContext(LocalizationContext);
   const [price, setPrice] = useState<string | number | null>('');
+  const [delivered, setDelivered] = useState(false);
   useEffect(() => {
     setPrice(request.deliveryPriceByAdmin ?? request.deliveryPriceByVendor);
   }, [request]);
+
+  useEffect(() => {
+    switch (request.itemReachedAt) {
+      case undefined:
+      case null:
+      case false:
+        setDelivered(false);
+        break;
+      default:
+        setDelivered(true);
+    }
+  }, [request.itemReachedAt]);
+
   return (
     <Card
+      status={delivered ? 'success' : 'primary'}
       header={() => {
         return (
           <View
@@ -52,6 +68,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
               <Button
                 size={'small'}
                 appearance={'ghost'}
+                status={delivered ? 'success' : 'primary'}
                 accessoryRight={iconProps => (
                   <Icon name={'arrow-forward-outline'} {...iconProps} />
                 )}
@@ -142,6 +159,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
           flexDirection: 'row',
         }}>
         <Button
+          status={delivered ? 'success' : 'primary'}
           onPress={() => {
             navigation.navigate('viewRequest', {item: request});
           }}
