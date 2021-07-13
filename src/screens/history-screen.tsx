@@ -34,7 +34,7 @@ const History = ({navigation}: any) => {
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
-        <Header title={currentLanguage.myPickups} navigation={navigation} />
+        <Header title={currentLanguage.history} navigation={navigation} />
       </Layout>
       <ScrollView
         refreshControl={

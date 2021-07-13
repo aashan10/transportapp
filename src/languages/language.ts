@@ -33,6 +33,7 @@ export interface Language {
   pickUp: string;
   Drop: string;
   quantity: string;
+  Description: string;
   Price: string;
   phone: string;
   location: string;
@@ -47,6 +48,7 @@ export interface Language {
   night: string;
   setting: string;
   vendorHome: string;
+  profile: string;
   driverHome: string;
   myPickups: string;
   alreadyRegister: string;
@@ -81,6 +83,9 @@ export interface Language {
   container: string;
   tripper: string;
   pickup: string;
+  wheelar1: string;
+  wheelar2: string;
+  tailor: string;
   registerDriver: string;
   registerVendor: string;
   enable: string;

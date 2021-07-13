@@ -8,6 +8,7 @@ import DriverNavigation from './driver-navigation';
 import MyPickups from '../screens/my-pickups';
 import LocalizationContext from '../contexts/localization-context';
 import History from '../screens/history-screen';
+import DriverProfileScreen from '../screens/profile-driver';
 
 const HomeNavigation = () => {
   const Drawer = createDrawerNavigator();
@@ -45,6 +46,13 @@ const HomeNavigation = () => {
           name={'History'}
           options={{drawerLabel: currentLanguage.history}}
           component={History}
+        />
+      ) : null}
+      {user.role === 'driver' ? (
+        <Drawer.Screen
+          name={'Profile'}
+          options={{drawerLabel: currentLanguage.profile}}
+          component={DriverProfileScreen}
         />
       ) : null}
     </Drawer.Navigator>

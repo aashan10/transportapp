@@ -143,11 +143,14 @@ const RegisterDriverScreen = (props: any) => {
 
   const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
   const types = [
+    currentLanguage.pickup,
     currentLanguage.truck,
-    currentLanguage.container,
     currentLanguage.otruck,
     currentLanguage.tripper,
-    currentLanguage.pickup,
+    currentLanguage.container,
+    currentLanguage.wheelar1,
+    currentLanguage.wheelar2,
+    currentLanguage.tailor,
   ];
 
   return (

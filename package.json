@@ -25,6 +25,7 @@
     "axios": "^0.21.1",
     "md5": "^2.3.0",
     "react": "17.0.1",
+    "react-google-autocomplete": "^2.4.0",
     "react-native": "0.64.0",
     "react-native-android-location-enabler": "^1.2.2",
     "react-native-fs": "^2.18.0",
