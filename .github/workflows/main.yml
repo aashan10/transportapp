@@ -31,7 +31,7 @@ jobs:
       - name: Test Codebase
         id: test
         run: |
-          yarn test
+          yarn test --passWithNoTests
 
   build:
     name: Build Release
