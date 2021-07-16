@@ -36,6 +36,7 @@ jobs:
   build:
     name: Build Release
     needs: test
+    runs-on: ubuntu-latest
     steps: 
       - name: Build Release
         id: build_app
@@ -45,6 +46,7 @@ jobs:
   
   publish:
     name: Publish Release
+    runs-on: ubuntu-latest
     needs: [test, build]
     steps:
       - name: Publish Release
