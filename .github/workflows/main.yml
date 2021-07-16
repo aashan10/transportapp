@@ -60,4 +60,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Signed App Bundle
-          path: ${{steps.build_step.outputs.signedReleaseFile}}
+          path: android/app/build/outputs/bundle/release/app-release.aab
