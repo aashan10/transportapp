@@ -42,7 +42,7 @@ jobs:
         id: build_app
         shell: bash
         run: |
-          echo "TODO: Build App"
+          cd android/app/build/outputs/bundle/release && ls
   
   publish:
     name: Publish Release
