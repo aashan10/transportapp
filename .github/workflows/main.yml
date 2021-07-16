@@ -12,7 +12,7 @@ jobs:
     steps:
       
       - name: Checkout to Changes
-        id: checkout 
+        id: setup_checkout 
         uses: actions/checkout@v2
       
       - name: Setup NodeJS
@@ -38,11 +38,32 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps: 
-      - name: Build Release
+      - name: Checkout
+        id: build_checkout
+        use: actions/checkout@v2
+
+      - name: Cache Gradle Wrapper
+        id: build_gradle_cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        id: build_cache_dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+
+      - name: Build Android Release
         id: build_app
         shell: bash
         run: |
-          cd android/app/build/outputs/bundle/release && ls
+          cd android && chmod +x ./gradlew && ./gradlew bundleRelease --no-daemon
   
   publish:
     name: Publish Release
@@ -50,7 +71,8 @@ jobs:
     needs: [test, build]
     steps:
       - name: Publish Release
-        id: publish
-        shell: bash
-        run: |
-          echo "TODO: Publish App"
+        id: publish_release
+        use: actions/upload-atrifact@v2
+        with: 
+          name: Signed Android App Bundle (AAB)
+          path: android/app/build/outputs/bundle/release/app-release.aab 
