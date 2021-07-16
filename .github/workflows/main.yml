@@ -59,7 +59,7 @@ jobs:
 
       - name: Publish Release
         id: publish_release
-        uses: actions/upload-atrifact@v2
+        uses: actions/upload-artifact@v2
         with: 
           name: Signed Android App Bundle (AAB)
           path: android/app/build/outputs/bundle/release/app-release.aab 
