@@ -2,7 +2,7 @@ name: Transport Nepal CI/CD
 on:
   push:
     branches: [master]
-  pull_requestt: 
+  pull_request: 
     branches: [master]
 
 jobs: 
