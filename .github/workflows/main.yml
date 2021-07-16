@@ -37,9 +37,18 @@ jobs:
     name: Build Release
     needs: test
     steps: 
-  
+      - name: Build Release
+        id: build_app
+        shell: bash
+        run: |
+          echo "TODO: Build App"
   
   publish:
     name: Publish Release
     needs: [test, build]
     steps:
+      - name: Publish Release
+        id: publish
+        shell: bash
+        run: |
+          echo "TODO: Publish App"
