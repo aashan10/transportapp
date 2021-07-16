@@ -40,7 +40,7 @@ jobs:
     steps: 
       - name: Checkout
         id: build_checkout
-        use: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Cache Gradle Wrapper
         id: build_gradle_cache
@@ -70,6 +70,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, build]
     steps:
+      - name: Checkout
+        id: publish_checkout
+        uses: actions/checkout@v2
+
       - name: Publish Release
         id: publish_release
         uses: actions/upload-atrifact@v2
