@@ -408,7 +408,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   .then(() => {
                     Alert.alert(
                       currentLanguage.alert2,
-                      currentLanguage.message3
+                      currentLanguage.message3,
                     );
                     navigation.goBack();
                   })
@@ -429,8 +429,8 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   .then(response => {
                     Alert.alert(
                       currentLanguage.alert2,
-                      currentLanguage.message2
-                      );
+                      currentLanguage.message2,
+                    );
                     navigation.navigate('my Pickups');
                   })
                   .catch(async (err: Exception) => {

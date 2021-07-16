@@ -7,6 +7,7 @@ import {
   VENDOR_REGISTER,
   DRIVER_DELIVERY_ACCEPT,
   DRIVER_ITEM_ACCEPTED_LIST,
+  DRIVER_DELIVERY_DETAIL,
   VENDOR_ITEM_DETAIL,
   MAIL_RESEND,
   PROFILE_NEW_PASSWORD,
@@ -98,8 +99,7 @@ export const createNewItemRequest = async (props: {
   from: string;
   to: string;
   longitude: number;
-  type: string;
-  size: string;
+  description: string;
 }) => {
   const data = {
     itemName: props.name,
@@ -107,10 +107,10 @@ export const createNewItemRequest = async (props: {
     deliveryFrom: props.from,
     quantity: props.quantity,
     deliveryPriceByVendor: props.price,
-    containerType: props.type,
-    containerSize: props.size,
+    itemDescription: props.description,
+    // containerSize: props.size,
     latitudeOfDeliveryFrom: props.latitude,
-    longitudeOfDeliveryFrom: props.longitude
+    longitudeOfDeliveryFrom: props.longitude,
   };
   return await post(VENDOR_ITEM_UPLOAD, data);
 };
@@ -122,8 +122,11 @@ export const getDriverFeeds = async () => {
 export const getVendorItemsDetail = async () => {
   return await get(VENDOR_ITEM_DETAIL);
 };
+export const getDeliveryitemDetail = async () => {
+  return await get(DRIVER_DELIVERY_DETAIL);
+};
 
-export const getDriverItemsDetail = async () => {
+export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
 

@@ -3,12 +3,12 @@ import {Text, Layout} from '@ui-kitten/components';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {getDeliveryitemDetail} from '../api/requests';
+import {getDeliveryitemDetail, getDeliveryItemList} from '../api/requests';
 import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
 
-const MyPickups = ({navigation}: any) => {
+const History = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,12 +16,13 @@ const MyPickups = ({navigation}: any) => {
   useEffect(() => {
     setLoading(true);
     getDeliveryitemDetail()
-      .then(feeds => {
+      .then((feeds: any) => {
+        console.log(feeds);
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
-        if (feeds.detail) {
-          setPosts(feeds.detail);
+        if (feeds.sortedItems) {
+          setPosts(feeds.sortedItems);
         }
       })
       .catch(() => {
@@ -34,7 +35,7 @@ const MyPickups = ({navigation}: any) => {
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
-        <Header title={currentLanguage.myPickups} navigation={navigation} />
+        <Header title={currentLanguage.history} navigation={navigation} />
       </Layout>
       <ScrollView
         refreshControl={
@@ -43,12 +44,12 @@ const MyPickups = ({navigation}: any) => {
             onRefresh={() => {
               setLoading(true);
               getDeliveryitemDetail()
-                .then(feeds => {
+                .then((feeds: any) => {
                   if (feeds.message) {
                     Alert.alert('Message', feeds.message);
                   }
-                  if (feeds.acceptedItem) {
-                    setPosts(feeds.acceptedItem);
+                  if (feeds.sortedItems) {
+                    setPosts(feeds.sortedItems);
                   } else {
                     setPosts([]);
                   }
@@ -71,4 +72,4 @@ const MyPickups = ({navigation}: any) => {
   );
 };
 
-export default MyPickups;
+export default History;

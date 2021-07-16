@@ -33,6 +33,7 @@ export interface Language {
   pickUp: string;
   Drop: string;
   quantity: string;
+  Description: string;
   Price: string;
   phone: string;
   location: string;
@@ -47,6 +48,7 @@ export interface Language {
   night: string;
   setting: string;
   vendorHome: string;
+  profile: string;
   driverHome: string;
   myPickups: string;
   alreadyRegister: string;
@@ -81,6 +83,9 @@ export interface Language {
   container: string;
   tripper: string;
   pickup: string;
+  wheelar1: string;
+  wheelar2: string;
+  tailor: string;
   registerDriver: string;
   registerVendor: string;
   enable: string;
@@ -107,14 +112,13 @@ export interface Language {
   message12: string;
   m1: string;
   m2: string;
-  m3:string;
+  m3: string;
   m4: string;
   m5: string;
-  m6:string;
+  m6: string;
   m7: string;
   m8: string;
-
-
+  history: string;
 }
 
 const languages = {
