@@ -1,63 +1,45 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Transport Nepal CI/CD
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [master]
+  pull_requestt: 
+    branches: [master]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+jobs: 
+  test:
+    name: Run Tests
+    rurns-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       
-      - name: Setup Dependencies
+      - name: Checkout to Changes
+        id: checkout 
         uses: actions/checkout@v2
-      - uses: actions/setup-node@master
-      - uses: c-hive/gha-yarn-cache@v1
+      
+      - name: Setup NodeJS
+        id: setup_nodejs
+        uses: actions/setup-node@master
 
-      - name: Install node modules
+      - name: Setup Yarn Cache
+        id: setup_yarn_cache
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install Dependencies
+        id: setup_dependencies
         run: |
           yarn install
-          
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-caches-
-
-      
-      - name: Make Gradlew Executable
-        run: cd android && chmod +x ./gradlew
-
-      - name: Build Android App Bundle
-        id: build_step
+      - name: Test Codebase
+        id: test
         run: |
-          cd android && ./gradlew clean && ./gradlew bundleRelease --no-daemon
-          
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: Signed App Bundle
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          yarn test
+
+  build:
+    name: Build Release
+    needs: test
+    steps: 
+  
+  
+  publish:
+    name: Publish Release
+    needs: [test, build]
+    steps:
