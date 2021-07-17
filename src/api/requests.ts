@@ -138,8 +138,7 @@ export const registerDriver = async (props: {
   phone: string;
   email: string;
   password: string;
-  vehicleSize: string;
-  vehicleType: string;
+  vehicleType: number;
   address: string;
   blueBookPhoto: ImageOrVideo | undefined;
   licensePhoto: ImageOrVideo | undefined;
@@ -159,6 +158,7 @@ export const registerDriver = async (props: {
   formData.append('currentAddress', props.address);
   formData.append('phoneNumber', props.phone);
   formData.append('password', props.password);
+  formData.append('driverVehicleType', props.vehicleType);
   try {
     if (await requestLocationPermission()) {
       Geolocation.getCurrentPosition(coordinates => {
@@ -182,6 +182,8 @@ export const registerDriver = async (props: {
     uri: props.blueBookPhoto?.path,
     name: filename(props.blueBookPhoto?.path),
   });
+
+  console.log(formData);
   const response = await fetch(getUrl(DRIVER_REGISTER), {
     method: 'POST',
     body: formData,
@@ -190,7 +192,9 @@ export const registerDriver = async (props: {
     }),
   });
   if (response.ok) {
-    return await response.json();
+    const json = await response.json();
+    console.log(json);
+    return json;
   }
   throw new Exception(response);
 };

@@ -15,8 +15,7 @@ import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
 import {Exception, getUrl, registerDriver} from '../../../api/requests';
 import {EMAIL_REGEX} from '../../../helpers/constants';
-import RNFS from 'react-native-fs';
-import {DRIVER_REGISTER} from '../../../api/constants';
+
 import LocalizationContext from '../../../contexts/localization-context';
 import {useContext} from 'react';
 
@@ -32,7 +31,6 @@ const validate = ({
   repeatPassword,
   address,
   vehicleType,
-  vehicleSize,
   licensePhoto,
   blueBookPhoto,
 }: ErrorValidationState) => {
@@ -45,7 +43,6 @@ const validate = ({
     password: null,
     phone: null,
     repeatPassword: null,
-    vehicleSize: null,
     vehicleType: null,
   };
 
@@ -86,10 +83,6 @@ const validate = ({
     error.blueBookPhoto = 'Please choose a copy of your bluebook photo';
   }
 
-  if (isNull(vehicleSize)) {
-    error.vehicleSize = 'Please choose the number of wheels of your vehicle!';
-  }
-
   if (isNull(vehicleType)) {
     error.vehicleType = 'Please choose the type of your vehicle!';
   }
@@ -103,7 +96,6 @@ interface ErrorValidationState {
   address: string | null;
   phone: string | null;
   password: string | null;
-  vehicleSize: string | null;
   vehicleType: string | null;
   repeatPassword: string | null;
   licensePhoto: string | null;
@@ -112,19 +104,16 @@ interface ErrorValidationState {
 
 const RegisterDriverScreen = (props: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
-  const [licensePhoto, setLicensePhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
-  const [blueBookPhoto, setBlueBookPhoto] = useState<ImageOrVideo | undefined>(
-    undefined,
-  );
+  const [licensePhoto, setLicensePhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
+  const [blueBookPhoto, setBlueBookPhoto] =
+    useState<ImageOrVideo | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
-  const [vehicleSize, setSize] = useState<IndexPath>(new IndexPath(0));
   const [vehicleType, setType] = useState<IndexPath>(new IndexPath(0));
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
@@ -135,13 +124,21 @@ const RegisterDriverScreen = (props: any) => {
     email: null,
     password: null,
     repeatPassword: null,
-    vehicleSize: null,
     vehicleType: null,
     licensePhoto: null,
     blueBookPhoto: null,
   });
 
-  const sizes = ['4', '6', '10', '12', '16', '18', '20', '22'];
+  const typeMap = {
+    [currentLanguage.pickup]: 4,
+    [currentLanguage.truck]: 6,
+    [currentLanguage.otruck]: 12,
+    [currentLanguage.tripper]: 16,
+    [currentLanguage.container]: 18,
+    [currentLanguage.wheelar1]: 20,
+    [currentLanguage.wheelar2]: 22,
+    [currentLanguage.tailor]: 26,
+  };
   const types = [
     currentLanguage.pickup,
     currentLanguage.truck,
@@ -245,27 +242,6 @@ const RegisterDriverScreen = (props: any) => {
               </Select>
               {error.vehicleType ? (
                 <Text status={'danger'}>{error.vehicleType}</Text>
-              ) : null}
-            </View>
-            <View style={{marginBottom: 15}}>
-              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
-                {currentLanguage.containerSize}
-              </Text>
-              <Select
-                selectedIndex={vehicleSize}
-                value={sizes[vehicleSize.row]}
-                onSelect={itemValue => {
-                  if (itemValue instanceof IndexPath) {
-                    setSize(itemValue);
-                  }
-                }}>
-                {sizes.map((item, index) => {
-                  return <SelectItem key={index} title={item} />;
-                })}
-              </Select>
-
-              {error.vehicleSize ? (
-                <Text status={'danger'}>{error.vehicleSize}</Text>
               ) : null}
             </View>
 
@@ -464,7 +440,6 @@ const RegisterDriverScreen = (props: any) => {
                 phone: phone,
                 address: address,
                 repeatPassword: repeatPassword,
-                vehicleSize: sizes[vehicleSize.row],
                 vehicleType: types[vehicleType.row],
                 licensePhoto: licensePhoto?.path ?? null,
                 blueBookPhoto: blueBookPhoto?.path ?? null,
@@ -477,7 +452,6 @@ const RegisterDriverScreen = (props: any) => {
                 validation.address !== null ||
                 validation.email !== null ||
                 validation.password !== null ||
-                validation.vehicleSize !== null ||
                 validation.vehicleType !== null ||
                 validation.blueBookPhoto !== null ||
                 validation.licensePhoto !== null
@@ -490,8 +464,7 @@ const RegisterDriverScreen = (props: any) => {
                   address: address,
                   phone: phone,
                   password: password,
-                  vehicleSize: sizes[vehicleSize.row],
-                  vehicleType: types[vehicleType.row],
+                  vehicleType: typeMap[types[vehicleType.row]],
                   licensePhoto: licensePhoto,
                   blueBookPhoto: blueBookPhoto,
                 })
