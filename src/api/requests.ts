@@ -1,22 +1,21 @@
 import {
   BASE_URL,
+  DRIVER_DELIVERY_ACCEPT,
+  DRIVER_DELIVERY_DETAIL,
   DRIVER_EXPLORE,
+  DRIVER_ITEM_ACCEPTED_LIST,
+  DRIVER_ITEM_REACHED,
+  DRIVER_REGISTER,
+  MAIL_RESEND,
+  MAIL_VERIFICATION,
+  PROFILE_FORGET_PASSWORD,
+  PROFILE_NEW_PASSWORD,
   USER_LOGIN,
   USER_PROFILE,
+  VENDOR_ITEM_DETAIL,
   VENDOR_ITEM_UPLOAD,
   VENDOR_REGISTER,
-  DRIVER_DELIVERY_ACCEPT,
-  DRIVER_ITEM_ACCEPTED_LIST,
-  DRIVER_DELIVERY_DETAIL,
-  VENDOR_ITEM_DETAIL,
-  MAIL_RESEND,
-  PROFILE_NEW_PASSWORD,
-  PROFILE_FORGET_PASSWORD,
-  MAIL_VERIFICATION,
-  DRIVER_REGISTER,
-  DRIVER_ITEM_REACHED,
 } from './constants';
-import {sharedData} from '../contexts/user-context';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
@@ -26,22 +25,26 @@ export const get = async (url: string, auth: boolean = true) => {
     headers: getHeaders({'Content-Type': 'application/json'}),
     method: 'GET',
   };
+
+  const userContext = await import('../contexts/user-context');
   if (auth) {
     payload.headers = getHeaders({
       ...payload.headers,
-      'auth-token': sharedData.user.token,
+      'auth-token': userContext.sharedData.user.token,
     });
   }
 
+  console.log(payload, getUrl(url));
+
   const response = await fetch(getUrl(url), payload);
   if (response.ok) {
-    const json = await response.json();
-    return json;
+    return await response.json();
   }
   throw new Exception(response);
 };
 
 export const post = async (url: string, data: any, auth: boolean = true) => {
+  const userContext = await import('../contexts/user-context');
   const payload = {
     headers: getHeaders({'Content-Type': 'application/json'}),
     method: 'POST',
@@ -51,7 +54,7 @@ export const post = async (url: string, data: any, auth: boolean = true) => {
   if (auth) {
     payload.headers = getHeaders({
       ...payload.headers,
-      'auth-token': sharedData.user.token,
+      'auth-token': userContext.sharedData.user.token,
     });
   }
 

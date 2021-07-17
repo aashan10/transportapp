@@ -35,6 +35,7 @@ interface RequestInterface {
   acceptedAt: undefined | string;
   itemReachedAt: string | false;
   vendorPhoneNumber?: string;
+  description?: string;
 }
 
 const renderAnnotations = ({
@@ -165,6 +166,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     longitudeOfDeliveryFrom: 27.701739466949107,
     acceptedAt: undefined,
     itemReachedAt: false,
+    description: '',
   });
   const [isVendor] = useState<boolean>(user.role === 'vendor');
   const [price, setPrice] = useState<string | number>('');
@@ -272,6 +274,13 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               {currentLanguage.containerSize}
             </Text>
             <Text style={{flex: 2}}>{request.containerSize}</Text>
+          </ListItem>
+          <ListItem
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
+              {'Description'}
+            </Text>
+            <Text style={{flex: 2}}>{request.description}</Text>
           </ListItem>
         </ScrollView>
         <Layout
