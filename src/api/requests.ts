@@ -34,8 +34,6 @@ export const get = async (url: string, auth: boolean = true) => {
     });
   }
 
-  console.log(payload, getUrl(url));
-
   const response = await fetch(getUrl(url), payload);
   if (response.ok) {
     return await response.json();
@@ -183,7 +181,6 @@ export const registerDriver = async (props: {
     name: filename(props.blueBookPhoto?.path),
   });
 
-  console.log(formData);
   const response = await fetch(getUrl(DRIVER_REGISTER), {
     method: 'POST',
     body: formData,
@@ -192,9 +189,7 @@ export const registerDriver = async (props: {
     }),
   });
   if (response.ok) {
-    const json = await response.json();
-    console.log(json);
-    return json;
+    return await response.json();
   }
   throw new Exception(response);
 };

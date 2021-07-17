@@ -138,13 +138,7 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
                   disabled={true}
                   style={{justifyContent: 'flex-start'}}>
                   <Text style={{flex: 1}}>Company Name</Text>
-                  <Image
-                    source={{
-                      // @ts-ignore
-                      uri: user.companyName,
-                    }}
-                    style={{height: 150, flex: 1}}
-                  />
+                  <Text style={{flex: 1}}>{user.companyName}</Text>
                 </ListItem>
               </>
             )}

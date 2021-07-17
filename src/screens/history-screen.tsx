@@ -17,7 +17,6 @@ const History = ({navigation}: any) => {
     setLoading(true);
     getDeliveryitemDetail()
       .then((feeds: any) => {
-        console.log(feeds);
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }

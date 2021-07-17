@@ -57,11 +57,7 @@ If you want to use these features, please press 'I Agree' to consent to providin
                 RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
                   interval: 10000,
                   fastInterval: 5000,
-                })
-                  .then(loc => {
-                    console.log(loc);
-                  })
-                  .catch(() => {});
+                }).catch(() => {});
                 if (permission !== RESULTS.GRANTED) {
                   Alert.alert(
                     'Location Permission Not Available',
