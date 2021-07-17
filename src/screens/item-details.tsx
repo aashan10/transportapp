@@ -248,7 +248,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             <Text style={{flex: 2}}>{request.quantity}</Text>
           </ListItem>
 
-          {request.itemDescription ? (
             <ListItem
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
@@ -256,7 +255,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               </Text>
               <Text style={{flex: 2}}>{request.itemDescription}</Text>
             </ListItem>
-          ) : null}
 
           {request.vendorPhoneNumber ? (
             <ListItem
