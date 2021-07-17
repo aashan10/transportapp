@@ -134,7 +134,6 @@ export const registerDriver = async (props: {
   phone: string;
   email: string;
   password: string;
-  vehicleSize: string;
   vehicleType: string;
   address: string;
   blueBookPhoto: ImageOrVideo | undefined;
