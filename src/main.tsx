@@ -21,7 +21,7 @@ const Main = () => {
   useEffect(() => {
     Alert.alert(
       'Location Access',
-      `JMR Transport app uses location services to show your current location on map in real time. The location is required on the following features
+      `Transport Nepal app uses location services to show your current location on map in real time. The location is required on the following features
       
       \t - To get the current location of the 
       \t \t driver and show the location on the 

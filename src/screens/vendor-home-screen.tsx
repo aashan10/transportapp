@@ -22,6 +22,7 @@ const VendorHomeScreen = ({navigation}: any) => {
           Alert.alert('Message', feeds.message);
         }
         if (feeds.detail) {
+          console.log(feeds.detail);
           setPosts(feeds.detail);
         }
       })
@@ -56,7 +57,7 @@ const VendorHomeScreen = ({navigation}: any) => {
                   .catch(() => {
                     Alert.alert(
                       currentLanguage.alert1,
-                      currentLanguage.message7
+                      currentLanguage.message7,
                     );
                   })
                   .finally(() => {

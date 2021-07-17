@@ -2,7 +2,7 @@ import {Language} from './language';
 
 const English: Language = {
   lang: '🇺🇸',
-  appName: 'Jay Mata Radhika Transport',
+  appName: 'Transport Nepal',
   login: 'Login',
   registerHere: 'Create Account',
   welcome: 'Welcome',
@@ -32,7 +32,9 @@ const English: Language = {
   containerSize: 'Vehicle Size',
   pickUp: 'Pickup From',
   Drop: 'Drop To',
-  quantity: 'Quantity',
+  profile: 'Profile',
+  quantity: 'Quantity (Kg)',
+  Description: 'Description',
   Price: 'Price',
   phone: 'Phone Number',
   location: 'Pickup Location',
@@ -81,11 +83,14 @@ const English: Language = {
   accountOTP: 'Account OTP Verification',
   otpMessage:
     ' On the confirmation code field, please enter the confirmation code sent to your email address.',
-  truck: 'Truck',
-  otruck: 'Open Truck',
-  container: 'Container',
-  tripper: 'Tripper',
-  pickup: 'PickUp',
+  pickup: '19.5 feet 8.5Ton (open)',
+  truck: '20 feet 10Ton (Open Truck)',
+  otruck: '22 feet 10Ton(Open Truck)',
+  tripper: '24 feet 10Ton (Open Truck)',
+  container: '24 feet 10Ton (Container)',
+  wheelar1: '10 wheelar',
+  wheelar2: '12 wheelar',
+  tailor: 'Tailor',
   registerDriver: 'Register as Driver',
   registerVendor: 'Register as vendor',
   enable: 'Enable',
@@ -120,6 +125,7 @@ const English: Language = {
   m6: 'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
   m7: 'There was an error processing your request',
   m8: 'Please enter a valid email address!',
+  history: 'History',
 };
 
 export default English;

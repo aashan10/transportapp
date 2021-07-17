@@ -91,10 +91,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
               setLoading(true);
               forgotPassword(email)
                 .then(() => {
-                  Alert.alert(
-                    currentLanguage.alert3,
-                    currentLanguage.m6
-                  );
+                  Alert.alert(currentLanguage.alert3, currentLanguage.m6);
                   navigation.navigate('recoverPassword');
                 })
                 .catch(async (err: any) => {
@@ -106,8 +103,7 @@ const ForgotPasswordScreen = ({navigation}: ForgotPasswordScreenProps) => {
                     } catch (e) {
                       Alert.alert(
                         currentLanguage.alert1,
-                        currentLanguage.m7 +
-                          e.message,
+                        currentLanguage.m7 + e.message,
                       );
                     }
                   } else {

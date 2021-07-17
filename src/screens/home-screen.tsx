@@ -46,16 +46,13 @@ const HomeScreen = ({navigation}: any) => {
                   .then(feeds => {
                     setPosts(feeds.totalItem);
                     if (feeds.totalItem && feeds.totalItem.length === 0) {
-                      Alert.alert(
-                        '',
-                        currentLanguage.message5,
-                      );
+                      Alert.alert('', currentLanguage.message5);
                     }
                   })
                   .catch(() => {
                     Alert.alert(
                       currentLanguage.alert1,
-                      currentLanguage.message6
+                      currentLanguage.message6,
                     );
                   })
                   .finally(() => {
