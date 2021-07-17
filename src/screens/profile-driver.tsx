@@ -135,8 +135,8 @@ const ProfileScreen = ({ navigation }: profileDetailPros) => {
             ) : (
               <>
                 <ListItem disabled={true} style={{ justifyContent: 'flex-start' }}>
-                  <Text style={{ flex: 1 }}>Phone</Text>
-                  <Text style={{ flex: 1 }}>{user.phoneNumber}</Text>
+                  <Text style={{ flex: 1 }}>Company Name</Text>
+                  <Text style={{ flex: 1 }}>{user.companyName}</Text>
                 </ListItem>
               </>
             )}
