@@ -237,7 +237,6 @@ const RegisterDriverScreen = (props: any) => {
                 <Text status={'danger'}>{error.vehicleType}</Text>
               ) : null}
             </View>
-            
 
             <View style={{marginBottom: 15}}>
               <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>

@@ -1,15 +1,15 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {Layout, ListItem, Spinner, Text} from '@ui-kitten/components';
 import Header from '../components/header';
-import { ScrollView, Alert, View } from 'react-native';
+import {ScrollView, Alert, View} from 'react-native';
 import Button from '../components/button';
 import UserContext from '../contexts/user-context';
-import { acceptDeliveryRequest, Exception, itemReached } from '../api/requests';
+import {acceptDeliveryRequest, Exception, itemReached} from '../api/requests';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import Geolocation from '@react-native-community/geolocation';
-import { requestLocationPermission } from '../helpers/functions';
-import { MAPBOX_API_KEY } from '../api/constants';
-import { throttle } from 'underscore';
+import {requestLocationPermission} from '../helpers/functions';
+import {MAPBOX_API_KEY} from '../api/constants';
+import {throttle} from 'underscore';
 import LocalizationContext from '../contexts/localization-context';
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -43,7 +43,7 @@ const renderAnnotations = ({
   coordinates: Coordinates;
   isDestination: boolean;
 }) => {
-  const { latitude, longitude } = coordinates;
+  const {latitude, longitude} = coordinates;
   return (
     <MapboxGL.PointAnnotation
       id={'' + latitude + longitude}
@@ -115,9 +115,9 @@ const renderPath = ({
   );
 };
 
-const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
-  const { user } = useContext(UserContext);
-  const { currentLanguage } = useContext(LocalizationContext);
+const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
+  const {user} = useContext(UserContext);
+  const {currentLanguage} = useContext(LocalizationContext);
 
   const [location, setCurrentLocation] = useState<Coordinates>({
     longitude: 0,
@@ -126,8 +126,8 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const setCurrentCoordinates = useCallback(
-    throttle(({ lat, lng }: { lat: number; lng: number }) => {
-      setCurrentLocation({ latitude: lat, longitude: lng });
+    throttle(({lat, lng}: {lat: number; lng: number}) => {
+      setCurrentLocation({latitude: lat, longitude: lng});
     }, 3000),
     [],
   );
@@ -194,8 +194,8 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
   ]);
 
   return (
-    <Layout level={'4'} style={{ height: '100%' }}>
-      <Layout style={{ width: '100%' }}>
+    <Layout level={'4'} style={{height: '100%'}}>
+      <Layout style={{width: '100%'}}>
         <Header
           back={true}
           navigation={navigation}
@@ -213,63 +213,60 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
         level={'1'}>
         <ScrollView>
           <ListItem
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
               {currentLanguage.pickUp}
             </Text>
-            <Text style={{ flex: 2 }}>{request.deliveryFrom}</Text>
+            <Text style={{flex: 2}}>{request.deliveryFrom}</Text>
           </ListItem>
           <ListItem
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
               {currentLanguage.Drop}
             </Text>
-            <Text style={{ flex: 2 }}>{request.deliveryTo}</Text>
+            <Text style={{flex: 2}}>{request.deliveryTo}</Text>
           </ListItem>
           <ListItem
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
               {currentLanguage.price}
             </Text>
-            <Text style={{ flex: 2 }}>Rs. {price}</Text>
+            <Text style={{flex: 2}}>Rs. {price}</Text>
           </ListItem>
           <ListItem
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
               {currentLanguage.itemName}
             </Text>
-            <Text style={{ flex: 2 }}>{request.itemName}</Text>
+            <Text style={{flex: 2}}>{request.itemName}</Text>
           </ListItem>
           <ListItem
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
               {currentLanguage.quantity}
             </Text>
-            <Text style={{ flex: 2 }}>{request.quantity}</Text>
+            <Text style={{flex: 2}}>{request.quantity}</Text>
           </ListItem>
-          
-          {request.itemDescription ? (
 
+          {request.itemDescription ? (
             <ListItem
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
                 {currentLanguage.Description}
               </Text>
-              <Text style={{ flex: 2 }}>{request.itemDescription}</Text>
+              <Text style={{flex: 2}}>{request.itemDescription}</Text>
             </ListItem>
           ) : null}
-
 
           {request.vendorPhoneNumber ? (
             <ListItem
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ fontWeight: 'bold', flex: 1 }} status={'primary'}>
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
                 {currentLanguage.phone}
               </Text>
-              <Text style={{ flex: 2 }}>{request.vendorPhoneNumber}</Text>
+              <Text style={{flex: 2}}>{request.vendorPhoneNumber}</Text>
             </ListItem>
           ) : null}
-
         </ScrollView>
         <Layout
           style={{
@@ -335,9 +332,9 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
               <Text>{currentLanguage.pickupLocation}</Text>
             </View>
           </View>
-          <Layout style={{ borderRadius: 10, overflow: 'hidden' }}>
+          <Layout style={{borderRadius: 10, overflow: 'hidden'}}>
             <MapboxGL.MapView
-              style={{ height: 300, width: '100%' }}
+              style={{height: 300, width: '100%'}}
               logoEnabled={false}
               attributionEnabled={false}>
               <MapboxGL.Camera
@@ -383,7 +380,7 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
         }}>
         <Button
           appearance={'outline'}
-          style={{ minWidth: 150 }}
+          style={{minWidth: 150}}
           onPress={() => {
             navigation.goBack();
           }}>
@@ -393,7 +390,7 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
           disabled={
             isDelivered || loading || (request.acceptedAt !== null && isVendor)
           }
-          style={{ minWidth: 150 }}
+          style={{minWidth: 150}}
           onPress={() => {
             if (!isVendor) {
               setLoading(true);
@@ -432,11 +429,11 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
                   })
                   .catch(async (err: Exception) => {
                     try {
-                      const { message } = await err.response.json();
+                      const {message} = await err.response.json();
                       if (message) {
                         Alert.alert(message);
                       }
-                    } catch (e) { }
+                    } catch (e) {}
                   })
                   .finally(() => {
                     setLoading(false);
@@ -450,12 +447,12 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
           {request.itemReachedAt
             ? currentLanguage.complete
             : isVendor
-              ? request.acceptedAt
-                ? currentLanguage.acceptedByDriver
-                : currentLanguage.pending
-              : request.acceptedAt
-                ? currentLanguage.completeDelivery
-                : currentLanguage.acceptDelivery}
+            ? request.acceptedAt
+              ? currentLanguage.acceptedByDriver
+              : currentLanguage.pending
+            : request.acceptedAt
+            ? currentLanguage.completeDelivery
+            : currentLanguage.acceptDelivery}
         </Button>
       </Layout>
     </Layout>

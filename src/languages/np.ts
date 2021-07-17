@@ -3,7 +3,7 @@ import {Language} from './language';
 const Nepali: Language = {
   appName: 'ट्रान्सपोर्ट नेपाल',
   login: 'लगइन गर्नुहोस',
-  lang:'en',
+  lang: 'en',
   registerHere: 'रजिस्टर गर्नुहोस',
   welcome: 'नमस्कार',
   logout: 'लग आउट गर्नुहोस',

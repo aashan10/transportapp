@@ -91,7 +91,6 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                       currentLanguage.currency +
                       price +
                       '\n',
-                      
 
                     [
                       {
