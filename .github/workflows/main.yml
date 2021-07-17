@@ -1,0 +1,78 @@
+name: Transport Nepal CI/CD
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout to Changes
+        id: setup_checkout
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        id: setup_nodejs
+        uses: actions/setup-node@master
+
+      - name: Setup Yarn Cache
+        id: setup_yarn_cache
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install Dependencies
+        id: setup_dependencies
+        run: |
+          yarn install
+
+      - name: Test Codebase
+        id: test
+        run: |
+          yarn test --passWithNoTests
+
+      - name: Cache Gradle Wrapper
+        id: build_gradle_cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        id: build_cache_dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+
+      - name: Build Android App Bundle (AAB)
+        id: build_app_aab
+        shell: bash
+        run: |
+          cd android && chmod +x ./gradlew && ./gradlew bundleRelease --no-daemon
+
+      - name: Build Android App Package (APK)
+        id: build_app_apk
+        shell: bash
+        run: |
+          cd android && chmod +x ./gradlew && ./gradlew assembleRelease --no-daemon
+
+
+      - name: Publish AAB
+        id: publish_release_aab
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+
+      - name: Publish APK
+        id: publish_release_apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: android/app/build/outputs/apk/release/*.apk
