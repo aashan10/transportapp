@@ -3,7 +3,7 @@ import {Text, Layout} from '@ui-kitten/components';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {getDeliveryitemDetail} from '../api/requests';
+import {getDeliveryitemDetail, getDeliveryItemList} from '../api/requests';
 import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
@@ -15,8 +15,9 @@ const MyPickups = ({navigation}: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     setLoading(true);
-    getDeliveryitemDetail()
+    getDeliveryItemList()
       .then(feeds => {
+        console.log(feeds)
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
