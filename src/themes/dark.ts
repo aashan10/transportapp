@@ -3,6 +3,7 @@ import * as eva from '@eva-design/eva';
 const darkTheme = {
   ...eva,
   ...eva.dark,
+  name: 'dark',
   'color-basic-1100': '#282828',
   'color-basic-1000': '#1e1e1e',
   'color-basic-900': '#141414',

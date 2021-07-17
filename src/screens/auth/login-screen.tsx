@@ -8,9 +8,11 @@ import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
 import {useFocusEffect} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {ThemeContext} from '../../contexts/theme-context';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
+  const {theme, toggleTheme} = useContext(ThemeContext);
   const {currentLanguage, setLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     if (!isEmpty(user.token)) {
@@ -27,6 +29,16 @@ const LoginScreen = (props: any) => {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const ThemeIcon = (iconProps: any) => {
+    return (
+      <Icon
+        name={theme.name === 'dark' ? 'moon-outline' : 'sun-outline'}
+        {...iconProps}
+      />
+    );
+  };
+
   return (
     <Layout style={style.container}>
       <View
@@ -34,10 +46,17 @@ const LoginScreen = (props: any) => {
           position: 'absolute',
           top: 50,
           right: 10,
+          flexDirection: 'row',
         }}>
         <Button
+          size={'small'}
           appearance={'outline'}
-          style={{padding: 0, borderWidth: 0}}
+          style={{
+            padding: 0,
+            borderWidth: 0,
+            borderTopEndRadius: 0,
+            borderBottomEndRadius: 0,
+          }}
           accessoryLeft={() => {
             return <Text style={{fontSize: 20}}>{currentLanguage.lang}</Text>;
           }}
@@ -47,6 +66,23 @@ const LoginScreen = (props: any) => {
             } else {
               setLanguage('en');
             }
+          }}
+        />
+
+        <Button
+          size={'small'}
+          appearance={'outline'}
+          style={{
+            padding: 0,
+            borderWidth: 0,
+            borderTopStartRadius: 0,
+            borderBottomStartRadius: 0,
+          }}
+          accessoryLeft={iconProps => {
+            return <ThemeIcon {...iconProps} />;
+          }}
+          onPress={() => {
+            toggleTheme();
           }}
         />
       </View>

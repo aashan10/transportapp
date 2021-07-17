@@ -3,6 +3,7 @@ import * as eva from '@eva-design/eva';
 const light = {
   ...eva,
   ...eva.light,
+  name: 'light',
   // 'color-primary-100': '#F2F2F2',
   // 'color-primary-200': '#E5E5E5',
   // 'color-primary-300': '#B2B2B2',

@@ -1,6 +1,10 @@
 import {Language} from './language';
 
 const English: Language = {
+<<<<<<< HEAD
+=======
+  lang: '🇺🇸',
+>>>>>>> 1323895f70e8d1b4ea759870de4034a2abcd1298
   appName: 'Transport Nepal',
   login: 'Login',
   registerHere: 'Create Account',
@@ -122,8 +126,12 @@ const English: Language = {
   m3: 'There was an error processing the request!',
   m4: 'Something went wrong! Please try again!',
   m5: 'Password changed successfully. Please login to continue!',
+<<<<<<< HEAD
   m6:
     'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+=======
+  m6: 'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
+>>>>>>> 1323895f70e8d1b4ea759870de4034a2abcd1298
   m7: 'There was an error processing your request',
   m8: 'Please enter a valid email address!',
   history: 'History',

@@ -29,8 +29,7 @@ const HomeScreen = ({navigation}: any) => {
       .finally(() => {
         setLoading(false);
       });
-  },
-   [user.token, navigation]);
+  }, [user.token, navigation]);
   console.log(posts);
   return (
     <Layout style={{height: '100%', width: '100%'}}>

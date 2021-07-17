@@ -74,6 +74,9 @@ const UserProvider = ({children}: UserProviderProps) => {
   });
   const {token} = user;
   useEffect(() => {
+    sharedData.user = user;
+  }, [user]);
+  useEffect(() => {
     getToken()
       .then(storageToken => {
         if (
