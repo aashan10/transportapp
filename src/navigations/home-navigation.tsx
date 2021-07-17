@@ -48,13 +48,11 @@ const HomeNavigation = () => {
           component={History}
         />
       ) : null}
-      {user.role === 'driver' ? (
-        <Drawer.Screen
-          name={'Profile'}
-          options={{drawerLabel: currentLanguage.profile}}
-          component={DriverProfileScreen}
-        />
-      ) : null}
+      <Drawer.Screen
+        name={'Profile'}
+        options={{drawerLabel: currentLanguage.profile}}
+        component={DriverProfileScreen}
+      />
     </Drawer.Navigator>
   );
 };
