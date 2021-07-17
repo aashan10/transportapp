@@ -1,20 +1,20 @@
 name: Transport Nepal CI/CD
 on:
   push:
-    branches: [master]
-  pull_request: 
-    branches: [master]
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
 
-jobs: 
+jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
-      
+
       - name: Checkout to Changes
-        id: setup_checkout 
+        id: setup_checkout
         uses: actions/checkout@v2
-      
+
       - name: Setup NodeJS
         id: setup_nodejs
         uses: actions/setup-node@master
@@ -61,18 +61,18 @@ jobs:
         shell: bash
         run: |
           cd android && chmod +x ./gradlew && ./gradlew assembleRelease --no-daemon
-  
+
 
       - name: Publish AAB
         id: publish_release_aab
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: app-release.aab
-          path: android/app/build/outputs/bundle/release/app-release.aab 
+          path: android/app/build/outputs/bundle/release/app-release.aab
 
       - name: Publish APK
         id: publish_release_apk
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: app-release.aab
-          path: android/app/build/outputs/apk/release/*.apk 
+          path: android/app/build/outputs/apk/release/*.apk
