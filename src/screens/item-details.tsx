@@ -26,8 +26,7 @@ interface RequestInterface {
   deliveryPriceByAdmin: string;
   deliveryFrom: string;
   deliveryTo: string;
-  containerSize: string;
-  containerType: string;
+  itemDescription: string;
   quantity: string;
   vendorId: string;
   latitudeOfDeliveryFrom: number;
@@ -157,8 +156,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     deliveryPriceByAdmin: '',
     deliveryFrom: '',
     deliveryTo: '',
-    containerSize: '',
-    containerType: '',
+    itemDescription: '',
     quantity: '',
     vendorId: '',
     latitudeOfDeliveryFrom: 85.31853583740946,
@@ -252,9 +250,9 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              {currentLanguage.containerType}
+              {currentLanguage.Description}
             </Text>
-            <Text style={{flex: 2}}>{request.containerType}</Text>
+            <Text style={{flex: 2}}>{request.itemDescription}</Text>
           </ListItem>
 
           {request.vendorPhoneNumber ? (
@@ -266,13 +264,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               <Text style={{flex: 2}}>{request.vendorPhoneNumber}</Text>
             </ListItem>
           ) : null}
-          <ListItem
-            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              {currentLanguage.containerSize}
-            </Text>
-            <Text style={{flex: 2}}>{request.containerSize}</Text>
-          </ListItem>
+         
         </ScrollView>
         <Layout
           style={{
@@ -401,7 +393,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             if (!isVendor) {
               setLoading(true);
               if (request.acceptedAt) {
-                itemReached({
+                itemReached({            
                   itemId: request.itemId,
                   vendorId: request.vendorId,
                 })

@@ -108,7 +108,6 @@ export const createNewItemRequest = async (props: {
     quantity: props.quantity,
     deliveryPriceByVendor: props.price,
     itemDescription: props.description,
-    // containerSize: props.size,
     latitudeOfDeliveryFrom: props.latitude,
     longitudeOfDeliveryFrom: props.longitude,
   };

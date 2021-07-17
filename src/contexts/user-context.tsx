@@ -13,6 +13,7 @@ interface UserInterface {
   phoneNumber: string;
   email: string;
   role: string;
+  companyName: string;
 }
 
 declare global {
@@ -31,6 +32,7 @@ let sharedData: Global = {
     role: '',
     address: '',
     licenseAndBillBook: [],
+    companyName: '',
   },
 };
 
@@ -49,6 +51,7 @@ export const UserContext = createContext<UserContextState>({
     phoneNumber: '',
     role: '',
     licenseAndBillBook: [],
+    companyName: '',
   },
   setUser: (user: Partial<UserInterface>) => {},
 });
@@ -67,6 +70,7 @@ const UserProvider = ({children}: UserProviderProps) => {
     name: '',
     role: '',
     licenseAndBillBook: [],
+    companyName: '',
   });
   const {token} = user;
   useEffect(() => {
@@ -90,6 +94,7 @@ const UserProvider = ({children}: UserProviderProps) => {
           address,
           role,
           licenseAndBillBook,
+          companyName,
         } = response;
         setUser({
           ...user,
@@ -100,6 +105,7 @@ const UserProvider = ({children}: UserProviderProps) => {
           // @ts-ignore
           licenseAndBillBook: licenseAndBillBook,
           phoneNumber: phoneNumber,
+          companyName: companyName,
         });
         storeToken(token)
           .then()

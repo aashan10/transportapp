@@ -18,7 +18,9 @@ const HomeScreen = ({navigation}: any) => {
     setLoading(true);
     getDriverFeeds()
       .then(feeds => {
+        console.log(feeds)
         setPosts(feeds.totalItem);
+
         if (feeds.totalItem && feeds.totalItem.length === 0) {
           Alert.alert('', currentLanguage.message4);
         }
@@ -28,7 +30,7 @@ const HomeScreen = ({navigation}: any) => {
         setLoading(false);
       });
   }, [user.token, navigation]);
-
+console.log(posts)
   return (
     <Layout style={{height: '100%', width: '100%'}}>
       <Header navigation={navigation} />
@@ -44,6 +46,7 @@ const HomeScreen = ({navigation}: any) => {
                 setLoading(true);
                 getDriverFeeds()
                   .then(feeds => {
+                    console.log('totalItem')
                     setPosts(feeds.totalItem);
                     if (feeds.totalItem && feeds.totalItem.length === 0) {
                       Alert.alert('', currentLanguage.message5);

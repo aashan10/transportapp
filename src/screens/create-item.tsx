@@ -46,7 +46,7 @@ const validate = ({name, to, from, qty, price, description}: ErrorState) => {
     response.price = 'The Price must be greater than zero!';
   }
   if (!description || description === 'NaN') {
-    response.description = 'The type must be define!';
+    response.description = 'The description must be define!';
   }
 
   return response;

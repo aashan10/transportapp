@@ -3,6 +3,7 @@ import {Language} from './language';
 const Nepali: Language = {
   appName: 'ट्रान्सपोर्ट नेपाल',
   login: 'लगइन गर्नुहोस',
+  lang:'en',
   registerHere: 'रजिस्टर गर्नुहोस',
   welcome: 'नमस्कार',
   logout: 'लग आउट गर्नुहोस',
@@ -82,16 +83,14 @@ const Nepali: Language = {
   otpMessage:
     'पुष्टिकरण कोड फिल्डमा, कृपया कन्फर्मेसन कोड प्रविष्ट गर्नुहोस् तपाईंको ईमेल ठेगानामा पठाइयो।',
   accountOTP: 'खाता ओटिपी प्रमाणीकरण',
-  truck: 'ट्रक',
-  otruck: 'खुल्ला ट्रक',
-  container: 'कन्टेनर',
-  tripper: 'ट्रिपर',
-  pickup: 'पिकअप',
-
-  wheelar1: '',
-  wheelar2: '',
-  tailor: '',
-
+  pickup: '19.5 feet 8.5Ton (open)',
+  truck: '20 feet 10Ton (Open Truck)',
+  otruck: '22 feet 10Ton(Open Truck)',
+  tripper: '24 feet 10Ton (Open Truck)',
+  container: '24 feet 10Ton (Container)',
+  wheelar1: '10 wheelar',
+  wheelar2: '12 wheelar',
+  tailor: 'Tailor',
   registerDriver: 'चालकको रूपमा दर्ता गर्नुहोस्',
   registerVendor: 'विक्रेताको रूपमा दर्ता गर्नुहोस्',
   enable: 'इनेबल गर्नुहोस',

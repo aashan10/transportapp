@@ -39,7 +39,7 @@ const LoginScreen = (props: any) => {
           appearance={'outline'}
           style={{padding: 0, borderWidth: 0}}
           accessoryLeft={() => {
-            return <Text style={{fontSize: 30}}>{currentLanguage.lang}</Text>;
+            return <Text style={{fontSize: 20}}>{currentLanguage.lang}</Text>;
           }}
           onPress={() => {
             if (currentLanguage.login === 'Login') {

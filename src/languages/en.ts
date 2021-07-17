@@ -4,6 +4,7 @@ const English: Language = {
   appName: 'Transport Nepal',
   login: 'Login',
   registerHere: 'Create Account',
+  lang:'np',
   welcome: 'Welcome',
   logout: 'Logout',
   addNewRequest: 'Add New Request',

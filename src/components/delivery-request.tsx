@@ -15,6 +15,7 @@ interface DeliveryRequestProps {
     quantity: number;
     vendorId: string;
     itemReachedAt?: string | boolean;
+    itemDescription: string;
   };
 }
 
@@ -90,6 +91,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                       currentLanguage.currency +
                       price +
                       '\n',
+                      
 
                     [
                       {
