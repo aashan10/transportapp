@@ -18,6 +18,8 @@ const VendorHomeScreen = ({navigation}: any) => {
     setLoading(true);
     getVendorItemsDetail()
       .then(feeds => {
+        console.log(feeds)
+
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
@@ -28,7 +30,9 @@ const VendorHomeScreen = ({navigation}: any) => {
       .catch(() => {})
       .finally(() => {
         setLoading(false);
+        
       });
+      
   }, [user.token, navigation]);
 
   return (

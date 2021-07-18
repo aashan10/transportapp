@@ -48,11 +48,11 @@ const HomeNavigation = () => {
           component={History}
         />
       ) : null}
-        <Drawer.Screen
-          name={'Profile'}
-          options={{drawerLabel: currentLanguage.profile}}
-          component={DriverProfileScreen}
-        />
+      <Drawer.Screen
+        name={'Profile'}
+        options={{drawerLabel: currentLanguage.profile}}
+        component={DriverProfileScreen}
+      />
     </Drawer.Navigator>
   );
 };

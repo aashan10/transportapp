@@ -17,7 +17,7 @@ const MyPickups = ({navigation}: any) => {
     setLoading(true);
     getDeliveryItemList()
       .then(feeds => {
-        console.log(feeds)
+        console.log(feeds);
         if (feeds.message) {
           Alert.alert('Message', feeds.message);
         }
