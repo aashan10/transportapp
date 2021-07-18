@@ -15,7 +15,7 @@ export const DRIVER_REGISTER = 'driver/register';
 export const MAIL_VERIFICATION = 'email/confirmation';
 export const MAIL_RESEND = 'email/resend';
 export const MAPBOX_API_KEY =
-  'pk.eyJ1IjoiYWFzaGFuMTAiLCJhIjoiY2tvbXMyZXpjMGpyZTJubzF1bTVxcW0wdCJ9.KtkWRJcyl6TAUdEknCuOeA';
+  'pk.eyJ1IjoiZ3BvdWRlbDg4IiwiYSI6ImNrcjlpZjVjdzQ4cmsyenFhM3FnNmcyczUifQ.3hz0LpPNWYRrOgGptv_urQ';
 export const PROFILE_NEW_PASSWORD = 'profile/newpassword';
 export const PROFILE_FORGET_PASSWORD = 'profile/forgetpass';
 export const PROFILE_PASSWORD_CHANGE = 'profile/pwchange';

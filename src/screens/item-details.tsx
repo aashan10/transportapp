@@ -26,8 +26,6 @@ interface RequestInterface {
   deliveryPriceByAdmin: string;
   deliveryFrom: string;
   deliveryTo: string;
-  containerSize: string;
-  containerType: string;
   quantity: string;
   vendorId: string;
   latitudeOfDeliveryFrom: number;
@@ -35,7 +33,7 @@ interface RequestInterface {
   acceptedAt: undefined | string;
   itemReachedAt: string | false;
   vendorPhoneNumber?: string;
-  itemDescription?: string;
+  itemDescription: string;
 }
 
 const renderAnnotations = ({
@@ -158,8 +156,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     deliveryPriceByAdmin: '',
     deliveryFrom: '',
     deliveryTo: '',
-    containerSize: '',
-    containerType: '',
     quantity: '',
     vendorId: '',
     latitudeOfDeliveryFrom: 85.31853583740946,
@@ -251,13 +247,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             </Text>
             <Text style={{flex: 2}}>{request.quantity}</Text>
           </ListItem>
-          <ListItem
-            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              {currentLanguage.containerType}
-            </Text>
-            <Text style={{flex: 2}}>{request.containerType}</Text>
-          </ListItem>
 
           {request.vendorPhoneNumber ? (
             <ListItem
@@ -268,13 +257,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               <Text style={{flex: 2}}>{request.vendorPhoneNumber}</Text>
             </ListItem>
           ) : null}
-          <ListItem
-            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
-              {currentLanguage.containerSize}
-            </Text>
-            <Text style={{flex: 2}}>{request.containerSize}</Text>
-          </ListItem>
+
           <ListItem
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontWeight: 'bold', flex: 1}} status={'primary'}>
