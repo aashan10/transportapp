@@ -1,13 +1,13 @@
 name: Transport Nepal CI/CD
 on:
   push:
-    branches: [master, dev]
+    branches: [master]
   pull_request:
-    branches: [master, dev]
+    branches: [master]
 
 jobs:
   test:
-    name: Run Tests
+    name: Run Tests and Build App
     runs-on: ubuntu-latest
     steps:
 

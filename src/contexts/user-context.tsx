@@ -90,7 +90,6 @@ const UserProvider = ({children}: UserProviderProps) => {
       .catch();
     userInfo(user.token)
       .then(response => {
-        console.log(response);
         const {name, email, phoneNumber, address, role, licenseAndBillBook} =
           response;
         setUser({
