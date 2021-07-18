@@ -98,14 +98,11 @@ const UserProvider = ({children}: UserProviderProps) => {
           email: email,
           address: address,
           role: role,
-          // @ts-ignore
           licenseAndBillBook: licenseAndBillBook,
           phoneNumber: phoneNumber,
+          companyName: response.companyName ?? ''
         });
 
-        if (response.companyName) {
-          setUser({...user, companyName: response.companyName});
-        }
         storeToken(token)
           .then()
           .catch(() => {

@@ -25,7 +25,6 @@ export const get = async (url: string, auth: boolean = true) => {
     headers: getHeaders({'Content-Type': 'application/json'}),
     method: 'GET',
   };
-
   const userContext = await import('../contexts/user-context');
   if (auth) {
     payload.headers = getHeaders({
