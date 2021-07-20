@@ -120,6 +120,8 @@ export interface Language {
   m7: string;
   m8: string;
   history: string;
+  contact: string;
+  fordetail: string;
 }
 
 const languages = {

@@ -126,6 +126,8 @@ const English: Language = {
   m7: 'There was an error processing your request',
   m8: 'Please enter a valid email address!',
   history: 'History',
+  contact:'Contact',
+  fordetail:'For More Detail',
 };
 
 export default English;
