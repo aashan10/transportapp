@@ -122,6 +122,7 @@ export interface Language {
   history: string;
   contact: string;
   fordetail: string;
+  pan: string;
 }
 
 const languages = {

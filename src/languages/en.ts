@@ -88,9 +88,9 @@ const English: Language = {
   otruck: '22 feet 10Ton(Open Truck)',
   tripper: '24 feet 10Ton (Open Truck)',
   container: '24 feet 10Ton (Container)',
-  wheelar1: '10 wheelar',
-  wheelar2: '12 wheelar',
-  tailor: 'Tailor',
+  wheelar1: '10 wheeler',
+  wheelar2: '12 wheeler',
+  tailor: 'Trailer',
   registerDriver: 'Register as Driver',
   registerVendor: 'Register as vendor',
   enable: 'Enable',
@@ -128,6 +128,7 @@ const English: Language = {
   history: 'History',
   contact:'Contact',
   fordetail:'For More Detail',
+  pan:'PAN/VAT Number',
 };
 
 export default English;

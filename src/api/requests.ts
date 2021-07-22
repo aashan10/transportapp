@@ -200,6 +200,7 @@ export const registerVendor = async (data: {
   password: string;
   email: string;
   phoneNumber: string;
+  panNumber: string;
 }) => {
   return await post(VENDOR_REGISTER, data);
 };

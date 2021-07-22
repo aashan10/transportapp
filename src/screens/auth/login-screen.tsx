@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
-import {StyleSheet, View, ToastAndroid} from 'react-native';
+import {StyleSheet, View, ToastAndroid, Image} from 'react-native';
 import {Exception, userLogin} from '../../api/requests';
 import UserContext from '../../contexts/user-context';
 import Button from '../../components/button';
@@ -38,7 +38,6 @@ const LoginScreen = (props: any) => {
       />
     );
   };
-
   return (
     <Layout style={style.container}>
       <View
@@ -86,18 +85,29 @@ const LoginScreen = (props: any) => {
           }}
         />
       </View>
+      <ScrollView>
       <View style={style.centeredContent}>
         <Text
           style={{
-            marginBottom: 100,
+            marginBottom: 10,
             width: '100%',
             textAlign: 'center',
             fontWeight: 'bold',
             fontSize: 20,
           }}>
-          {currentLanguage.appName}
         </Text>
-        <ScrollView>
+        <View 
+        style ={[styles.conatiner
+          
+        ]
+        }>
+          <Image
+          style={styles.stretch}
+          source={require('/home/gopal/Projects/transportapp/src/assets/transporticon.png')}
+          />
+
+        </View>
+        
           <Input
             style={style.spacedComponent}
             value={username}
@@ -199,18 +209,32 @@ const LoginScreen = (props: any) => {
               {currentLanguage.forgotPassword}
             </Button>
           </View>
+          </View>
+
         </ScrollView>
-      </View>
     </Layout>
   );
 };
+const styles= StyleSheet.create({
+  conatiner:{
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  stretch:{
+    width:100,
+    height:100,
+    resizeMode: 'stretch',
+   }
+  
+});
 
 const style = StyleSheet.create({
   spacedComponent: {
-    marginTop: 15,
+    marginTop: 20,
   },
-  centeredContent: {
-    marginTop: '30%',
+  centeredContent: { 
+    marginTop: '20%',
   },
   container: {
     padding: 10,
