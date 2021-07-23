@@ -85,7 +85,6 @@ const LoginScreen = (props: any) => {
           }}
         />
       </View>
-      <ScrollView>
       <View style={style.centeredContent}>
         <Text
           style={{
@@ -107,7 +106,8 @@ const LoginScreen = (props: any) => {
           />
 
         </View>
-        
+        <ScrollView>
+
           <Input
             style={style.spacedComponent}
             value={username}
@@ -209,9 +209,10 @@ const LoginScreen = (props: any) => {
               {currentLanguage.forgotPassword}
             </Button>
           </View>
-          </View>
 
         </ScrollView>
+        </View>
+
     </Layout>
   );
 };
