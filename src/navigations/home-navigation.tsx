@@ -59,7 +59,6 @@ const HomeNavigation = () => {
         options={{drawerLabel: currentLanguage.contact}}
         component={contact}
       />
-
     </Drawer.Navigator>
   );
 };

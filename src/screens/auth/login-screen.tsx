@@ -93,21 +93,15 @@ const LoginScreen = (props: any) => {
             textAlign: 'center',
             fontWeight: 'bold',
             fontSize: 20,
-          }}>
-        </Text>
-        <View 
-        style ={[styles.conatiner
-          
-        ]
-        }>
+          }}
+        />
+        <View style={[styles.conatiner]}>
           <Image
-          style={styles.stretch}
-          source={require('/home/gopal/Projects/transportapp/src/assets/transporticon.png')}
+            style={styles.stretch}
+            source={require('../../assets/transporticon.png')}
           />
-
         </View>
         <ScrollView>
-
           <Input
             style={style.spacedComponent}
             value={username}
@@ -209,32 +203,28 @@ const LoginScreen = (props: any) => {
               {currentLanguage.forgotPassword}
             </Button>
           </View>
-
         </ScrollView>
-        </View>
-
+      </View>
     </Layout>
   );
 };
-const styles= StyleSheet.create({
-  conatiner:{
+const styles = StyleSheet.create({
+  conatiner: {
     justifyContent: 'center',
     alignItems: 'center',
-
   },
-  stretch:{
-    width:100,
-    height:100,
+  stretch: {
+    width: 100,
+    height: 100,
     resizeMode: 'stretch',
-   }
-  
+  },
 });
 
 const style = StyleSheet.create({
   spacedComponent: {
     marginTop: 20,
   },
-  centeredContent: { 
+  centeredContent: {
     marginTop: '20%',
   },
   container: {
