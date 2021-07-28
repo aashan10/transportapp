@@ -123,6 +123,7 @@ export interface Language {
   contact: string;
   fordetail: string;
   pan: string;
+  cancelledByVendor: string;
 }
 
 const languages = {

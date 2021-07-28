@@ -97,7 +97,7 @@ const English: Language = {
   disable: 'Disable',
   acceptDelivery: 'Accept Delivery Request',
   completeDelivery: 'Complete Delivery',
-  acceptedByDriver: 'Accepted By Driver',
+  acceptedByDriver: 'Driver Accepted',
   complete: 'Completed',
   alert2: 'Success',
   alert1: 'error',
@@ -129,6 +129,7 @@ const English: Language = {
   contact: 'Contact',
   fordetail: 'For More Detail',
   pan: 'PAN/VAT Number',
+  cancelledByVendor:'Cancel Delivery',
 };
 
 export default English;

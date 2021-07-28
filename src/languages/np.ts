@@ -129,6 +129,7 @@ const Nepali: Language = {
   history: 'विगतको बुकिंग',
   contact: 'सम्पर्क',
   fordetail: 'थप विवरणको लागि',
+  cancelledByVendor:'डेलिभरी रद्द गर्नुहोस्',
 };
 
 export default Nepali;

@@ -15,6 +15,8 @@ import {
   VENDOR_ITEM_DETAIL,
   VENDOR_ITEM_UPLOAD,
   VENDOR_REGISTER,
+  DRIVER_DELIVERY_CANCEL,
+  VENDOR_VENDOR_CANCEL,
 } from './constants';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
@@ -125,7 +127,12 @@ export const getVendorItemsDetail = async () => {
 export const getDeliveryitemDetail = async () => {
   return await get(DRIVER_DELIVERY_DETAIL);
 };
-
+export const getDrivercancel = async() =>{
+  return await get(DRIVER_DELIVERY_CANCEL);
+}
+export const getVendorCancel = async () =>{
+  return await get(VENDOR_VENDOR_CANCEL);
+}
 export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
