@@ -11,7 +11,7 @@ interface contact {
   route: any;
 }
 
-const Contact = ({navigation}: contact) => {
+const ContactPage = ({navigation}: contact) => {
   const {user} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
   const Contact = () => {
@@ -74,4 +74,4 @@ const Contact = ({navigation}: contact) => {
     </Layout>
   );
 };
-export default Contact;
+export default ContactPage;

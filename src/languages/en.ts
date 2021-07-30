@@ -129,7 +129,7 @@ const English: Language = {
   contact: 'Contact',
   fordetail: 'For More Detail',
   pan: 'PAN/VAT Number',
-  cancelledByVendor:'Cancel Delivery',
+  cancelledByVendor: 'Cancel Delivery',
 };
 
 export default English;

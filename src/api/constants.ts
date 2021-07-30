@@ -21,5 +21,5 @@ export const PROFILE_FORGET_PASSWORD = 'profile/forgetpass';
 export const PROFILE_PASSWORD_CHANGE = 'profile/pwchange';
 export const PROFILE_PROFILE_IMG = 'profile/profileImg';
 export const PROFILE_USER_UPDATE = 'profile/user/update';
-export const DRIVER_DELIVERY_CANCEL ='driver/cancelDelivery'
-export const VENDOR_VENDOR_CANCEL='vendor/itemCancelledFromDelivery'
+export const DRIVER_DELIVERY_CANCEL = 'driver/cancelDelivery';
+export const VENDOR_VENDOR_CANCEL = 'vendor/itemCancelledFromDelivery';

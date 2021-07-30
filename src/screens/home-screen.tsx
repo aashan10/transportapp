@@ -20,7 +20,7 @@ const HomeScreen = ({navigation}: any) => {
       .then(feeds => {
         setPosts(feeds.totalItem);
         if (feeds.totalItem && feeds.totalItem.length === 0) {
-          Alert.alert('', currentLanguage.message4);
+          Alert.alert('', currentLanguage.message5);
         }
       })
       .catch(() => {})
