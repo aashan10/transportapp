@@ -20,6 +20,7 @@ interface ItemDetailsProps {
 }
 
 interface RequestInterface {
+  driverAcceptedAt: any;
   itemId: string;
   itemName: string;
   deliveryPriceByVendor: string;
@@ -30,10 +31,11 @@ interface RequestInterface {
   vendorId: string;
   latitudeOfDeliveryFrom: number;
   longitudeOfDeliveryFrom: number;
-  acceptedAt: undefined | string;
+  acceptedAt: string;
   itemReachedAt: string | false;
   vendorPhoneNumber?: string;
   itemDescription: string;
+  cancelledByVendor: string;
 }
 
 const renderAnnotations = ({
@@ -160,9 +162,11 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     vendorId: '',
     latitudeOfDeliveryFrom: 85.31853583740946,
     longitudeOfDeliveryFrom: 27.701739466949107,
-    acceptedAt: undefined,
+    driverAcceptedAt: '',
     itemReachedAt: false,
     itemDescription: '',
+    acceptedAt: '',
+    cancelledByVendor: '',
   });
   const [isVendor] = useState<boolean>(user.role === 'vendor');
   const [price, setPrice] = useState<string | number>('');
@@ -192,7 +196,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     request.itemReachedAt,
     route.params,
   ]);
-
+  console.log(request);
   return (
     <Layout level={'4'} style={{height: '100%'}}>
       <Layout style={{width: '100%'}}>
@@ -445,7 +449,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           {request.itemReachedAt
             ? currentLanguage.complete
             : isVendor
-            ? request.acceptedAt
+            ? request.driverAcceptedAt
               ? currentLanguage.acceptedByDriver
               : currentLanguage.pending
             : request.acceptedAt

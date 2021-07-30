@@ -15,6 +15,7 @@ interface ErrorState {
   company: string | null;
   name: string | null;
   phone: string | null;
+  panNumber: string | null;
 }
 const validate = ({
   email,
@@ -23,6 +24,7 @@ const validate = ({
   phone,
   password,
   address,
+  panNumber,
 }: ErrorState) => {
   let response: ErrorState = {
     email: null,
@@ -31,6 +33,7 @@ const validate = ({
     company: null,
     phone: null,
     address: null,
+    panNumber: null,
   };
   if (!email || email?.length <= 0) {
     response.email = "The email can't be empty!";
@@ -63,6 +66,7 @@ const RegisterVendorScreen = (props: any) => {
   const [password, setPassword] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [company, setCompany] = useState<string>('');
+  const [panNumber, setpanNumber] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorState>({
     email: null,
@@ -71,6 +75,7 @@ const RegisterVendorScreen = (props: any) => {
     company: null,
     name: null,
     phone: null,
+    panNumber: null,
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
@@ -160,6 +165,22 @@ const RegisterVendorScreen = (props: any) => {
           </View>
           <View style={{marginBottom: 15}}>
             <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+              {currentLanguage.pan}
+            </Text>
+            <Input
+              onChangeText={text => {
+                setpanNumber(text);
+                setError({...error, panNumber: null});
+              }}
+              status={error.company ? 'danger' : ''}
+              placeholder={'6040xxxxxxx'}
+            />
+            {error.panNumber ? (
+              <Text status={'danger'}>{error.panNumber}</Text>
+            ) : null}
+          </View>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.email}
             </Text>
             <Input
@@ -236,6 +257,7 @@ const RegisterVendorScreen = (props: any) => {
               password: password,
               company: company,
               phone: phone,
+              panNumber: panNumber,
             });
             if (
               validation.name ||
@@ -243,7 +265,8 @@ const RegisterVendorScreen = (props: any) => {
               validation.company ||
               validation.email ||
               validation.phone ||
-              validation.password
+              validation.password ||
+              validation.panNumber
             ) {
               setError(validation);
             } else {
@@ -255,6 +278,7 @@ const RegisterVendorScreen = (props: any) => {
                 password: password,
                 phoneNumber: phone,
                 address: address,
+                panNumber: panNumber,
               })
                 .then(async response => {
                   ToastAndroid.show(response.message, 5000);

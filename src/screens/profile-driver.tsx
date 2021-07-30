@@ -6,8 +6,8 @@ import {
   Spinner,
   Text,
 } from '@ui-kitten/components';
-import React, {useContext, useEffect, useState} from 'react';
-import {Alert, Image, ScrollView, View} from 'react-native';
+import React, {useContext} from 'react';
+import {Image, ScrollView} from 'react-native';
 import LocalizationContext from '../contexts/localization-context';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';

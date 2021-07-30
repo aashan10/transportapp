@@ -28,9 +28,7 @@ const VendorHomeScreen = ({navigation}: any) => {
       .catch(() => {})
       .finally(() => {
         setLoading(false);
-        
       });
-      
   }, [user.token, navigation]);
 
   return (

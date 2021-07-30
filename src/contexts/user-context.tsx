@@ -100,7 +100,7 @@ const UserProvider = ({children}: UserProviderProps) => {
           role: role,
           licenseAndBillBook: licenseAndBillBook,
           phoneNumber: phoneNumber,
-          companyName: response.companyName ?? ''
+          companyName: response.companyName ?? '',
         });
 
         storeToken(token)

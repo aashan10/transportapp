@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerComponent from '../components/drawer';
 import SettingsScreen from '../screens/settings-screen';
@@ -9,6 +9,7 @@ import MyPickups from '../screens/my-pickups';
 import LocalizationContext from '../contexts/localization-context';
 import History from '../screens/history-screen';
 import DriverProfileScreen from '../screens/profile-driver';
+import Contact from '../screens/contact-screen';
 
 const HomeNavigation = () => {
   const Drawer = createDrawerNavigator();
@@ -52,6 +53,11 @@ const HomeNavigation = () => {
         name={'Profile'}
         options={{drawerLabel: currentLanguage.profile}}
         component={DriverProfileScreen}
+      />
+      <Drawer.Screen
+        name={'Contact'}
+        options={{drawerLabel: currentLanguage.contact}}
+        component={Contact}
       />
     </Drawer.Navigator>
   );

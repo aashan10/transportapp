@@ -42,7 +42,7 @@ const MyPickups = ({navigation}: any) => {
           <RefreshControl
             refreshing={loading}
             onRefresh={() => {
-              setLoading(true)
+              setLoading(true);
               getDeliveryItemList()
                 .then(feeds => {
                   if (feeds.message) {
