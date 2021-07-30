@@ -9,7 +9,7 @@ import MyPickups from '../screens/my-pickups';
 import LocalizationContext from '../contexts/localization-context';
 import History from '../screens/history-screen';
 import DriverProfileScreen from '../screens/profile-driver';
-import contact from '../screens/contact-screen';
+import Contact from '../screens/contact-screen';
 
 const HomeNavigation = () => {
   const Drawer = createDrawerNavigator();
@@ -57,7 +57,7 @@ const HomeNavigation = () => {
       <Drawer.Screen
         name={'Contact'}
         options={{drawerLabel: currentLanguage.contact}}
-        component={contact}
+        component={Contact}
       />
     </Drawer.Navigator>
   );
