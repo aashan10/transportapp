@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import CreateItem from '../screens/create-item';
 import VendorHomeScreen from '../screens/vendor-home-screen';
 import ItemDetails from '../screens/item-details';
+import ItemDetailsMap from '../screens/item-details-map';
 
 const Vendor = createStackNavigator();
 
@@ -12,6 +13,7 @@ const VendorNavigation = () => {
       <Vendor.Screen name={'vendorHome'} component={VendorHomeScreen} />
       <Vendor.Screen name={'createRequest'} component={CreateItem} />
       <Vendor.Screen name={'viewRequest'} component={ItemDetails} />
+      <Vendor.Screen name={'viewMap'} component={ItemDetailsMap} />
     </Vendor.Navigator>
   );
 };

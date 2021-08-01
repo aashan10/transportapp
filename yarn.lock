@@ -960,6 +960,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@klltech/baato-js-client@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@klltech/baato-js-client/-/baato-js-client-1.2.1.tgz#b61881d9328d5a6c814ae455b2cf08be1b309f92"
+  integrity sha512-YWEL0lqU9rFmacJQIodj7wE7ktrizC+Ip30nzg5Jl6Gh9AMc24nNthW1vx0YeP98Glso3UfqaDrO1UL6gHFKfg==
+  dependencies:
+    axios "^0.21.1"
+
 "@mapbox/geo-viewport@>= 0.4.0":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@mapbox/geo-viewport/-/geo-viewport-0.4.1.tgz#a184c0b161975858a2e855a1e333e66af342964b"
@@ -5196,6 +5203,11 @@ mockdate@^3.0.2:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
   integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
+
+moment@^2.29.1:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 ms@2.0.0:
   version "2.0.0"

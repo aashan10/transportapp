@@ -46,6 +46,7 @@ const VendorHomeScreen = ({navigation}: any) => {
                 setLoading(true);
                 getVendorItemsDetail()
                   .then(feeds => {
+                    console.log(feeds);
                     if (feeds.message) {
                       Alert.alert('Message', feeds.message);
                     }
@@ -53,7 +54,7 @@ const VendorHomeScreen = ({navigation}: any) => {
                       setPosts(feeds.detail);
                     }
                   })
-                  .catch(() => {
+                  .catch(e => {
                     Alert.alert(
                       currentLanguage.alert1,
                       currentLanguage.message7,

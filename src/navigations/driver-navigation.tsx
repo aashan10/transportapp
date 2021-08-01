@@ -4,6 +4,7 @@ import CreateItem from '../screens/create-item';
 import ItemDetails from '../screens/item-details';
 import HomeScreen from '../screens/home-screen';
 import MyPickups from '../screens/my-pickups';
+import ItemDetailsMap from '../screens/item-details-map';
 // import History from '../screens/item-delivery-detail';
 
 const Driver = createStackNavigator();
@@ -16,6 +17,7 @@ const DriverNavigation = () => {
       <Driver.Screen name={'driverHome'} component={HomeScreen} />
       <Driver.Screen name={'view Requests'} component={CreateItem} />
       <Driver.Screen name={'viewRequest'} component={ItemDetails} />
+      <Driver.Screen name={'viewMap'} component={ItemDetailsMap} />
     </Driver.Navigator>
   );
 };

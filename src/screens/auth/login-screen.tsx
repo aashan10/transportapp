@@ -214,8 +214,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stretch: {
-    width: 100,
-    height: 100,
+    width: 60,
+    height: 60,
+    margin: 60,
     resizeMode: 'stretch',
   },
 });

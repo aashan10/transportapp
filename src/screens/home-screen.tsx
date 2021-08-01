@@ -27,7 +27,7 @@ const HomeScreen = ({navigation}: any) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [user.token, navigation]);
+  }, [user.token, navigation, currentLanguage.message5]);
 
   return (
     <Layout style={{height: '100%', width: '100%'}}>

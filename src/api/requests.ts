@@ -137,9 +137,9 @@ export const getVendorCancel = async () => {
 export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
-export const getNearYouItem = async ()=> {
+export const getNearYouItem = async () => {
   return await get(DRIVER_NEAR_YOU);
-}
+};
 
 export const registerDriver = async (props: {
   name: string;
