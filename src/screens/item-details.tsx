@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Card, Icon, Layout, Modal, Text} from '@ui-kitten/components';
 import Header from '../components/header';
-import {Pressable, ScrollView, View} from 'react-native';
+import {Alert, LogBox, Pressable, ScrollView, View} from 'react-native';
 import Button from '../components/button';
 import UserContext from '../contexts/user-context';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -9,6 +9,11 @@ import {MAPBOX_API_KEY} from '../api/constants';
 import LocalizationContext from '../contexts/localization-context';
 import {ThemeContext} from '../contexts/theme-context';
 import moment from 'moment';
+import {
+  acceptDeliveryRequest,
+  cancelDelivery,
+  itemReached,
+} from '../api/requests';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -53,14 +58,15 @@ const DateOptions = {
 const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const {user} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
+  const {theme} = useContext(ThemeContext);
   const [item] = useState<RequestInterface>(route.params.item);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [colorScheme, setColorScheme] = useState('warning');
   const [state, setState] =
     useState<'pending' | 'accepted' | 'picked' | 'completed'>('pending');
-  const [actions, setActions] = useState<Array<'cancel' | 'delete' | 'pick'>>(
-    [],
-  );
+  const [actions, setActions] = useState<
+    Array<'cancel' | 'delete' | 'pick' | 'complete'>
+  >([]);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(true);
 
@@ -76,19 +82,24 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
     } else if (acceptedAt) {
       setState('accepted');
     }
-
-    console.log(item);
   }, [user, item]);
 
   useEffect(() => {
+    console.log(state);
     if (user.role === 'driver') {
       switch (state) {
         case 'completed':
-        case 'accepted':
           setActions([]);
           break;
+        case 'picked':
+          setActions(['cancel', 'complete']);
+          break;
+        case 'accepted':
+        case 'pending':
+          setActions(['pick']);
+          break;
         default:
-          setActions(['cancel']);
+          setActions([]);
       }
     } else if (user.role === 'vendor') {
       let vendorActions: Array<'cancel' | 'delete' | 'pick'> = [];
@@ -125,7 +136,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
         <Header
           back={true}
           navigation={navigation}
-          title={currentLanguage.requestDetail}
+          title={item.itemName}
           accessoryRight={() => {
             const MoreIcon = (props: any) => (
               <Icon name={'more-vertical-outline'} {...props} />
@@ -163,7 +174,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 marginVertical: 15,
               }}>
               <View style={{flex: 3}}>
-                <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold'}}>
                   {item.deliveryFrom}
                 </Text>
               </View>
@@ -173,7 +184,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               <View style={{flex: 3}}>
                 <Text
                   style={{
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: 'bold',
                     textAlign: 'right',
                   }}>
@@ -214,117 +225,169 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             <Text>{item.itemDescription}</Text>
           </View>
 
+          <View style={{marginBottom: 30}}>
+            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
+              Quantity
+            </Text>
+
+            <Text>{`${item.quantity} units`}</Text>
+          </View>
+
           <View>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
               Timeline
             </Text>
-
-            {item.createdAt ? (
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                }}>
-                <Text>Order Placed</Text>
-                <Icon
-                  name={'arrow-forward-outline'}
-                  style={{
-                    height: 15,
-                    width: 15,
-                    fill: 'green',
-                    paddingHorizontal: 20,
-                  }}
-                  fill={'green'}
-                />
-
-                <Text>{moment(Date.parse(item.createdAt)).calendar()}</Text>
-              </View>
-            ) : null}
-
-            {item.acceptedAt ? (
-              <View>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text style={{fontWeight: 'bold'}}>Accepted By Admin</Text>
-                  <Icon
-                    name={'arrow-forward-outline'}
-                    style={{height: 15, width: 15, fill: 'green'}}
-                    fill={'green'}
-                  />
-                  <Text>{moment(Date.parse(item.acceptedAt)).calendar()}</Text>
-                </View>
-              </View>
-            ) : null}
-
-            {item.driverAcceptedAt ? (
-              <View>
-                <View
-                  style={{
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                  }}
-                />
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <Text>Accepted By Driver</Text>
-                  <Icon
-                    name={'arrow-forward-outline'}
+            <View>
+              {item.createdAt ? (
+                <View>
+                  <View
                     style={{
-                      height: 20,
-                      width: 20,
-                      fill: 'green',
-                      paddingHorizontal: 20,
-                    }}
-                    fill={'green'}
-                  />
-
-                  <Text>
-                    {moment(Date.parse(item.driverAcceptedAt)).calendar()}
-                  </Text>
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-primary-transparent-200'],
+                      borderRadius: 10,
+                      padding: 10,
+                    }}>
+                    <Text style={{fontWeight: 'bold', flex: 2}}>
+                      Order Placed At
+                    </Text>
+                    <Icon
+                      name={'arrow-forward-outline'}
+                      style={{height: 15, width: 15, fill: 'green'}}
+                      fill={'green'}
+                    />
+                    <Text style={{flex: 2, textAlign: 'right'}}>
+                      {moment(Date.parse(item.createdAt)).calendar()}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            ) : null}
+              ) : null}
 
-            {item.itemReachedAt ? (
-              <View>
-                <View
-                  style={{
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                  }}
-                />
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <Text>Delivered</Text>
-                  <Icon
-                    name={'arrow-forward-outline'}
+              {item.acceptedAt ? (
+                <View>
+                  <View
                     style={{
-                      height: 20,
-                      width: 20,
-                      fill: 'green',
-                      paddingHorizontal: 20,
-                    }}
-                    fill={'green'}
-                  />
-                  <Text>
-                    {moment(Date.parse(item.itemReachedAt)).calendar()}
-                  </Text>
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginVertical: 10,
+                    }}>
+                    <Icon
+                      name={'more-vertical-outline'}
+                      style={{
+                        height: 15,
+                        width: 15,
+                        fill: theme['color-primary-500'],
+                      }}
+                      fill={theme['color-primary-500']}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-primary-transparent-200'],
+                      borderRadius: 10,
+                      padding: 10,
+                    }}>
+                    <Text style={{fontWeight: 'bold', flex: 2}}>
+                      Accepted By Admin
+                    </Text>
+                    <Icon
+                      name={'arrow-forward-outline'}
+                      style={{height: 15, width: 15, fill: 'green'}}
+                      fill={'green'}
+                    />
+                    <Text style={{flex: 2, textAlign: 'right'}}>
+                      {moment(Date.parse(item.acceptedAt)).calendar()}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            ) : null}
+              ) : null}
+
+              {item.driverAcceptedAt ? (
+                <View>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginVertical: 10,
+                    }}>
+                    <Icon
+                      name={'more-vertical-outline'}
+                      style={{
+                        height: 15,
+                        width: 15,
+                        fill: theme['color-primary-500'],
+                      }}
+                      fill={theme['color-primary-500']}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-primary-transparent-200'],
+                      borderRadius: 10,
+                      padding: 10,
+                    }}>
+                    <Text style={{fontWeight: 'bold', flex: 2}}>
+                      Accepted By Driver
+                    </Text>
+                    <Icon
+                      name={'arrow-forward-outline'}
+                      style={{height: 15, width: 15, fill: 'green'}}
+                      fill={'green'}
+                    />
+                    <Text style={{flex: 2, textAlign: 'right'}}>
+                      {moment(Date.parse(item.driverAcceptedAt)).calendar()}
+                    </Text>
+                  </View>
+                </View>
+              ) : null}
+
+              {item.itemReachedAt ? (
+                <View>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginVertical: 10,
+                    }}>
+                    <Icon
+                      name={'more-vertical-outline'}
+                      style={{
+                        height: 15,
+                        width: 15,
+                        fill: theme['color-primary-500'],
+                      }}
+                      fill={theme['color-primary-500']}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-primary-transparent-200'],
+                      borderRadius: 10,
+                      padding: 10,
+                    }}>
+                    <Text style={{fontWeight: 'bold', flex: 2}}>Delivered</Text>
+                    <Icon
+                      name={'arrow-forward-outline'}
+                      style={{height: 15, width: 15, fill: 'green'}}
+                      fill={'green'}
+                    />
+                    <Text style={{flex: 2, textAlign: 'right'}}>
+                      {moment(Date.parse(item.itemReachedAt)).calendar()}
+                    </Text>
+                  </View>
+                </View>
+              ) : null}
+            </View>
           </View>
         </ScrollView>
         {showTooltip ? (
@@ -358,62 +421,104 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           style={{margin: 10, marginTop: 0}}>
           View Pickup Address on Map
         </Button>
-        <ThemeContext.Consumer>
-          {theme => {
-            return (
-              <Modal
-                style={{
-                  width: '100%',
-                  padding: 10,
-                  borderRadius: 30,
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                }}
-                visible={isMenuVisible}
-                onBackdropPress={() => {
-                  setMenuVisible(false);
-                }}
-                backdropStyle={{backgroundColor: theme.theme.backdropColor}}>
-                <Card style={{borderRadius: 10}}>
-                  {actions.indexOf('pick') > -1 ? (
-                    <Button
-                      appearance={'outline'}
-                      status={'primary'}
-                      style={{marginVertical: 2.5}}>
-                      Pickup Request
-                    </Button>
-                  ) : null}
-
-                  {actions.indexOf('cancel') > -1 ? (
-                    <Button
-                      appearance={'ghost'}
-                      status={'danger'}
-                      style={{marginVertical: 2.5}}>
-                      Cancel Request
-                    </Button>
-                  ) : null}
-                  {actions.indexOf('delete') > -1 ? (
-                    <Button
-                      appearance={'ghost'}
-                      status={'danger'}
-                      style={{marginVertical: 2.5}}>
-                      Delete Request
-                    </Button>
-                  ) : null}
-                  <Button
-                    onPress={() => {
-                      setMenuVisible(false);
-                    }}
-                    appearance={'ghost'}
-                    style={{marginVertical: 2.5}}>
-                    Close
-                  </Button>
-                </Card>
-              </Modal>
-            );
+        <Modal
+          style={{
+            width: '100%',
+            padding: 10,
+            borderRadius: 30,
+            position: 'absolute',
+            left: 0,
+            top: 0,
           }}
-        </ThemeContext.Consumer>
+          visible={isMenuVisible}
+          onBackdropPress={() => {
+            setMenuVisible(false);
+          }}
+          backdropStyle={{backgroundColor: theme.backdropColor}}>
+          <Card style={{borderRadius: 10}}>
+            {actions.indexOf('pick') > -1 ? (
+              <Button
+                appearance={'outline'}
+                status={'primary'}
+                onPress={() => {
+                  acceptDeliveryRequest({
+                    itemId: item.itemId,
+                    vendorId: item.vendorId,
+                  })
+                    .then(() => {
+                      Alert.alert('Item Picked!');
+                      navigation.navigate('my Pickups');
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
+                }}
+                style={{marginVertical: 2.5}}>
+                Pickup Request
+              </Button>
+            ) : null}
+
+            {actions.indexOf('complete') > -1 ? (
+              <Button
+                appearance={'outline'}
+                status={'primary'}
+                onPress={() => {
+                  itemReached({
+                    itemId: item.itemId,
+                    vendorId: item.vendorId,
+                  })
+                    .then(() => {
+                      Alert.alert('Item Delivered!');
+                      navigation.navigate('History');
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
+                }}
+                style={{marginVertical: 2.5}}>
+                Complete Request
+              </Button>
+            ) : null}
+
+            {actions.indexOf('cancel') > -1 ? (
+              <Button
+                appearance={'ghost'}
+                status={'danger'}
+                onPress={() => {
+                  cancelDelivery({
+                    vendorId: item.vendorId,
+                    itemId: item.itemId,
+                  })
+                    .then(() => {
+                      Alert.alert('Delivery canceled!');
+                      navigation.navigate(user.role === 'vendor' ? 'vendor Home' : 'driver Home');
+                    })
+                    .catch(e => {
+                      Alert.alert('Could not cancel delivery of the order!');
+                    });
+                }}
+                style={{marginVertical: 2.5}}>
+                Cancel Delivery
+              </Button>
+            ) : null}
+            {actions.indexOf('delete') > -1 ? (
+              <Button
+                appearance={'ghost'}
+                status={'danger'}
+                style={{marginVertical: 2.5}}>
+                Delete Request
+              </Button>
+            ) : null}
+            <Button
+              onPress={() => {
+                setMenuVisible(false);
+              }}
+              appearance={'ghost'}
+              style={{marginVertical: 2.5}}>
+              Close
+            </Button>
+          </Card>
+        </Modal>
       </Layout>
     </Layout>
   );

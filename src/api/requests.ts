@@ -220,7 +220,7 @@ export const acceptDeliveryRequest = async (payload: {
   itemId: string;
   vendorId: string;
 }) => {
-  return await post(DRIVER_DELIVERY_ACCEPT, payload);
+  return await post(DRIVER_DELIVERY_ACCEPT, payload, true);
 };
 
 export const forgotPassword = async (email: string) => {
@@ -248,6 +248,13 @@ export const itemReached = async (payload: {
   vendorId: string;
 }) => {
   return await post(DRIVER_ITEM_REACHED, payload);
+};
+
+export const cancelDelivery = async (payload: {
+  vendorId: string;
+  itemId: string;
+}) => {
+  return await post(DRIVER_DELIVERY_CANCEL, payload);
 };
 
 export class Exception {
