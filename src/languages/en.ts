@@ -2,6 +2,7 @@ import {Language} from './language';
 
 const English: Language = {
   lang: '🇺🇸',
+  locale: 'en',
   appName: 'Transport Nepal',
   login: 'Login',
   registerHere: 'Create Account',
@@ -125,7 +126,7 @@ const English: Language = {
   m6: 'An email containing a token has been sent to your email address. Please check your mailbox and enter token and new password to reset your password',
   m7: 'There was an error processing your request',
   m8: 'Please enter a valid email address!',
-  history: 'History',
+  history: 'Pickup History',
   contact: 'Contact',
   fordetail: 'For More Detail',
   pan: 'PAN/VAT Number',

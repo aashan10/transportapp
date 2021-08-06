@@ -5,11 +5,12 @@ import SettingsScreen from '../screens/settings-screen';
 import UserContext from '../contexts/user-context';
 import VendorNavigation from './vendor-navigation';
 import DriverNavigation from './driver-navigation';
-import MyPickups from '../screens/my-pickups';
 import LocalizationContext from '../contexts/localization-context';
 import History from '../screens/history-screen';
 import DriverProfileScreen from '../screens/profile-driver';
 import Contact from '../screens/contact-screen';
+import PickupNavigation from './pickup-navigation';
+import HistoryNavigation from './history-navigator';
 
 const HomeNavigation = () => {
   const Drawer = createDrawerNavigator();
@@ -21,7 +22,7 @@ const HomeNavigation = () => {
       drawerType={'front'}
       drawerContent={(props: any) => <DrawerComponent {...props} />}>
       <Drawer.Screen
-        name={user.role === 'vendor' ? 'vendor Home' : 'driver Home'}
+        name={'home'}
         options={{
           drawerLabel:
             user.role === 'vendor'
@@ -30,34 +31,35 @@ const HomeNavigation = () => {
         }}
         component={user.role === 'vendor' ? VendorNavigation : DriverNavigation}
       />
-      <Drawer.Screen
-        options={{drawerLabel: currentLanguage.setting}}
-        name={'settings'}
-        component={SettingsScreen}
-      />
+
       {user.role === 'driver' ? (
         <Drawer.Screen
-          name={'my Pickups'}
+          name={'myPickups'}
           options={{drawerLabel: currentLanguage.myPickups}}
-          component={MyPickups}
+          component={PickupNavigation}
         />
       ) : null}
       {user.role === 'driver' ? (
         <Drawer.Screen
-          name={'History'}
+          name={'history'}
           options={{drawerLabel: currentLanguage.history}}
-          component={History}
+          component={HistoryNavigation}
         />
       ) : null}
       <Drawer.Screen
-        name={'Profile'}
+        name={'profile'}
         options={{drawerLabel: currentLanguage.profile}}
         component={DriverProfileScreen}
       />
       <Drawer.Screen
-        name={'Contact'}
+        name={'contact'}
         options={{drawerLabel: currentLanguage.contact}}
         component={Contact}
+      />
+      <Drawer.Screen
+        options={{drawerLabel: currentLanguage.setting}}
+        name={'settings'}
+        component={SettingsScreen}
       />
     </Drawer.Navigator>
   );

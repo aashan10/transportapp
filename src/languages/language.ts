@@ -3,6 +3,7 @@ import English from './en';
 
 export interface Language {
   lang: string;
+  locale: 'en' | 'ne';
   appName: string;
   login: string;
   registerHere: string;

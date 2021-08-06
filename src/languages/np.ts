@@ -2,6 +2,7 @@ import {Language} from './language';
 
 const Nepali: Language = {
   lang: '🇳🇵',
+  locale: 'ne',
   appName: 'ट्रान्सपोर्ट नेपाल',
   login: 'लगइन गर्नुहोस',
   registerHere: 'रजिस्टर गर्नुहोस',

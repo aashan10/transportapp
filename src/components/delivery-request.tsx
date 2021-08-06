@@ -161,7 +161,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
         <Button
           status={delivered ? 'success' : 'primary'}
           onPress={() => {
-            navigation.navigate('viewRequest', {item: request});
+            navigation.navigate('detailsScreen', {item: request});
           }}
           size={'small'}>
           {currentLanguage.detail}

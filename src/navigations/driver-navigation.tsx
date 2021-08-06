@@ -16,8 +16,8 @@ const DriverNavigation = () => {
       initialRouteName={'driverHome'}>
       <Driver.Screen name={'driverHome'} component={HomeScreen} />
       <Driver.Screen name={'view Requests'} component={CreateItem} />
-      <Driver.Screen name={'viewRequest'} component={ItemDetails} />
-      <Driver.Screen name={'viewMap'} component={ItemDetailsMap} />
+      <Driver.Screen name={'detailsScreen'} component={ItemDetails} />
+      <Driver.Screen name={'map'} component={ItemDetailsMap} />
     </Driver.Navigator>
   );
 };

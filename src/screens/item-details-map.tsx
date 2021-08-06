@@ -84,54 +84,62 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
   };
 
   return (
-    <Layout style={{height: '100%'}}>
-      <StatusBar />
-      <Button
-        onPress={() => {
-          setSatelliteView(!isSatelliteView);
-        }}
-        accessoryLeft={() => {
-          return (
-            <Text
-              style={{
-                color: theme['color-primary-500'],
-                fontWeight: 'bold',
-                paddingHorizontal: 10,
-              }}>
-              {isSatelliteView ? 'Disable' : 'Enable'} Satellite View
-            </Text>
-          );
-        }}
-        appearance={'primary'}
-        style={{
-          borderRadius: 100,
-          position: 'absolute',
-          top: 50,
-          right: 20,
-          zIndex: 100,
-          backgroundColor: bgColor,
-          borderWidth: 0,
-        }}
-      />
+    <Layout style={{height: '100%', backgroundColor: 'black'}}>
+      <StatusBar hidden={true} />
 
-      <Button
-        onPress={() => {
-          navigation.goBack();
-        }}
-        status={'basic'}
+      <View
         style={{
-          borderRadius: 100,
           position: 'absolute',
-          top: 50,
-          left: 20,
+          top: 10,
+          left: 10,
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
           zIndex: 100,
-          backgroundColor: bgColor,
-          borderWidth: 0,
-        }}
-        accessoryLeft={BackIcon}
-      />
+        }}>
+        <Button
+          onPress={() => {
+            navigation.goBack();
+          }}
+          appearance={'outline'}
+          style={{
+            borderBottomStartRadius: 100,
+            borderTopStartRadius: 100,
+            margin: 0,
+          }}
+          accessoryLeft={BackIcon}
+        />
+
+        <Button
+          onPress={() => {
+            setSatelliteView(!isSatelliteView);
+          }}
+          accessoryLeft={() => {
+            return (
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  paddingHorizontal: 10,
+                  color: 'white',
+                }}>
+                {isSatelliteView ? 'Disable' : 'Enable'} Satellite View
+              </Text>
+            );
+          }}
+          appearance={'primary'}
+          style={{
+            borderBottomEndRadius: 100,
+            borderTopEndRadius: 100,
+            margin: 0,
+          }}
+        />
+      </View>
       <MapboxGL.MapView
-        style={{height: height, width: width}}
+        style={{
+          height: height,
+          width: width,
+          borderRadius: 20,
+          overflow: 'hidden',
+        }}
         logoEnabled={false}
         styleURL={
           isSatelliteView

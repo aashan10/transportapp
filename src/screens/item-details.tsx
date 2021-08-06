@@ -14,6 +14,8 @@ import {
   cancelDelivery,
   itemReached,
 } from '../api/requests';
+import TimelineItem from '../components/timeline-item';
+import RefreshControl from '../components/refresh-control';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -48,13 +50,6 @@ const ArrowIcon = (props: any) => {
   return <Icon name={'arrow-forward-outline'} {...props} />;
 };
 
-const DateOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-};
-
 const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const {user} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
@@ -62,6 +57,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const [item] = useState<RequestInterface>(route.params.item);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [colorScheme, setColorScheme] = useState('warning');
+  const [loading, setLoading] = useState<boolean>(false);
   const [state, setState] =
     useState<'pending' | 'accepted' | 'picked' | 'completed'>('pending');
   const [actions, setActions] = useState<
@@ -85,7 +81,6 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   }, [user, item]);
 
   useEffect(() => {
-    console.log(state);
     if (user.role === 'driver') {
       switch (state) {
         case 'completed':
@@ -132,7 +127,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
 
   return (
     <Layout level={'4'} style={{height: '100%'}}>
-      <Layout style={{width: '100%'}}>
+      <Layout style={{width: '100%', borderRadius: 20}}>
         <Header
           back={true}
           navigation={navigation}
@@ -153,35 +148,26 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             );
           }}
         />
-      </Layout>
-      <Layout
-        style={{
-          flex: 1,
-          height: '100%',
-          margin: 5,
-          borderRadius: 10,
-          overflow: 'hidden',
-        }}
-        level={'1'}>
-        <ScrollView style={{padding: 10}}>
-          <View style={{borderWidth: 0, paddingHorizontal: 0}}>
+
+        <View style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+          <View>
             <View
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                flex: 3,
                 marginVertical: 15,
+                paddingHorizontal: 20,
               }}>
-              <View style={{flex: 3}}>
+              <View>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>
                   {item.deliveryFrom}
                 </Text>
               </View>
-              <View style={{flex: 1}}>
+              <View>
                 <Button appearance={'ghost'} accessoryLeft={ArrowIcon} />
               </View>
-              <View style={{flex: 3}}>
+              <View>
                 <Text
                   style={{
                     fontSize: 20,
@@ -216,7 +202,34 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               {`DELIVERY ${state.toUpperCase()}`}
             </Button>
           </View>
-
+        </View>
+      </Layout>
+      <Layout
+        style={{
+          flex: 1,
+          height: '100%',
+          paddingHorizontal: 20,
+          overflow: 'hidden',
+        }}
+        level={'4'}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={() => {
+                setLoading(true);
+              }}
+            />
+          }>
+          <Button
+            appearance={'ghost'}
+            onPress={() => {
+              navigation.navigate('map', {item: route.params.item});
+            }}
+            style={{marginBottom: 10, marginTop: 20}}>
+            {'View Address on Map'.toUpperCase()}
+          </Button>
           <View style={{marginBottom: 30}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
               Description
@@ -233,160 +246,38 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             <Text>{`${item.quantity} units`}</Text>
           </View>
 
-          <View>
+          <View style={{marginBottom: 50}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
               Timeline
             </Text>
             <View>
-              {item.createdAt ? (
-                <View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-primary-transparent-200'],
-                      borderRadius: 10,
-                      padding: 10,
-                    }}>
-                    <Text style={{fontWeight: 'bold', flex: 2}}>
-                      Order Placed At
-                    </Text>
-                    <Icon
-                      name={'arrow-forward-outline'}
-                      style={{height: 15, width: 15, fill: 'green'}}
-                      fill={'green'}
-                    />
-                    <Text style={{flex: 2, textAlign: 'right'}}>
-                      {moment(Date.parse(item.createdAt)).calendar()}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
+              {item.createdAt && (
+                <TimelineItem date={item.createdAt} label={'Order Placed'} />
+              )}
 
-              {item.acceptedAt ? (
-                <View>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginVertical: 10,
-                    }}>
-                    <Icon
-                      name={'more-vertical-outline'}
-                      style={{
-                        height: 15,
-                        width: 15,
-                        fill: theme['color-primary-500'],
-                      }}
-                      fill={theme['color-primary-500']}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-primary-transparent-200'],
-                      borderRadius: 10,
-                      padding: 10,
-                    }}>
-                    <Text style={{fontWeight: 'bold', flex: 2}}>
-                      Accepted By Admin
-                    </Text>
-                    <Icon
-                      name={'arrow-forward-outline'}
-                      style={{height: 15, width: 15, fill: 'green'}}
-                      fill={'green'}
-                    />
-                    <Text style={{flex: 2, textAlign: 'right'}}>
-                      {moment(Date.parse(item.acceptedAt)).calendar()}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
+              {item.acceptedAt && (
+                <TimelineItem
+                  date={item.acceptedAt}
+                  hasPreviousItem={true}
+                  label={'Approved by Admin'}
+                />
+              )}
 
-              {item.driverAcceptedAt ? (
-                <View>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginVertical: 10,
-                    }}>
-                    <Icon
-                      name={'more-vertical-outline'}
-                      style={{
-                        height: 15,
-                        width: 15,
-                        fill: theme['color-primary-500'],
-                      }}
-                      fill={theme['color-primary-500']}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-primary-transparent-200'],
-                      borderRadius: 10,
-                      padding: 10,
-                    }}>
-                    <Text style={{fontWeight: 'bold', flex: 2}}>
-                      Accepted By Driver
-                    </Text>
-                    <Icon
-                      name={'arrow-forward-outline'}
-                      style={{height: 15, width: 15, fill: 'green'}}
-                      fill={'green'}
-                    />
-                    <Text style={{flex: 2, textAlign: 'right'}}>
-                      {moment(Date.parse(item.driverAcceptedAt)).calendar()}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
+              {item.driverAcceptedAt && (
+                <TimelineItem
+                  hasPreviousItem={true}
+                  date={item.driverAcceptedAt}
+                  label={'Accepted by Driver'}
+                />
+              )}
 
-              {item.itemReachedAt ? (
-                <View>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginVertical: 10,
-                    }}>
-                    <Icon
-                      name={'more-vertical-outline'}
-                      style={{
-                        height: 15,
-                        width: 15,
-                        fill: theme['color-primary-500'],
-                      }}
-                      fill={theme['color-primary-500']}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-primary-transparent-200'],
-                      borderRadius: 10,
-                      padding: 10,
-                    }}>
-                    <Text style={{fontWeight: 'bold', flex: 2}}>Delivered</Text>
-                    <Icon
-                      name={'arrow-forward-outline'}
-                      style={{height: 15, width: 15, fill: 'green'}}
-                      fill={'green'}
-                    />
-                    <Text style={{flex: 2, textAlign: 'right'}}>
-                      {moment(Date.parse(item.itemReachedAt)).calendar()}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
+              {item.itemReachedAt && (
+                <TimelineItem
+                  hasPreviousItem={true}
+                  date={item.itemReachedAt}
+                  label={'Delivered'}
+                />
+              )}
             </View>
           </View>
         </ScrollView>
@@ -395,10 +286,12 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             style={{
               backgroundColor: 'rgba(100,100,100,0.5)',
               padding: 5,
-              paddingHorizontal: 10,
               borderRadius: 10,
-              margin: 10,
               flexDirection: 'row',
+              position: 'absolute',
+              bottom: 5,
+              width: '100%',
+              left: 20,
             }}>
             <Text style={{paddingVertical: 10, fontSize: 12, flex: 1}}>
               Press more icon on top right of the screen to access the menu!
@@ -413,111 +306,119 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             </Button>
           </Layout>
         ) : null}
-        <Button
-          appearance={'outline'}
-          onPress={() => {
-            navigation.navigate('viewMap', {item: route.params.item});
-          }}
-          style={{margin: 10, marginTop: 0}}>
-          View Pickup Address on Map
-        </Button>
         <Modal
           style={{
             width: '100%',
             padding: 10,
-            borderRadius: 30,
-            position: 'absolute',
-            left: 0,
-            top: 0,
           }}
           visible={isMenuVisible}
           onBackdropPress={() => {
             setMenuVisible(false);
           }}
           backdropStyle={{backgroundColor: theme.backdropColor}}>
-          <Card style={{borderRadius: 10}}>
-            {actions.indexOf('pick') > -1 ? (
-              <Button
-                appearance={'outline'}
-                status={'primary'}
-                onPress={() => {
-                  acceptDeliveryRequest({
-                    itemId: item.itemId,
-                    vendorId: item.vendorId,
-                  })
-                    .then(() => {
-                      Alert.alert('Item Picked!');
-                      navigation.navigate('my Pickups');
+          <Layout style={{borderRadius: 10}}>
+            <View style={{padding: 10}}>
+              {actions.indexOf('pick') > -1 && (
+                <Button
+                  appearance={'outline'}
+                  status={'primary'}
+                  onPress={() => {
+                    acceptDeliveryRequest({
+                      itemId: item.itemId,
+                      vendorId: item.vendorId,
                     })
-                    .catch(e => {
-                      console.log(e);
-                    });
-                }}
-                style={{marginVertical: 2.5}}>
-                Pickup Request
-              </Button>
-            ) : null}
+                      .then(() => {
+                        Alert.alert('Item Picked!');
+                        navigation.goBack();
+                      })
+                      .catch(e => {
+                        Alert.alert(
+                          'There was some issue while trying to pick the request!',
+                        );
+                      });
+                  }}
+                  style={{marginVertical: 2.5}}>
+                  Pickup Request
+                </Button>
+              )}
 
-            {actions.indexOf('complete') > -1 ? (
-              <Button
-                appearance={'outline'}
-                status={'primary'}
-                onPress={() => {
-                  itemReached({
-                    itemId: item.itemId,
-                    vendorId: item.vendorId,
-                  })
-                    .then(() => {
-                      Alert.alert('Item Delivered!');
-                      navigation.navigate('History');
+              {actions.indexOf('complete') > -1 && (
+                <Button
+                  appearance={'outline'}
+                  status={'primary'}
+                  onPress={() => {
+                    itemReached({
+                      itemId: item.itemId,
+                      vendorId: item.vendorId,
                     })
-                    .catch(e => {
-                      console.log(e);
-                    });
-                }}
-                style={{marginVertical: 2.5}}>
-                Complete Request
-              </Button>
-            ) : null}
+                      .then(() => {
+                        Alert.alert('Item Delivered!');
+                        navigation.goBack();
+                      })
+                      .catch(e => {
+                        Alert.alert(
+                          'There was some issue while trying to deliver the request!',
+                        );
+                      });
+                  }}
+                  style={{marginVertical: 2.5}}>
+                  Complete Request
+                </Button>
+              )}
 
-            {actions.indexOf('cancel') > -1 ? (
-              <Button
-                appearance={'ghost'}
-                status={'danger'}
-                onPress={() => {
-                  cancelDelivery({
-                    vendorId: item.vendorId,
-                    itemId: item.itemId,
-                  })
-                    .then(() => {
-                      Alert.alert('Delivery canceled!');
-                      navigation.navigate(user.role === 'vendor' ? 'vendor Home' : 'driver Home');
+              {actions.indexOf('cancel') > -1 && (
+                <Button
+                  appearance={'ghost'}
+                  status={'danger'}
+                  onPress={() => {
+                    cancelDelivery({
+                      vendorId: item.vendorId,
+                      itemId: item.itemId,
                     })
-                    .catch(e => {
-                      Alert.alert('Could not cancel delivery of the order!');
-                    });
-                }}
-                style={{marginVertical: 2.5}}>
-                Cancel Delivery
-              </Button>
-            ) : null}
-            {actions.indexOf('delete') > -1 ? (
+                      .then(() => {
+                        Alert.alert('Delivery canceled!');
+                        navigation.goBack();
+                      })
+                      .catch(e => {
+                        Alert.alert('Could not cancel delivery of the order!');
+                      });
+                  }}
+                  style={{marginVertical: 2.5}}>
+                  Cancel Delivery
+                </Button>
+              )}
+              {actions.indexOf('delete') > -1 && (
+                <Button
+                  appearance={'ghost'}
+                  status={'danger'}
+                  style={{marginVertical: 2.5}}>
+                  Delete Request
+                </Button>
+              )}
+              {actions.length === 0 && (
+                <Text style={{textAlign: 'center', marginVertical: 30}}>
+                  No action available for this order!
+                </Text>
+              )}
+            </View>
+
+            <View
+              style={{
+                borderColor: theme[theme['background-basic-color-4'].slice(1)],
+                borderTopWidth: 1,
+                margin: 0,
+                padding: 0,
+              }}>
               <Button
-                appearance={'ghost'}
-                status={'danger'}
-                style={{marginVertical: 2.5}}>
-                Delete Request
+                style={{borderRadius: 0}}
+                onPress={() => {
+                  setMenuVisible(false);
+                }}
+                appearance={'ghost'}>
+                Close
               </Button>
-            ) : null}
-            <Button
-              onPress={() => {
-                setMenuVisible(false);
-              }}
-              appearance={'ghost'}
-              style={{marginVertical: 2.5}}>
-              Close
-            </Button>
-          </Card>
+            </View>
+          </Layout>
         </Modal>
       </Layout>
     </Layout>
