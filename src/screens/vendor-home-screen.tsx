@@ -15,20 +15,22 @@ const VendorHomeScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(true);
-    getVendorItemsDetail()
-      .then(feeds => {
-        if (feeds.message) {
-          Alert.alert('Message', feeds.message);
-        }
-        if (feeds.detail) {
-          setPosts(feeds.detail);
-        }
-      })
-      .catch(() => {})
-      .finally(() => {
-        setLoading(false);
-      });
+    return navigation.addListener('focus', () => {
+      setLoading(true);
+      getVendorItemsDetail()
+        .then(feeds => {
+          if (feeds.message) {
+            Alert.alert('Message', feeds.message);
+          }
+          if (feeds.detail) {
+            setPosts(feeds.detail);
+          }
+        })
+        .catch(() => {})
+        .finally(() => {
+          setLoading(false);
+        });
+    });
   }, [user.token, navigation]);
 
   return (

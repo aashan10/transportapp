@@ -13,10 +13,11 @@
   "dependencies": {
     "@eva-design/eva": "^2.1.0",
     "@klltech/baato-js-client": "^1.2.1",
+    "@mapbox/mapbox-sdk": "^0.13.0",
     "@react-native-async-storage/async-storage": "^1.15.4",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-mapbox-gl/maps": "^8.2.0-beta2",
+    "@react-native-mapbox-gl/maps": "^8.2.1",
     "@react-native-picker/picker": "^1.16.0",
     "@react-navigation/drawer": "^5.12.5",
     "@react-navigation/native": "^5.9.4",
@@ -41,7 +42,8 @@
     "react-native-screens": "^3.1.1",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
-    "underscore": "^1.13.1"
+    "underscore": "^1.13.1",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -49,6 +51,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.171",
+    "@types/mapbox__mapbox-sdk": "^0.13.2",
     "@types/react": "^17.0.5",
     "@types/react-native": "^0.64.0",
     "@types/react-native-snap-carousel": "^3.8.3",

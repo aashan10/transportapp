@@ -24,3 +24,5 @@ export const PROFILE_PROFILE_IMG = 'profile/profileImg';
 export const PROFILE_USER_UPDATE = 'profile/user/update';
 export const DRIVER_DELIVERY_CANCEL = 'driver/cancelDelivery';
 export const VENDOR_VENDOR_CANCEL = 'vendor/itemCancelledFromDelivery';
+export const MAPBOX_DIRECTIONS_API_URL =
+  'https://api.mapbox.com/directions/v5/mapbox/driving';

@@ -15,18 +15,20 @@ const HomeScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(true);
-    getDriverFeeds()
-      .then(feeds => {
-        setPosts(feeds.totalItem);
-        if (feeds.totalItem && feeds.totalItem.length === 0) {
-          Alert.alert('', currentLanguage.message5);
-        }
-      })
-      .catch(() => {})
-      .finally(() => {
-        setLoading(false);
-      });
+    return navigation.addListener('focus', () => {
+      setLoading(true);
+      getDriverFeeds()
+        .then(feeds => {
+          setPosts(feeds.totalItem);
+          if (feeds.totalItem && feeds.totalItem.length === 0) {
+            Alert.alert('', currentLanguage.message5);
+          }
+        })
+        .catch(() => {})
+        .finally(() => {
+          setLoading(false);
+        });
+    });
   }, [user.token, navigation, currentLanguage.message5]);
 
   return (

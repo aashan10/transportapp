@@ -1,16 +1,16 @@
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import {Button, Icon, Layout, Text} from '@ui-kitten/components';
-import React, {useCallback, useContext, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {useState} from 'react';
 import {RequestInterface} from './item-details';
 import {useWindowDimensions, StatusBar, Alert} from 'react-native';
 import {View} from 'react-native';
 import {Image} from 'react-native';
-import {throttle} from 'underscore';
 import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
 import {ThemeContext} from '../contexts/theme-context';
-
+import {MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../api/constants';
+import {FeatureCollection, Feature} from 'geojson';
 interface Coordinates {
   latitude: number;
   longitude: number;
@@ -26,23 +26,14 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
   const [item] = useState<RequestInterface>(route.params.item);
   const [from, setFrom] = useState<Partial<Coordinates>>({});
   const [to, setTo] = useState<Partial<Coordinates>>({});
-  const [path, setPath] = useState<any>(null);
+  const [path, setPath] = useState<FeatureCollection>({
+    type: 'FeatureCollection',
+    features: [],
+  });
   const [isSatelliteView, setSatelliteView] = useState<boolean>(false);
-  const [bgColor, setBgColor] = useState<string>('#ffffff');
   const {theme} = useContext(ThemeContext);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const setCurrentCoordinates = useCallback(
-    throttle(({lat, lng}: {lat: number; lng: number}) => {
-      setTo({latitude: lat, longitude: lng});
-    }, 3000),
-    [],
-  );
   let {height, width} = useWindowDimensions();
-
-  useEffect(() => {
-    setBgColor(theme[theme['background-basic-color-4'].slice(1)]);
-  }, [theme]);
 
   // @ts-ignore
   height += StatusBar?.currentHeight;
@@ -55,23 +46,63 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
     }
   }, [item]);
 
-  requestLocationPermission()
-    .then(() => {
-      Geolocation.watchPosition(
-        currentLocation => {
-          setCurrentCoordinates({
-            lat: currentLocation.coords.latitude,
-            lng: currentLocation.coords.longitude,
+  useEffect(() => {
+    const setMyLocation = () => {
+      Geolocation.getCurrentPosition(
+        position => {
+          setTo({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
           });
         },
-        err => () => {
-          Alert.alert('Error', err.message + 'Error Code: ' + err.code);
-        },
+        () => {},
+        {},
       );
-    })
-    .catch(() => {
-      Alert.alert('Error', 'Cannot access location services');
-    });
+    };
+    let interval: NodeJS.Timeout | false = false;
+    requestLocationPermission()
+      .then(() => {
+        interval = setInterval(setMyLocation, 10000);
+      })
+      .catch(() => {
+        Alert.alert(
+          'Location permission is required to show your data in map!',
+        );
+      });
+
+    return () => {
+      interval && clearInterval(interval);
+    };
+  }, [route]);
+
+  useEffect(() => {
+    if (from.longitude && from.latitude && to.longitude && to.latitude) {
+      const url = `${MAPBOX_DIRECTIONS_API_URL}/${to.longitude},${to.latitude};${from.longitude},${from.latitude}?access_token=${MAPBOX_API_KEY}&geometries=geojson`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(geoJson => {
+          const featureCollection: FeatureCollection = {
+            type: 'FeatureCollection',
+            features: [],
+          };
+
+          geoJson.routes.map((mapRoute: any) => {
+            const feature: Feature = {
+              type: 'Feature',
+              geometry: mapRoute.geometry,
+              properties: {
+                color: 'green',
+              },
+            };
+            featureCollection.features.push(feature);
+          });
+
+          setPath(featureCollection);
+        })
+        .catch(() => {});
+    }
+  }, [from, to]);
 
   const BackIcon = (props: any) => {
     return (
@@ -97,6 +128,7 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
           zIndex: 100,
         }}>
         <Button
+          size={'small'}
           onPress={() => {
             navigation.goBack();
           }}
@@ -110,6 +142,7 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
         />
 
         <Button
+          size={'small'}
           onPress={() => {
             setSatelliteView(!isSatelliteView);
           }}
@@ -158,7 +191,27 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
         />
         {path ? (
           <>
-            <MapboxGL.ShapeSource id={'path'} shape={path} />
+            <MapboxGL.ShapeSource
+              id={'path'}
+              shape={path}
+              style={{
+                backgroundColor: 'red',
+                zIndex: 100,
+              }}>
+              {path.features.map((feature, id) => {
+                return (
+                  <MapboxGL.LineLayer
+                    id={'line'}
+                    style={{
+                      lineJoin: 'round',
+                      lineColor: theme['color-primary-500'],
+                      lineWidth: 5,
+                      lineCap: 'round',
+                    }}
+                  />
+                );
+              })}
+            </MapboxGL.ShapeSource>
           </>
         ) : null}
 
@@ -166,7 +219,8 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
           <>
             <MapboxGL.MarkerView
               id={'pickup-location'}
-              coordinate={[from.longitude, from.latitude]}>
+              coordinate={[from.longitude, from.latitude]}
+              anchor={{x: 0.25, y: 1}}>
               <Image
                 source={require('../assets/marker-red.png')}
                 style={{
@@ -182,6 +236,7 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
           <>
             <MapboxGL.MarkerView
               id={'me'}
+              anchor={{x: 0.25, y: 1}}
               coordinate={[to.longitude, to.latitude]}>
               <Image
                 source={require('../assets/marker-gray.png')}

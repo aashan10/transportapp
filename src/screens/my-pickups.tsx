@@ -8,29 +8,30 @@ import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
 
-const MyPickups = ({navigation}: any) => {
+const MyPickups = ({navigation, route}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(true);
-    getDeliveryItemList()
-      .then(feeds => {
-        console.log(feeds);
-        if (feeds.message) {
-          Alert.alert('Message', feeds.message);
-        }
-        if (feeds.detail) {
-          setPosts(feeds.detail);
-        }
-      })
-      .catch(() => {
-        setPosts([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    return navigation.addListener('focus', () => {
+      setLoading(true);
+      getDeliveryItemList()
+        .then(feeds => {
+          if (feeds.message) {
+            Alert.alert('Message', feeds.message);
+          }
+          if (feeds.detail) {
+            setPosts(feeds.detail);
+          }
+        })
+        .catch(() => {
+          setPosts([]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
   }, [user.token, navigation]);
   return (
     <Layout style={{height: '100%'}} level={'4'}>

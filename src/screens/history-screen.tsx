@@ -14,23 +14,25 @@ const History = ({navigation}: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    setLoading(true);
-    getDeliveryitemDetail()
-      .then((feeds: any) => {
-        if (feeds.message) {
-          Alert.alert('Message', feeds.message);
-        }
-        if (feeds.sortedItems) {
-          setPosts(feeds.sortedItems);
-        }
-      })
-      .catch(() => {
-        setPosts([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [user.token, navigation]);
+    return navigation.addListener('focus', () => {
+      setLoading(true);
+      getDeliveryitemDetail()
+        .then((feeds: any) => {
+          if (feeds.message) {
+            Alert.alert('Message', feeds.message);
+          }
+          if (feeds.sortedItems) {
+            setPosts(feeds.sortedItems);
+          }
+        })
+        .catch(() => {
+          setPosts([]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
+  }, [navigation, user.token]);
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
