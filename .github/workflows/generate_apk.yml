@@ -1,0 +1,62 @@
+name: Package AAB
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    name: Run Tests and Build App
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout to Changes
+        id: setup_checkout
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        id: setup_nodejs
+        uses: actions/setup-node@master
+
+      - name: Setup Yarn Cache
+        id: setup_yarn_cache
+        uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install Dependencies
+        id: setup_dependencies
+        run: |
+          yarn install
+
+      - name: Cache Gradle Wrapper
+        id: build_gradle_cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        id: build_cache_dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-caches-
+
+      - name: Build Android App Package (APK)
+        id: build_app_apk
+        shell: bash
+        run: |
+          cd android && chmod +x ./gradlew && ./gradlew assembleRelease --no-daemon
+
+      - name: ZIP APK Bundles
+        run: |
+          zip -r production-apks.zip ./android/app/build/outputs/apk/release
+
+      - name: Publish APK
+        id: publish_release_apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: production-apks.zip

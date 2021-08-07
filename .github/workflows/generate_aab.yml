@@ -49,30 +49,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-caches-
 
-
       - name: Build Android App Bundle (AAB)
         id: build_app_aab
         shell: bash
         run: |
           cd android && chmod +x ./gradlew && ./gradlew bundleRelease --no-daemon
 
-      - name: Build Android App Package (APK)
-        id: build_app_apk
-        shell: bash
+      - name: ZIP AAB Bundles
         run: |
-          cd android && chmod +x ./gradlew && ./gradlew assembleRelease --no-daemon
-
+          zip -r production-aab.zip ./android/app/build/outputs/bundle/release
 
       - name: Publish AAB
         id: publish_release_aab
         uses: actions/upload-artifact@v2
         with:
           name: app-release.aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
-
-      - name: Publish APK
-        id: publish_release_apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.aab
-          path: android/app/build/outputs/apk/release/*.apk
+          path: production-aab.zip
