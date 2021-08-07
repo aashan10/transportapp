@@ -39,6 +39,7 @@ const LoginScreen = (props: any) => {
     );
   };
   return (
+    <ScrollView>
     <Layout style={style.container}>
       <View
         style={{
@@ -101,7 +102,6 @@ const LoginScreen = (props: any) => {
             source={require('../../assets/transporticon.png')}
           />
         </View>
-        <ScrollView>
           <Input
             style={style.spacedComponent}
             value={username}
@@ -203,9 +203,9 @@ const LoginScreen = (props: any) => {
               {currentLanguage.forgotPassword}
             </Button>
           </View>
-        </ScrollView>
       </View>
     </Layout>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -226,7 +226,7 @@ const style = StyleSheet.create({
     marginTop: 20,
   },
   centeredContent: {
-    marginTop: '20%',
+    marginTop: '10%',
   },
   container: {
     padding: 10,

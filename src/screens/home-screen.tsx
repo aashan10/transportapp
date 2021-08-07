@@ -68,7 +68,7 @@ const HomeScreen = ({navigation}: any) => {
             <Card style={{borderRadius: 10}}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text>Requests</Text>
+                <Text>{currentLanguage.request}</Text>
                 <Button
                   onPress={() => {
                     navigation.navigate('createRequest');
