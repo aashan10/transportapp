@@ -34,7 +34,6 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
   });
   const [isSatelliteView, setSatelliteView] = useState<boolean>(false);
   const {theme} = useContext(ThemeContext);
-  
 
   let {height, width} = useWindowDimensions();
 
@@ -157,7 +156,8 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
                   paddingHorizontal: 10,
                   color: 'white',
                 }}>
-                {isSatelliteView ? 'Disable' : 'Enable'} {currentLanguage.satteliteView}
+                {isSatelliteView ? 'Disable' : 'Enable'}{' '}
+                {currentLanguage.satteliteView}
               </Text>
             );
           }}

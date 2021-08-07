@@ -12,6 +12,7 @@ import moment from 'moment';
 import {
   acceptDeliveryRequest,
   cancelDelivery,
+  deleteRequest,
   itemReached,
 } from '../api/requests';
 import TimelineItem from '../components/timeline-item';
@@ -252,7 +253,10 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             </Text>
             <View>
               {item.createdAt && (
-                <TimelineItem date={item.createdAt} label={currentLanguage.orderplaced} />
+                <TimelineItem
+                  date={item.createdAt}
+                  label={currentLanguage.orderplaced}
+                />
               )}
 
               {item.acceptedAt && (
@@ -302,7 +306,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               }}
               appearance={'ghost'}
               style={{width: 60}}>
-                {currentLanguage.ok}
+              {currentLanguage.ok}
             </Button>
           </Layout>
         ) : null}
@@ -332,9 +336,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                         navigation.goBack();
                       })
                       .catch(e => {
-                        Alert.alert(
-                          currentLanguage.mess12,
-                        );
+                        Alert.alert(currentLanguage.mess12);
                       });
                   }}
                   style={{marginVertical: 2.5}}>
@@ -371,17 +373,33 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   appearance={'ghost'}
                   status={'danger'}
                   onPress={() => {
-                    cancelDelivery({
-                      vendorId: item.vendorId,
-                      itemId: item.itemId,
-                    })
-                      .then(() => {
-                        Alert.alert('Delivery canceled!');
-                        navigation.goBack();
+                    if (user.role === 'vendor') {
+                      deleteRequest({
+                        itemId: item.itemId,
+                        vendorId: item.vendorId,
                       })
-                      .catch(e => {
-                        Alert.alert(currentLanguage.mess11);
-                      });
+                        .then(response => {
+                          console.log(response);
+
+                          Alert.alert('Item canceled successfully!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert('Something went wrong!');
+                        });
+                    } else if (user.role === 'driver') {
+                      cancelDelivery({
+                        vendorId: item.vendorId,
+                        itemId: item.itemId,
+                      })
+                        .then(() => {
+                          Alert.alert('Delivery canceled!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert(currentLanguage.mess11);
+                        });
+                    }
                   }}
                   style={{marginVertical: 2.5}}>
                   {currentLanguage.cancelReq}
@@ -391,7 +409,8 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 <Button
                   appearance={'ghost'}
                   status={'danger'}
-                  style={{marginVertical: 2.5}}>
+                  style={{marginVertical: 2.5}}
+                  onPress={() => {}}>
                   {currentLanguage.deleteReq}
                 </Button>
               )}

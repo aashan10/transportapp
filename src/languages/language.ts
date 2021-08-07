@@ -127,11 +127,11 @@ export interface Language {
   cancelledByVendor: string;
   satteliteView: string;
   yourlocation: string;
-  picklocation:string;
-  timeline:string;
+  picklocation: string;
+  timeline: string;
   okmessage: string;
   ok: string;
-  completereq:string;
+  completereq: string;
   pickuprequest: string;
   cancelReq: string;
   deleteReq: string;
