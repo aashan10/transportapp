@@ -1,4 +1,4 @@
-name: Package AAB
+name: Generate APK Bundles
 on:
   push:
     branches: [master]

@@ -1,4 +1,4 @@
-name: Transport Nepal CI/CD
+name: Generate AAB Bundle
 on:
   push:
     branches: [master]
