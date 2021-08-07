@@ -39,69 +39,69 @@ const LoginScreen = (props: any) => {
     );
   };
   return (
-    <Layout style={style.container}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 50,
-          right: 10,
-          flexDirection: 'row',
-        }}>
-        <Button
-          size={'small'}
-          appearance={'outline'}
+    <ScrollView>
+      <Layout style={style.container}>
+        <View
           style={{
-            padding: 0,
-            borderWidth: 0,
-            borderTopEndRadius: 0,
-            borderBottomEndRadius: 0,
-          }}
-          accessoryLeft={() => {
-            return <Text style={{fontSize: 20}}>{currentLanguage.lang}</Text>;
-          }}
-          onPress={() => {
-            if (currentLanguage.login === 'Login') {
-              setLanguage('np');
-            } else {
-              setLanguage('en');
-            }
-          }}
-        />
+            position: 'absolute',
+            top: 50,
+            right: 10,
+            flexDirection: 'row',
+          }}>
+          <Button
+            size={'small'}
+            appearance={'outline'}
+            style={{
+              padding: 0,
+              borderWidth: 0,
+              borderTopEndRadius: 0,
+              borderBottomEndRadius: 0,
+            }}
+            accessoryLeft={() => {
+              return <Text style={{fontSize: 20}}>{currentLanguage.lang}</Text>;
+            }}
+            onPress={() => {
+              if (currentLanguage.login === 'Login') {
+                setLanguage('np');
+              } else {
+                setLanguage('en');
+              }
+            }}
+          />
 
-        <Button
-          size={'small'}
-          appearance={'outline'}
-          style={{
-            padding: 0,
-            borderWidth: 0,
-            borderTopStartRadius: 0,
-            borderBottomStartRadius: 0,
-          }}
-          accessoryLeft={iconProps => {
-            return <ThemeIcon {...iconProps} />;
-          }}
-          onPress={() => {
-            toggleTheme();
-          }}
-        />
-      </View>
-      <View style={style.centeredContent}>
-        <Text
-          style={{
-            marginBottom: 10,
-            width: '100%',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: 20,
-          }}
-        />
-        <View style={[styles.conatiner]}>
-          <Image
-            style={styles.stretch}
-            source={require('../../assets/transporticon.png')}
+          <Button
+            size={'small'}
+            appearance={'outline'}
+            style={{
+              padding: 0,
+              borderWidth: 0,
+              borderTopStartRadius: 0,
+              borderBottomStartRadius: 0,
+            }}
+            accessoryLeft={iconProps => {
+              return <ThemeIcon {...iconProps} />;
+            }}
+            onPress={() => {
+              toggleTheme();
+            }}
           />
         </View>
-        <ScrollView>
+        <View style={style.centeredContent}>
+          <Text
+            style={{
+              marginBottom: 10,
+              width: '100%',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}
+          />
+          <View style={[styles.conatiner]}>
+            <Image
+              style={styles.stretch}
+              source={require('../../assets/transporticon.png')}
+            />
+          </View>
           <Input
             style={style.spacedComponent}
             value={username}
@@ -203,9 +203,9 @@ const LoginScreen = (props: any) => {
               {currentLanguage.forgotPassword}
             </Button>
           </View>
-        </ScrollView>
-      </View>
-    </Layout>
+        </View>
+      </Layout>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -226,7 +226,7 @@ const style = StyleSheet.create({
     marginTop: 20,
   },
   centeredContent: {
-    marginTop: '20%',
+    marginTop: '10%',
   },
   container: {
     padding: 10,

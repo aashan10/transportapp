@@ -257,6 +257,13 @@ export const cancelDelivery = async (payload: {
   return await post(DRIVER_DELIVERY_CANCEL, payload);
 };
 
+export const deleteRequest = async (payload: {
+  itemId: string;
+  vendorId: string;
+}) => {
+  return await post(VENDOR_VENDOR_CANCEL, payload);
+};
+
 export class Exception {
   constructor(public response: Response) {}
 }

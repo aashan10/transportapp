@@ -125,6 +125,24 @@ export interface Language {
   fordetail: string;
   pan: string;
   cancelledByVendor: string;
+  satteliteView: string;
+  yourlocation: string;
+  picklocation: string;
+  timeline: string;
+  okmessage: string;
+  ok: string;
+  completereq: string;
+  pickuprequest: string;
+  cancelReq: string;
+  deleteReq: string;
+  mess10: string;
+  mess11: string;
+  mess12: string;
+  orderplaced: string;
+  adminapprove: string;
+  acceptbydriver: string;
+  delivered: string;
+  viewAddressMap: string;
 }
 
 const languages = {
