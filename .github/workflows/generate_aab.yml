@@ -63,5 +63,5 @@ jobs:
         id: publish_release_aab
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.aab
+          name: production-aab.zip
           path: production-aab.zip

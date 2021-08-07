@@ -58,5 +58,5 @@ jobs:
         id: publish_release_apk
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.aab
+          name: production-apks.zip
           path: production-apks.zip
