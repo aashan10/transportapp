@@ -30,7 +30,7 @@
     "moment": "^2.29.1",
     "react": "17.0.1",
     "react-google-autocomplete": "^2.4.0",
-    "react-native": "0.64.1",
+    "react-native": "0.64.2",
     "react-native-android-location-enabler": "^1.2.2",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.10.3",
