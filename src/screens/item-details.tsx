@@ -12,6 +12,7 @@ import moment from 'moment';
 import {
   acceptDeliveryRequest,
   cancelDelivery,
+  deleteRequest,
   itemReached,
 } from '../api/requests';
 import TimelineItem from '../components/timeline-item';
@@ -228,11 +229,11 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               navigation.navigate('map', {item: route.params.item});
             }}
             style={{marginBottom: 10, marginTop: 20}}>
-            {'View Address on Map'.toUpperCase()}
+            {currentLanguage.viewAddressMap.toUpperCase()}
           </Button>
           <View style={{marginBottom: 30}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
-              Description
+              {currentLanguage.Description}
             </Text>
 
             <Text>{item.itemDescription}</Text>
@@ -240,7 +241,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
 
           <View style={{marginBottom: 30}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
-              Quantity
+              {currentLanguage.quantity}
             </Text>
 
             <Text>{`${item.quantity} units`}</Text>
@@ -248,18 +249,21 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
 
           <View style={{marginBottom: 50}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
-              Timeline
+              {currentLanguage.timeline}
             </Text>
             <View>
               {item.createdAt && (
-                <TimelineItem date={item.createdAt} label={'Order Placed'} />
+                <TimelineItem
+                  date={item.createdAt}
+                  label={currentLanguage.orderplaced}
+                />
               )}
 
               {item.acceptedAt && (
                 <TimelineItem
                   date={item.acceptedAt}
                   hasPreviousItem={true}
-                  label={'Approved by Admin'}
+                  label={currentLanguage.adminapprove}
                 />
               )}
 
@@ -267,7 +271,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 <TimelineItem
                   hasPreviousItem={true}
                   date={item.driverAcceptedAt}
-                  label={'Accepted by Driver'}
+                  label={currentLanguage.acceptbydriver}
                 />
               )}
 
@@ -275,7 +279,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 <TimelineItem
                   hasPreviousItem={true}
                   date={item.itemReachedAt}
-                  label={'Delivered'}
+                  label={currentLanguage.delivered}
                 />
               )}
             </View>
@@ -294,7 +298,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               left: 20,
             }}>
             <Text style={{paddingVertical: 10, fontSize: 12, flex: 1}}>
-              Press more icon on top right of the screen to access the menu!
+              {currentLanguage.okmessage}
             </Text>
             <Button
               onPress={() => {
@@ -302,7 +306,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               }}
               appearance={'ghost'}
               style={{width: 60}}>
-              OK
+              {currentLanguage.ok}
             </Button>
           </Layout>
         ) : null}
@@ -332,13 +336,11 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                         navigation.goBack();
                       })
                       .catch(e => {
-                        Alert.alert(
-                          'There was some issue while trying to pick the request!',
-                        );
+                        Alert.alert(currentLanguage.mess12);
                       });
                   }}
                   style={{marginVertical: 2.5}}>
-                  Pickup Request
+                  {currentLanguage.pickuprequest}
                 </Button>
               )}
 
@@ -362,7 +364,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                       });
                   }}
                   style={{marginVertical: 2.5}}>
-                  Complete Request
+                  {currentLanguage.completereq}
                 </Button>
               )}
 
@@ -371,33 +373,50 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   appearance={'ghost'}
                   status={'danger'}
                   onPress={() => {
-                    cancelDelivery({
-                      vendorId: item.vendorId,
-                      itemId: item.itemId,
-                    })
-                      .then(() => {
-                        Alert.alert('Delivery canceled!');
-                        navigation.goBack();
+                    if (user.role === 'vendor') {
+                      deleteRequest({
+                        itemId: item.itemId,
+                        vendorId: item.vendorId,
                       })
-                      .catch(e => {
-                        Alert.alert('Could not cancel delivery of the order!');
-                      });
+                        .then(response => {
+                          console.log(response);
+
+                          Alert.alert('Item canceled successfully!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert('Something went wrong!');
+                        });
+                    } else if (user.role === 'driver') {
+                      cancelDelivery({
+                        vendorId: item.vendorId,
+                        itemId: item.itemId,
+                      })
+                        .then(() => {
+                          Alert.alert('Delivery canceled!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert(currentLanguage.mess11);
+                        });
+                    }
                   }}
                   style={{marginVertical: 2.5}}>
-                  Cancel Delivery
+                  {currentLanguage.cancelReq}
                 </Button>
               )}
               {actions.indexOf('delete') > -1 && (
                 <Button
                   appearance={'ghost'}
                   status={'danger'}
-                  style={{marginVertical: 2.5}}>
-                  Delete Request
+                  style={{marginVertical: 2.5}}
+                  onPress={() => {}}>
+                  {currentLanguage.deleteReq}
                 </Button>
               )}
               {actions.length === 0 && (
                 <Text style={{textAlign: 'center', marginVertical: 30}}>
-                  No action available for this order!
+                  {currentLanguage.mess10}
                 </Text>
               )}
             </View>
@@ -415,7 +434,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                   setMenuVisible(false);
                 }}
                 appearance={'ghost'}>
-                Close
+                {currentLanguage.close}
               </Button>
             </View>
           </Layout>

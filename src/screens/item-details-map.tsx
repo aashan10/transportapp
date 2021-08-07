@@ -11,6 +11,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {ThemeContext} from '../contexts/theme-context';
 import {MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../api/constants';
 import {FeatureCollection, Feature} from 'geojson';
+import LocalizationContext from '../contexts/localization-context';
 interface Coordinates {
   latitude: number;
   longitude: number;
@@ -25,6 +26,7 @@ interface ItemDetailsMapProps {
 const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
   const [item] = useState<RequestInterface>(route.params.item);
   const [from, setFrom] = useState<Partial<Coordinates>>({});
+  const {currentLanguage} = useContext(LocalizationContext);
   const [to, setTo] = useState<Partial<Coordinates>>({});
   const [path, setPath] = useState<FeatureCollection>({
     type: 'FeatureCollection',
@@ -154,7 +156,8 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
                   paddingHorizontal: 10,
                   color: 'white',
                 }}>
-                {isSatelliteView ? 'Disable' : 'Enable'} Satellite View
+                {isSatelliteView ? 'Disable' : 'Enable'}{' '}
+                {currentLanguage.satteliteView}
               </Text>
             );
           }}
@@ -268,14 +271,14 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
             source={require('../assets/marker-gray.png')}
             style={{height: 30, width: 1.25 * 30}}
           />
-          <Text>Your Location</Text>
+          <Text>{currentLanguage.yourLocation}</Text>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={require('../assets/marker-red.png')}
             style={{height: 30, width: 1.25 * 30}}
           />
-          <Text>Pickup Location</Text>
+          <Text>{currentLanguage.pickupLocation}</Text>
         </View>
       </Layout>
     </Layout>

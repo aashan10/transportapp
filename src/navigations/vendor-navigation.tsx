@@ -12,8 +12,8 @@ const VendorNavigation = () => {
     <Vendor.Navigator screenOptions={{headerShown: false}}>
       <Vendor.Screen name={'vendorHome'} component={VendorHomeScreen} />
       <Vendor.Screen name={'createRequest'} component={CreateItem} />
-      <Vendor.Screen name={'viewRequest'} component={ItemDetails} />
-      <Vendor.Screen name={'viewMap'} component={ItemDetailsMap} />
+      <Vendor.Screen name={'detailsScreen'} component={ItemDetails} />
+      <Vendor.Screen name={'map'} component={ItemDetailsMap} />
     </Vendor.Navigator>
   );
 };
