@@ -4,7 +4,7 @@ const light = {
   ...eva,
   ...eva.light,
   name: 'light',
-  backdropColor: 'rgba(100,100,100, 0.5)',
+  backdropColor: 'rgba(50,50,50, 0.5)',
   'color-primary-100': '#D6F8DA',
   'color-primary-200': '#AEF2BE',
   'color-primary-300': '#7EDA9D',

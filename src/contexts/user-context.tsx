@@ -98,7 +98,7 @@ const UserProvider = ({children}: UserProviderProps) => {
           email: email,
           address: address,
           role: role,
-          licenseAndBillBook: licenseAndBillBook,
+          licenseAndBillBook: licenseAndBillBook ?? [],
           phoneNumber: phoneNumber,
           companyName: response.companyName ?? '',
         });

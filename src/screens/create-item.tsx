@@ -245,7 +245,6 @@ const CreateItem = ({navigation}: any) => {
                       ToastAndroid.show(response.message, 5000);
                       navigation.goBack();
                     } catch (e) {
-                      console.error(e);
                     } finally {
                       setLoading(false);
                     }
