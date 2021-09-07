@@ -5,15 +5,32 @@ import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import {getDriverFeeds} from '../api/requests';
+import {currentAddress, getDriverFeeds} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
-
+import Geolocation from '@react-native-community/geolocation';
 const HomeScreen = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const {latitude, longitude} = position.coords;
+        currentAddress({
+          driverCurrentLat: latitude.toString(),
+          driverCurrentLng: longitude.toString()
+        })
+      },
+      () => {
+      },
+      {},
+    );
+  },
+   [navigation, posts, user]);
+
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setLoading(true);

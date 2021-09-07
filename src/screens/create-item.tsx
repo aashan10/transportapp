@@ -110,6 +110,8 @@ const CreateItem = ({navigation}: any) => {
               status={error.from ? 'danger' : ''}
               placeholder={'Pickup Address'}
             />
+           
+          
             {error?.from ? <Text status={'danger'}>{error.from}</Text> : null}
           </View>
           <View style={{marginBottom: 15}}>
