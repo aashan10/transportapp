@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1030427128637",
+    "project_id": "transport-app-nepal",
+    "storage_bucket": "transport-app-nepal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030427128637:android:80ff67f7dd996fb78b8b54",
+        "android_client_info": {
+          "package_name": "com.scriptspyder.transportapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030427128637-v01fl5cpak52jk12s05r3neb7m47f7ql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo6xRBOB2Z7gn9F2Mo0VcomHPKuWb9oNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030427128637-v01fl5cpak52jk12s05r3neb7m47f7ql.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030427128637-57p9fhpfm13b55t933eonqgrokd0v6i8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.scriptspyder.transportapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

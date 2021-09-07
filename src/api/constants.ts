@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://transportappnepal.herokuapp.com/api/';
+export const BASE_URL = 'https://api.transportappnepal.com/api/';
 export const VENDOR_REGISTER = 'vendor/register';
 export const VENDOR_ITEM_UPLOAD = 'vendor/itemUpload';
 export const USER_LOGIN = 'login';
@@ -26,3 +26,4 @@ export const DRIVER_DELIVERY_CANCEL = 'driver/cancelDelivery';
 export const VENDOR_VENDOR_CANCEL = 'vendor/itemCancelledFromDelivery';
 export const MAPBOX_DIRECTIONS_API_URL =
   'https://api.mapbox.com/directions/v5/mapbox/driving';
+export const AUTOCOMPLETE_API_URL ='AIzaSyAD_nu40aB4MNA5otf3XEsnwoaO9K-FCBw';

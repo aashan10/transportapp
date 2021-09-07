@@ -18,6 +18,7 @@ import {
   DRIVER_DELIVERY_CANCEL,
   VENDOR_VENDOR_CANCEL,
   DRIVER_NEAR_YOU,
+  DRIVER_CURRENT_ADDRESS,
 } from './constants';
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
@@ -146,7 +147,7 @@ export const registerDriver = async (props: {
   phone: string;
   email: string;
   password: string;
-  vehicleType: number;
+  vehicleType: string;
   address: string;
   blueBookPhoto: ImageOrVideo | undefined;
   licensePhoto: ImageOrVideo | undefined;
@@ -212,8 +213,16 @@ export const registerVendor = async (data: {
   email: string;
   phoneNumber: string;
   panNumber: string;
+  deviceId: string;
 }) => {
   return await post(VENDOR_REGISTER, data);
+};
+
+export const currentAddress = async(data:{
+  driverCurrentLng: string;
+  driverCurrentLat: string;
+})=>{
+  return await post(DRIVER_CURRENT_ADDRESS, data);
 };
 
 export const acceptDeliveryRequest = async (payload: {
