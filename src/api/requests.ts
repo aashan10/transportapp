@@ -149,6 +149,7 @@ export const registerDriver = async (props: {
   password: string;
   vehicleType: string;
   address: string;
+  deviceId: string;
   blueBookPhoto: ImageOrVideo | undefined;
   licensePhoto: ImageOrVideo | undefined;
 }) => {
@@ -168,6 +169,7 @@ export const registerDriver = async (props: {
   formData.append('phoneNumber', props.phone);
   formData.append('password', props.password);
   formData.append('driverVehicleType', props.vehicleType);
+  formData.append('deviceId', props.deviceId);
   try {
     if (await requestLocationPermission()) {
       Geolocation.getCurrentPosition(coordinates => {

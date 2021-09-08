@@ -468,6 +468,7 @@ const RegisterDriverScreen = (props: any) => {
                   address: address,
                   phone: phone,
                   password: password,
+                  deviceId: deviceId,
                   vehicleType: types[vehicleType.row],
                   licensePhoto: licensePhoto,
                   blueBookPhoto: blueBookPhoto,
