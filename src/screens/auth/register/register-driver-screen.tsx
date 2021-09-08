@@ -30,6 +30,9 @@ const validate = ({
   phone,
   password,
   email,
+  ownerName,
+  ownerPhone,
+  licenseNumber,
   repeatPassword,
   address,
   vehicleType,
@@ -46,6 +49,9 @@ const validate = ({
     phone: null,
     repeatPassword: null,
     vehicleType: null,
+    ownerName: null,
+    ownerPhone: null,
+    licenseNumber: null,
   };
 
   if (isNull(address)) {
@@ -56,6 +62,11 @@ const validate = ({
     error.phone = "Phone number can't be empty!";
   } else if (phone && phone?.length < 10) {
     error.phone = 'Please enter a valida phone number!';
+  }
+  if (isNull(ownerPhone)) {
+    error.ownerPhone = "Phone number can't be empty!";
+  } else if (ownerPhone && ownerPhone?.length < 10) {
+    error.ownerPhone = 'Please enter a valida phone number!';
   }
 
   if (isNull(password)) {
@@ -71,6 +82,14 @@ const validate = ({
 
   if (isNull(name)) {
     error.name = "Name can't be empty!";
+  }
+
+  if (isNull(ownerName)) {
+    error.ownerName = " Owner name can't be empty!";
+  }
+
+  if (isNull(licenseNumber)) {
+    error.licenseNumber = "License number can't be empty!";
   }
 
   if (!EMAIL_REGEX.test(email ?? '')) {
@@ -102,6 +121,9 @@ interface ErrorValidationState {
   repeatPassword: string | null;
   licensePhoto: string | null;
   blueBookPhoto: string | null;
+  ownerName: string | null;
+  ownerPhone: string | null;
+  licenseNumber : string | null;
 }
 
 const RegisterDriverScreen = (props: any) => {
@@ -112,6 +134,9 @@ const RegisterDriverScreen = (props: any) => {
     useState<ImageOrVideo | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
+  const [ownerName, setownerName] = useState<string>('');
+  const [ownerPhone, setownerPhone] = useState<string>('');
+  const [licenseNumber, setlicenseNumber] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [deviceId, setDeviceId] =useState<string>('');
@@ -125,6 +150,9 @@ const RegisterDriverScreen = (props: any) => {
     name: null,
     phone: null,
     email: null,
+    ownerName: null,
+    ownerPhone: null,
+    licenseNumber: null,
     password: null,
     repeatPassword: null,
     vehicleType: null,
@@ -228,6 +256,60 @@ const RegisterDriverScreen = (props: any) => {
                 <Text status={'danger'}>{error.phone}</Text>
               ) : null}
             </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+                {currentLanguage.ownerName}
+              </Text>
+              <Input
+                status={error.ownerName ? 'danger' : ''}
+                onChangeText={text => {
+                  setownerName(text);
+                  setError({ ...error, ownerName: null });
+                }}
+                placeholder={'David Cena'}
+              />
+              {error.ownerName ? (
+                <Text status={'danger'}>{error.ownerName}</Text>
+              ) : null}
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+                {currentLanguage.ownerPhone}
+              </Text>
+              <Input
+                status={error.ownerPhone ? 'danger' : ''}
+                onChangeText={text => {
+                  setownerPhone(text);
+                  setError({ ...error, ownerPhone: null });
+                }}
+                placeholder={'98xxxxxxxx'}
+              />
+              {error.ownerPhone ? (
+                <Text status={'danger'}>{error.ownerPhone}</Text>
+              ) : null}
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+                {currentLanguage.licenseNumber}
+              </Text>
+              <Input
+                status={error.licenseNumber ? 'danger' : ''}
+                onChangeText={text => {
+                  setlicenseNumber(text);
+                  setError({ ...error, licenseNumber: null });
+                }}
+                placeholder={'01-05-000123456'}
+              />
+              {error.licenseNumber ? (
+                <Text status={'danger'}>{error.licenseNumber}</Text>
+              ) : null}
+            </View>
+
+
+
             <View style={{ marginBottom: 15 }}>
               <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
                 {currentLanguage.containerType}
@@ -443,6 +525,9 @@ const RegisterDriverScreen = (props: any) => {
                 email: email,
                 phone: phone,
                 address: address,
+                ownerName: ownerName,
+                ownerPhone:ownerPhone,
+                licenseNumber: licenseNumber,
                 repeatPassword: repeatPassword,
                 vehicleType: types[vehicleType.row],
                 licensePhoto: licensePhoto?.path ?? null,
@@ -455,6 +540,9 @@ const RegisterDriverScreen = (props: any) => {
                 validation.name !== null ||
                 validation.address !== null ||
                 validation.email !== null ||
+                validation.ownerName !== null ||
+                validation.licenseNumber !== null ||
+                validation.ownerPhone !== null ||
                 validation.password !== null ||
                 validation.vehicleType !== null ||
                 validation.blueBookPhoto !== null ||
@@ -467,6 +555,9 @@ const RegisterDriverScreen = (props: any) => {
                   email: email,
                   address: address,
                   phone: phone,
+                  ownerName: ownerName,
+                  ownerPhone:ownerPhone,
+                  licenseNumber: licenseNumber,
                   password: password,
                   deviceId: deviceId,
                   vehicleType: types[vehicleType.row],

@@ -9,6 +9,7 @@ import LocalizationContext from '../../contexts/localization-context';
 import {useFocusEffect} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ThemeContext} from '../../contexts/theme-context';
+import messageing from '@react-native-firebase/messaging';
 
 const LoginScreen = (props: any) => {
   const {user, setUser} = useContext(UserContext);
@@ -27,8 +28,19 @@ const LoginScreen = (props: any) => {
   });
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [deviceId, setDeviceId] =useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const sendToken = async() => {
+    await messageing().registerDeviceForRemoteMessages();
+      const deviceToken = await messageing().getToken();
+      setDeviceId(deviceToken);
+  }
+  useEffect(() =>{
+    sendToken();
+  },
+  []);
 
   const ThemeIcon = (iconProps: any) => {
     return (
@@ -139,7 +151,7 @@ const LoginScreen = (props: any) => {
             appearance={'primary'}
             onPress={() => {
               setLoading(true);
-              userLogin({phoneNumber: username, password: password})
+              userLogin({phoneNumber: username, password: password, deviceId: deviceId})
                 .then(response => {
                   if (setUser) {
                     setUser({token: response.token});
@@ -214,16 +226,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stretch: {
-    width: 60,
-    height: 60,
-    margin: 60,
+    width: 65,
+    height: 65,
+    margin: 65,
     resizeMode: 'stretch',
   },
 });
 
 const style = StyleSheet.create({
   spacedComponent: {
-    marginTop: 20,
+    marginTop: 10,
   },
   centeredContent: {
     marginTop: '10%',
@@ -231,6 +243,7 @@ const style = StyleSheet.create({
   container: {
     padding: 10,
     height: '100%',
+    marginBottom:270,
   },
 });
 

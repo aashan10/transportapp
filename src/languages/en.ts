@@ -149,6 +149,9 @@ const English: Language = {
   acceptbydriver: 'Accepted by Driver',
   delivered: 'Delivered',
   viewAddressMap: 'View Address on Map',
+  ownerPhone: 'Owner Phone Number',
+  ownerName: 'Vehicle Owner Name',
+  licenseNumber: 'Driver License Number'
 };
 
 export default English;

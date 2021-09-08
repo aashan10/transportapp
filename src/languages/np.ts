@@ -150,6 +150,9 @@ const Nepali: Language = {
   acceptbydriver: 'चालक द्वारा स्वीकार',
   delivered: 'वितरित',
   viewAddressMap: 'नक्शामा ठेगाना हेर्नुहोस्',
+  ownerName: 'मालिकको नाम',
+  ownerPhone:'मालिकको फोन नम्बर',
+  licenseNumber:'चालक लाइसेन्स नम्बर',
 };
 
 export default Nepali;

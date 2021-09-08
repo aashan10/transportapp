@@ -9,6 +9,7 @@ import {currentAddress, getDriverFeeds} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 import Geolocation from '@react-native-community/geolocation';
+import { requestLocationPermission } from '../helpers/functions';
 const HomeScreen = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
@@ -16,19 +17,34 @@ const HomeScreen = ({navigation}: any) => {
   const {currentLanguage} = useContext(LocalizationContext);
 
   useEffect(() => {
+    const setMyLocation =() =>{
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
         currentAddress({
           driverCurrentLat: latitude.toString(),
           driverCurrentLng: longitude.toString()
-        })
+        });
       },
-      () => {
-      },
+      () => {},
       {},
     );
-  },
+    };
+  
+  let interval: NodeJS.Timeout | false = false;
+    requestLocationPermission()
+      .then(() => {
+        interval = setInterval(setMyLocation, 1500000);
+      })
+      .catch(() => {
+        Alert.alert(
+          'Location permission is required to show your data in map!',
+        );
+      });
+      return () => {
+        interval && clearInterval(interval);
+      };
+    },
    [navigation, posts, user]);
 
   useEffect(() => {
