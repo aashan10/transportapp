@@ -80,6 +80,7 @@ const getHeaders = (headers: {[text: string]: string}) => {
 export const userLogin = async (credentials: {
   phoneNumber: string;
   password: string;
+  deviceId :string;
 }) => {
   return await post(USER_LOGIN, credentials, false);
 };
@@ -144,11 +145,15 @@ export const getNearYouItem = async () => {
 
 export const registerDriver = async (props: {
   name: string;
+  ownerName: string;
+  ownerPhone: string;
+  licenseNumber: string;
   phone: string;
   email: string;
   password: string;
   vehicleType: string;
   address: string;
+  deviceId: string;
   blueBookPhoto: ImageOrVideo | undefined;
   licensePhoto: ImageOrVideo | undefined;
 }) => {
@@ -162,12 +167,16 @@ export const registerDriver = async (props: {
 
   const formData = new FormData();
   formData.append('name', props.name);
+  formData.append('ownerName', props.ownerName);
+  formData.append('ownerPhone', props.ownerPhone);
+  formData.append('licenseNumber', props.licenseNumber);
   formData.append('email', props.email);
   formData.append('address', props.address);
   formData.append('currentAddress', props.address);
   formData.append('phoneNumber', props.phone);
   formData.append('password', props.password);
   formData.append('driverVehicleType', props.vehicleType);
+  formData.append('deviceId', props.deviceId);
   try {
     if (await requestLocationPermission()) {
       Geolocation.getCurrentPosition(coordinates => {

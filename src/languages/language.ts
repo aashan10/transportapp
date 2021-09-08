@@ -142,6 +142,9 @@ export interface Language {
   adminapprove: string;
   acceptbydriver: string;
   delivered: string;
+  ownerName: string;
+  ownerPhone: string;
+  licenseNumber: string
   viewAddressMap: string;
 }
 
