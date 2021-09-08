@@ -34,7 +34,7 @@ const HomeScreen = ({navigation}: any) => {
   let interval: NodeJS.Timeout | false = false;
     requestLocationPermission()
       .then(() => {
-        interval = setInterval(setMyLocation, 1500000);
+        interval = setInterval(setMyLocation, 1000000);
       })
       .catch(() => {
         Alert.alert(
