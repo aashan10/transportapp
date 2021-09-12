@@ -82,6 +82,7 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
   }, [user, width]);
   return (
     <Layout style={{height: '100%'}} level={'4'}>
+      
       <Layout
         style={{
           flexDirection: 'column',
@@ -89,7 +90,7 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
           borderBottomStartRadius: 20,
           overflow: 'hidden',
         }}>
-        <Header navigation={navigation} title={''} />
+        <Header navigation={navigation} title={currentLanguage.profile} />
         <Layout style={{alignItems: 'center'}}>
           <ProfileImage email={user.email} />
           <Layout style={{marginVertical: 20}}>

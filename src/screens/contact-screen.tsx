@@ -1,8 +1,9 @@
-import {Icon, Layout, Text} from '@ui-kitten/components';
+import {Icon, Layout, styled, Text} from '@ui-kitten/components';
 import React, {useContext} from 'react';
 import LocalizationContext from '../contexts/localization-context';
 import Header from '../components/header';
 import {ScrollView} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 interface contact {
   navigation: any;
@@ -16,30 +17,34 @@ const ContactPage = ({navigation}: contact) => {
   return (
     <ScrollView>
       <Layout style={{height: '100%'}} level={'4'}>
-        <Layout>
-          <Header navigation={navigation} title={currentLanguage.contact} />
+        <Layout
+        style= {{
+          marginBottom:10,
+        }}
+        >
+          <Header navigation={navigation} 
+          title={currentLanguage.contact} />
         </Layout>
-        <Layout level={'4'}>
+        <Layout style={style.conatiner}>
           <Text
             style={{
               fontSize: 15,
               textAlign: 'center',
               fontWeight: 'bold',
-              marginTop: 20,
+              marginBottom: 10,
             }}>
             Head Office
           </Text>
           <Text style={{fontSize: 15, textAlign: 'center', padding: 10}}>
             01-5234834, 9858020193 {'\n'} Khasi Bazaar, kathmandu
           </Text>
-          <Text style={{fontSize: 15, textAlign: 'center'}} />
+          <Text style={{fontSize: 15, textAlign: 'center',}} />
           <Text
             style={{
               fontSize: 15,
               textAlign: 'center',
               fontWeight: 'bold',
-              marginTop: 0,
-              padding: 0,
+              padding: 5,
             }}>
             Branch
           </Text>
@@ -57,13 +62,13 @@ const ContactPage = ({navigation}: contact) => {
               fontSize: 15,
               textAlign: 'center',
               fontWeight: 'bold',
-              marginTop: 0,
+              marginTop: 10,
               padding: 10,
             }}>
             Technical Support
           </Text>
           <Text style={{fontSize: 15, textAlign: 'center'}}>
-            Scrypt Spider and Mero Rating {'\n'} info@merorating.com {'\n'}{' '}
+            Scrypt Spider and Mero Rating {'\n'} info@merorating.com {'\n'}
             9862658255
           </Text>
         </Layout>
@@ -71,4 +76,13 @@ const ContactPage = ({navigation}: contact) => {
     </ScrollView>
   );
 };
+const style = StyleSheet.create({
+  conatiner:{
+    padding: 10,
+    height: '100%',
+    marginBottom: 340,
+  }
+
+
+})
 export default ContactPage;

@@ -15,7 +15,6 @@ const HomeScreen = ({navigation}: any) => {
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
-
   useEffect(() => {
     const setMyLocation =() =>{
     Geolocation.getCurrentPosition(
