@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Icon, Input, Layout, Spinner, Text } from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
-import { Alert, ScrollView, ToastAndroid, View } from 'react-native';
+import {Alert, ScrollView, ToastAndroid, View} from 'react-native';
 import Button from '../../../components/button';
-import { EMAIL_REGEX } from '../../../helpers/constants';
-import { Exception, registerVendor } from '../../../api/requests';
-import { useContext } from 'react';
+import {EMAIL_REGEX} from '../../../helpers/constants';
+import {Exception, registerVendor} from '../../../api/requests';
+import {useContext} from 'react';
 import LocalizationContext from '../../../contexts/localization-context';
 import messageing from '@react-native-firebase/messaging';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
 interface ErrorState {
   email: string | null;
@@ -63,8 +63,8 @@ const validate = ({
   return response;
 };
 
-const RegisterVendorScreen =  (props: any) => {
-  const { currentLanguage } = useContext(LocalizationContext);
+const RegisterVendorScreen = (props: any) => {
+  const {currentLanguage} = useContext(LocalizationContext);
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -72,7 +72,7 @@ const RegisterVendorScreen =  (props: any) => {
   const [address, setAddress] = useState<string>('');
   const [company, setCompany] = useState<string>('');
   const [panNumber, setpanNumber] = useState<string>('');
-  const [deviceId, setDeviceId] =useState<string>('');
+  const [deviceId, setDeviceId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorState>({
     email: null,
@@ -82,23 +82,21 @@ const RegisterVendorScreen =  (props: any) => {
     name: null,
     phone: null,
     panNumber: null,
-  
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const sendToken = async() => {
+  const sendToken = async () => {
     await messageing().registerDeviceForRemoteMessages();
-      const deviceToken = await messageing().getToken();
-      setDeviceId(deviceToken);
-  }
-  useEffect(() =>{
+    const deviceToken = await messageing().getToken();
+    setDeviceId(deviceToken);
+  };
+  useEffect(() => {
     sendToken();
-  },
-  []);
-      
-      console.log('deviceId' + deviceId );
-      
+  }, []);
+
+  console.log('deviceId' + deviceId);
+
   return (
-    <Layout style={{ height: '100%' }} level={'4'}>
+    <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
         <Header
           title={currentLanguage.registerVendor}
@@ -122,28 +120,28 @@ const RegisterVendorScreen =  (props: any) => {
             borderRadius: 10,
             padding: 10,
           }}>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.name}
             </Text>
             <Input
               onChangeText={text => {
                 setName(text);
-                setError({ ...error, name: null });
+                setError({...error, name: null});
               }}
               status={error.name ? 'danger' : ''}
               placeholder={'John Doe'}
             />
             {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.address}
             </Text>
             <Input
               onChangeText={text => {
                 setAddress(text);
-                setError({ ...error, address: null });
+                setError({...error, address: null});
               }}
               status={error.address ? 'danger' : ''}
               placeholder={'Kalanki, Kathmandu'}
@@ -152,14 +150,14 @@ const RegisterVendorScreen =  (props: any) => {
               <Text status={'danger'}>{error.address}</Text>
             ) : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.company}
             </Text>
             <Input
               onChangeText={text => {
                 setCompany(text);
-                setError({ ...error, company: null });
+                setError({...error, company: null});
               }}
               status={error.company ? 'danger' : ''}
               placeholder={'ABC Company'}
@@ -168,28 +166,28 @@ const RegisterVendorScreen =  (props: any) => {
               <Text status={'danger'}>{error.company}</Text>
             ) : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.phone}
             </Text>
             <Input
               onChangeText={text => {
                 setPhone(text);
-                setError({ ...error, phone: null });
+                setError({...error, phone: null});
               }}
               status={error.phone ? 'danger' : ''}
               placeholder={'98xxxxxxxx'}
             />
             {error.phone ? <Text status={'danger'}>{error.phone}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.pan}
             </Text>
             <Input
               onChangeText={text => {
                 setpanNumber(text);
-                setError({ ...error, panNumber: null });
+                setError({...error, panNumber: null});
               }}
               status={error.company ? 'danger' : ''}
               placeholder={'6040xxxxxxx'}
@@ -198,28 +196,28 @@ const RegisterVendorScreen =  (props: any) => {
               <Text status={'danger'}>{error.panNumber}</Text>
             ) : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.email}
             </Text>
             <Input
               onChangeText={text => {
                 setEmail(text);
-                setError({ ...error, email: null });
+                setError({...error, email: null});
               }}
               status={error.email ? 'danger' : ''}
               placeholder={'someperson@example.com'}
             />
             {error.email ? <Text status={'danger'}>{error.email}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 5}}>
               {currentLanguage.password}
             </Text>
             <Input
               onChangeText={text => {
                 setPassword(text);
-                setError({ ...error, password: null });
+                setError({...error, password: null});
               }}
               status={error.password ? 'danger' : ''}
               accessoryRight={() => {
@@ -256,7 +254,7 @@ const RegisterVendorScreen =  (props: any) => {
           padding: 10,
         }}>
         <Button
-          style={{ minWidth: 150 }}
+          style={{minWidth: 150}}
           appearance={'outline'}
           onPress={() => {
             props.navigation.goBack();
@@ -300,7 +298,7 @@ const RegisterVendorScreen =  (props: any) => {
                 panNumber: panNumber,
                 deviceId: deviceId,
               })
-                .then(async response => {                  
+                .then(async response => {
                   ToastAndroid.show(response.message, 5000);
                   props.navigation.navigate('sendVerificationCodeScreen');
                 })
@@ -322,7 +320,7 @@ const RegisterVendorScreen =  (props: any) => {
                 });
             }
           }}
-          style={{ minWidth: 150 }}>
+          style={{minWidth: 150}}>
           {currentLanguage.register}
         </Button>
       </Layout>
@@ -331,4 +329,3 @@ const RegisterVendorScreen =  (props: any) => {
 };
 
 export default RegisterVendorScreen;
-

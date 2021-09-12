@@ -144,7 +144,7 @@ export interface Language {
   delivered: string;
   ownerName: string;
   ownerPhone: string;
-  licenseNumber: string
+  licenseNumber: string;
   viewAddressMap: string;
 }
 

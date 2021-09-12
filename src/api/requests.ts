@@ -80,7 +80,7 @@ const getHeaders = (headers: {[text: string]: string}) => {
 export const userLogin = async (credentials: {
   phoneNumber: string;
   password: string;
-  deviceId :string;
+  deviceId: string;
 }) => {
   return await post(USER_LOGIN, credentials, false);
 };
@@ -227,10 +227,10 @@ export const registerVendor = async (data: {
   return await post(VENDOR_REGISTER, data);
 };
 
-export const currentAddress = async(data:{
+export const currentAddress = async (data: {
   driverCurrentLng: string;
   driverCurrentLat: string;
-})=>{
+}) => {
   return await post(DRIVER_CURRENT_ADDRESS, data);
 };
 

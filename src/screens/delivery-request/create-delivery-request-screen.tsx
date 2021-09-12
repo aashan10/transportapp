@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import {IndexPath, Input, Layout, Spinner, Text} from '@ui-kitten/components';
-import Header from '../components/header';
-import {ScrollView, TextInput, ToastAndroid, View} from 'react-native';
-import Button from '../components/button';
+import {Input, Layout, Spinner, Text} from '@ui-kitten/components';
+import Header from '../../components/header';
+import {ScrollView, ToastAndroid, View} from 'react-native';
+import Button from '../../components/button';
 import Geolocation, {
   GeolocationError,
   GeolocationResponse,
 } from '@react-native-community/geolocation';
-import {requestLocationPermission} from '../helpers/functions';
-import {createNewItemRequest} from '../api/requests';
-import LocalizationContext from '../contexts/localization-context';
+import {requestLocationPermission} from '../../helpers/functions';
+import {createNewItemRequest} from '../../api/requests';
+import LocalizationContext from '../../contexts/localization-context';
 import {useContext} from 'react';
 
 interface ErrorState {
@@ -52,12 +52,16 @@ const validate = ({name, to, from, qty, price, description}: ErrorState) => {
   return response;
 };
 
-const CreateItem = ({navigation}: any) => {
+const CreateDeliveryRequestScreen = ({navigation, route}: any) => {
+  const {pickupLocation, deliveryLocation} = route.params;
+
+  console.log(pickupLocation, deliveryLocation);
+
   const {currentLanguage} = useContext(LocalizationContext);
 
   const [name, setName] = useState<string>('');
-  const [to, setTo] = useState<string>('');
-  const [from, setFrom] = useState<string>('');
+  const [to, setTo] = useState<string>(deliveryLocation.name);
+  const [from, setFrom] = useState<string>(pickupLocation.name);
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState<string>('');
@@ -102,11 +106,8 @@ const CreateItem = ({navigation}: any) => {
               {currentLanguage.pickUp}
             </Text>
             <Input
-              value={from}
-              onChangeText={text => {
-                setFrom(text);
-                setError({...error, from: null});
-              }}
+              disabled
+              value={pickupLocation.name}
               status={error.from ? 'danger' : ''}
               placeholder={'Pickup Address'}
             />
@@ -118,11 +119,8 @@ const CreateItem = ({navigation}: any) => {
               {currentLanguage.Drop}
             </Text>
             <Input
-              value={to}
-              onChangeText={text => {
-                setTo(text);
-                setError({...error, to: null});
-              }}
+              disabled
+              value={deliveryLocation.name}
               status={error.to ? 'danger' : ''}
               placeholder={'Delivery Address'}
             />
@@ -244,7 +242,7 @@ const CreateItem = ({navigation}: any) => {
                       setPrice(0);
                       setDescription('');
                       ToastAndroid.show(response.message, 5000);
-                      navigation.goBack();
+                      navigation.navigate('home');
                     } catch (e) {
                     } finally {
                       setLoading(false);
@@ -255,7 +253,7 @@ const CreateItem = ({navigation}: any) => {
                   },
                 );
               }
-            } catch (err) {
+            } catch (err: any) {
               ToastAndroid.show(err.message, 5000);
             } finally {
               setLoading(false);
@@ -273,4 +271,4 @@ const CreateItem = ({navigation}: any) => {
   );
 };
 
-export default CreateItem;
+export default CreateDeliveryRequestScreen;

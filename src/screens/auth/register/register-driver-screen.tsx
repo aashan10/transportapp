@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Header from '../../../components/header';
 import Button from '../../../components/button';
 import {
@@ -12,14 +12,14 @@ import {
   Text,
 } from '@ui-kitten/components';
 import messageing from '@react-native-firebase/messaging';
-import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
-import { View, Image, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Exception, getUrl, registerDriver } from '../../../api/requests';
-import { EMAIL_REGEX } from '../../../helpers/constants';
+import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
+import {View, Image, StyleSheet, ScrollView, Alert} from 'react-native';
+import {Exception, getUrl, registerDriver} from '../../../api/requests';
+import {EMAIL_REGEX} from '../../../helpers/constants';
 
 import LocalizationContext from '../../../contexts/localization-context';
-import { useContext } from 'react';
-import { useEffect } from 'react';
+import {useContext} from 'react';
+import {useEffect} from 'react';
 
 const isNull = (param: any): boolean => {
   return param === null || param === undefined || param === '' || param === {};
@@ -123,11 +123,11 @@ interface ErrorValidationState {
   blueBookPhoto: string | null;
   ownerName: string | null;
   ownerPhone: string | null;
-  licenseNumber : string | null;
+  licenseNumber: string | null;
 }
 
 const RegisterDriverScreen = (props: any) => {
-  const { currentLanguage } = useContext(LocalizationContext);
+  const {currentLanguage} = useContext(LocalizationContext);
   const [licensePhoto, setLicensePhoto] =
     useState<ImageOrVideo | undefined>(undefined);
   const [blueBookPhoto, setBlueBookPhoto] =
@@ -139,7 +139,7 @@ const RegisterDriverScreen = (props: any) => {
   const [licenseNumber, setlicenseNumber] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [deviceId, setDeviceId] =useState<string>('');
+  const [deviceId, setDeviceId] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [vehicleType, setType] = useState<IndexPath>(new IndexPath(0));
@@ -159,64 +159,63 @@ const RegisterDriverScreen = (props: any) => {
     licensePhoto: null,
     blueBookPhoto: null,
   });
-  const sendToken = async() => {
+  const sendToken = async () => {
     await messageing().registerDeviceForRemoteMessages();
-      const deviceToken = await messageing().getToken();
-      setDeviceId(deviceToken);
-  }
-  useEffect(() =>{
+    const deviceToken = await messageing().getToken();
+    setDeviceId(deviceToken);
+  };
+  useEffect(() => {
     sendToken();
-  },
-  []);
-  console.log('deviceId' + deviceId)
+  }, []);
+  console.log('deviceId' + deviceId);
   const types = [
     '19.5 feet 8.5Ton (open)',
     '20 feet 10Ton (Open Truck)',
-     '22 feet 10Ton(Open Truck)',
-     '24 feet 10Ton (Open Truck)',
-     '24 feet 10Ton (Container)',
-     '10 wheeler',
-     '12 wheeler',
-     'Trailer',
-     'DI/Bolero Pick Up',
-     'Others',
+    '22 feet 10Ton(Open Truck)',
+    '24 feet 10Ton (Open Truck)',
+    '24 feet 10Ton (Container)',
+    '10 wheeler',
+    '12 wheeler',
+    'Trailer',
+    'DI/Bolero Pick Up',
+    'Others',
   ];
 
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout style={{height: '100%'}}>
       <Header
         title={currentLanguage.registerDriver}
         navigation={props.navigation}
       />
-      <Layout style={{ height: '100%', marginBottom: 65 }} level={'4'}>
+      <Layout style={{height: '100%', marginBottom: 65}} level={'4'}>
         <Layout style={style.content}>
           <ScrollView
-            style={{ marginBottom: 20 }}
+            style={{marginBottom: 20}}
             showsVerticalScrollIndicator={false}>
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.name}
               </Text>
               <Input
                 status={error.name ? 'danger' : ''}
                 onChangeText={text => {
                   setName(text);
-                  setError({ ...error, name: null });
+                  setError({...error, name: null});
                 }}
                 placeholder={'John Doe'}
                 autoFocus={true}
               />
               {error.name ? <Text status={'danger'}>{error.name}</Text> : null}
             </View>
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.email}
               </Text>
               <Input
                 status={error.email ? 'danger' : ''}
                 onChangeText={text => {
                   setEmail(text);
-                  setError({ ...error, email: null });
+                  setError({...error, email: null});
                 }}
                 placeholder={'someone@example.com'}
               />
@@ -224,15 +223,15 @@ const RegisterDriverScreen = (props: any) => {
                 <Text status={'danger'}>{error.email}</Text>
               ) : null}
             </View>
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.address}
               </Text>
               <Input
                 status={error.address ? 'danger' : ''}
                 onChangeText={text => {
                   setAddress(text);
-                  setError({ ...error, address: null });
+                  setError({...error, address: null});
                 }}
                 placeholder={'Kalanki, Kathmandu'}
               />
@@ -240,15 +239,15 @@ const RegisterDriverScreen = (props: any) => {
                 <Text status={'danger'}>{error.address}</Text>
               ) : null}
             </View>
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.phone}
               </Text>
               <Input
                 status={error.phone ? 'danger' : ''}
                 onChangeText={text => {
                   setPhone(text);
-                  setError({ ...error, phone: null });
+                  setError({...error, phone: null});
                 }}
                 placeholder={'98xxxxxxxx'}
               />
@@ -257,15 +256,15 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.ownerName}
               </Text>
               <Input
                 status={error.ownerName ? 'danger' : ''}
                 onChangeText={text => {
                   setownerName(text);
-                  setError({ ...error, ownerName: null });
+                  setError({...error, ownerName: null});
                 }}
                 placeholder={'David Cena'}
               />
@@ -274,15 +273,15 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.ownerPhone}
               </Text>
               <Input
                 status={error.ownerPhone ? 'danger' : ''}
                 onChangeText={text => {
                   setownerPhone(text);
-                  setError({ ...error, ownerPhone: null });
+                  setError({...error, ownerPhone: null});
                 }}
                 placeholder={'98xxxxxxxx'}
               />
@@ -291,15 +290,15 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.licenseNumber}
               </Text>
               <Input
                 status={error.licenseNumber ? 'danger' : ''}
                 onChangeText={text => {
                   setlicenseNumber(text);
-                  setError({ ...error, licenseNumber: null });
+                  setError({...error, licenseNumber: null});
                 }}
                 placeholder={'01-05-000123456'}
               />
@@ -308,10 +307,8 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-
-
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.containerType}
               </Text>
               <Select
@@ -331,15 +328,15 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.password}
               </Text>
               <Input
                 status={error.password ? 'danger' : ''}
                 onChangeText={text => {
                   setPassword(text);
-                  setError({ ...error, password: null });
+                  setError({...error, password: null});
                 }}
                 accessoryRight={() => {
                   return (
@@ -369,8 +366,8 @@ const RegisterDriverScreen = (props: any) => {
                 <Text status={'danger'}>{error.password}</Text>
               ) : null}
             </View>
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
                 {currentLanguage.cPassword}
               </Text>
               <Input
@@ -400,7 +397,7 @@ const RegisterDriverScreen = (props: any) => {
                 }}
                 onChangeText={text => {
                   setRepeatPassword(text);
-                  setError({ ...error, repeatPassword: null });
+                  setError({...error, repeatPassword: null});
                 }}
                 placeholder={'Confirm Password'}
                 secureTextEntry={!showRepeatPassword}
@@ -410,12 +407,12 @@ const RegisterDriverScreen = (props: any) => {
               ) : null}
             </View>
 
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.attachement}
             </Text>
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={{ display: 'flex', flex: 1, marginRight: 5 }}>
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{display: 'flex', flex: 1, marginRight: 5}}>
                 {blueBookPhoto === undefined ? (
                   <Button
                     size={'small'}
@@ -425,9 +422,9 @@ const RegisterDriverScreen = (props: any) => {
                       })
                         .then(res => {
                           setBlueBookPhoto(res);
-                          setError({ ...error, blueBookPhoto: null });
+                          setError({...error, blueBookPhoto: null});
                         })
-                        .catch(() => { });
+                        .catch(() => {});
                     }}
                     appearance={'outline'}>
                     {currentLanguage.blueBook}
@@ -435,7 +432,7 @@ const RegisterDriverScreen = (props: any) => {
                 ) : (
                   <View>
                     <Image
-                      source={{ uri: blueBookPhoto.path }}
+                      source={{uri: blueBookPhoto.path}}
                       style={style.image}
                     />
                     <Button
@@ -456,7 +453,7 @@ const RegisterDriverScreen = (props: any) => {
                   <Text status={'danger'}>{error.blueBookPhoto}</Text>
                 ) : null}
               </View>
-              <View style={{ display: 'flex', flex: 1, marginLeft: 5 }}>
+              <View style={{display: 'flex', flex: 1, marginLeft: 5}}>
                 {licensePhoto === undefined ? (
                   <Button
                     size={'small'}
@@ -466,9 +463,9 @@ const RegisterDriverScreen = (props: any) => {
                       })
                         .then(res => {
                           setLicensePhoto(res);
-                          setError({ ...error, licensePhoto: null });
+                          setError({...error, licensePhoto: null});
                         })
-                        .catch(() => { });
+                        .catch(() => {});
                     }}
                     appearance={'outline'}>
                     {currentLanguage.license}
@@ -476,7 +473,7 @@ const RegisterDriverScreen = (props: any) => {
                 ) : (
                   <View>
                     <Image
-                      source={{ uri: licensePhoto.path }}
+                      source={{uri: licensePhoto.path}}
                       style={style.image}
                     />
                     <Button
@@ -526,7 +523,7 @@ const RegisterDriverScreen = (props: any) => {
                 phone: phone,
                 address: address,
                 ownerName: ownerName,
-                ownerPhone:ownerPhone,
+                ownerPhone: ownerPhone,
                 licenseNumber: licenseNumber,
                 repeatPassword: repeatPassword,
                 vehicleType: types[vehicleType.row],
@@ -549,14 +546,14 @@ const RegisterDriverScreen = (props: any) => {
                 validation.licensePhoto !== null
               ) {
                 throw new Error(currentLanguage.m1);
-              } else {   
+              } else {
                 registerDriver({
                   name: name,
                   email: email,
                   address: address,
                   phone: phone,
                   ownerName: ownerName,
-                  ownerPhone:ownerPhone,
+                  ownerPhone: ownerPhone,
                   licenseNumber: licenseNumber,
                   password: password,
                   deviceId: deviceId,
@@ -576,22 +573,19 @@ const RegisterDriverScreen = (props: any) => {
                       const message = await err.response.text();
 
                       console.log(message);
-                      
-                      if(message.includes('413')) {
+
+                      if (message.includes('413')) {
                         Alert.alert(
                           'Image filesize too large!',
                           'The license and bluebook photo should be less than 200kb',
                         );
                       } else {
-                        Alert.alert(
-                          currentLanguage.alert1,
-                          currentLanguage.m2,
-                        );
+                        Alert.alert(currentLanguage.alert1, currentLanguage.m2);
                       }
                     } else {
-                      Alert.alert("There was an error");
+                      Alert.alert('There was an error');
                       console.log(err);
-                      
+
                       Alert.alert(currentLanguage.alert1, currentLanguage.m3);
                     }
                   })
