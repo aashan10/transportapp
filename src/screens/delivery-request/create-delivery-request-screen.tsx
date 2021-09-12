@@ -54,9 +54,6 @@ const validate = ({name, to, from, qty, price, description}: ErrorState) => {
 
 const CreateDeliveryRequestScreen = ({navigation, route}: any) => {
   const {pickupLocation, deliveryLocation} = route.params;
-
-  console.log(pickupLocation, deliveryLocation);
-
   const {currentLanguage} = useContext(LocalizationContext);
 
   const [name, setName] = useState<string>('');
