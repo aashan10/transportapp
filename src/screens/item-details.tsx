@@ -8,7 +8,6 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import {MAPBOX_API_KEY} from '../api/constants';
 import LocalizationContext from '../contexts/localization-context';
 import {ThemeContext} from '../contexts/theme-context';
-import moment from 'moment';
 import {
   acceptDeliveryRequest,
   cancelDelivery,
@@ -38,6 +37,8 @@ export interface RequestInterface {
   vendorId: string;
   latitudeOfDeliveryFrom: number;
   longitudeOfDeliveryFrom: number;
+  latitudeOfDeliveryTo: number;
+  longitudeOfDeliveryTo: number;
   acceptedAt: string | false;
   itemReachedAt: string | false;
   vendorPhoneNumber?: string;
@@ -160,20 +161,20 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 marginVertical: 15,
                 paddingHorizontal: 20,
               }}>
-              <View>
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+              <View style={{flex: 1}}>
+                <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
                   {item.deliveryFrom}
                 </Text>
               </View>
               <View>
                 <Button appearance={'ghost'} accessoryLeft={ArrowIcon} />
               </View>
-              <View>
+              <View style={{flex: 1}}>
                 <Text
                   style={{
                     fontSize: 20,
                     fontWeight: 'bold',
-                    textAlign: 'right',
+                    textAlign: 'center',
                   }}>
                   {item.deliveryTo}
                 </Text>
@@ -290,6 +291,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
             style={{
               backgroundColor: 'rgba(100,100,100,0.5)',
               padding: 5,
+              paddingLeft: 20,
               borderRadius: 10,
               flexDirection: 'row',
               position: 'absolute',

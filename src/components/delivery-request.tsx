@@ -55,7 +55,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                 justifyContent: 'space-between',
                 flex: 1,
               }}>
-              <Text
+              <Text numberOfLines = {1}
                 style={{
                   fontSize: 17,
                   fontWeight: 'bold',
@@ -105,13 +105,14 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                   <Icon {...iconProps} name={'car-outline'} />
                 )}
               />
-              <Text
+              <Text numberOfLines={1}
                 style={{
                   fontSize: 17,
                   fontWeight: 'bold',
                   flex: 1,
                   paddingTop: 5,
                   textAlign: 'center',
+                  
                 }}>
                 {' ' + request.deliveryTo}
               </Text>
@@ -135,9 +136,7 @@ const DeliveryRequest = ({navigation, request}: DeliveryRequestProps) => {
                     );
                   }}
                   status={'success'}
-                  appearance={'ghost'}>
-                  {currentLanguage.verifiedRequest}
-                </Button>
+                  appearance={'ghost'} />
               ) : null}
             </View>
           </View>

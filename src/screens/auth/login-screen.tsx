@@ -28,19 +28,18 @@ const LoginScreen = (props: any) => {
   });
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [deviceId, setDeviceId] =useState<string>('');
+  const [deviceId, setDeviceId] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const sendToken = async() => {
+  const sendToken = async () => {
     await messageing().registerDeviceForRemoteMessages();
-      const deviceToken = await messageing().getToken();
-      setDeviceId(deviceToken);
-  }
-  useEffect(() =>{
+    const deviceToken = await messageing().getToken();
+    setDeviceId(deviceToken);
+  };
+  useEffect(() => {
     sendToken();
-  },
-  []);
+  }, []);
 
   const ThemeIcon = (iconProps: any) => {
     return (
@@ -151,7 +150,11 @@ const LoginScreen = (props: any) => {
             appearance={'primary'}
             onPress={() => {
               setLoading(true);
-              userLogin({phoneNumber: username, password: password, deviceId: deviceId})
+              userLogin({
+                phoneNumber: username,
+                password: password,
+                deviceId: deviceId,
+              })
                 .then(response => {
                   if (setUser) {
                     setUser({token: response.token});
@@ -243,7 +246,7 @@ const style = StyleSheet.create({
   container: {
     padding: 10,
     height: '100%',
-    marginBottom:270,
+    marginBottom: 270,
   },
 });
 

@@ -26,4 +26,7 @@ export const DRIVER_DELIVERY_CANCEL = 'driver/cancelDelivery';
 export const VENDOR_VENDOR_CANCEL = 'vendor/itemCancelledFromDelivery';
 export const MAPBOX_DIRECTIONS_API_URL =
   'https://api.mapbox.com/directions/v5/mapbox/driving';
-export const AUTOCOMPLETE_API_URL ='AIzaSyAD_nu40aB4MNA5otf3XEsnwoaO9K-FCBw';
+export const MAPBOX_PLACES_API_URL =
+  'https://api.mapbox.com/geocoding/v5/mapbox.places';
+export const AUTOCOMPLETE_API_URL = 'AIzaSyAD_nu40aB4MNA5otf3XEsnwoaO9K-FCBw';
+export const MAPBOX_BBOX_NEPAL = '79.991145,26.194128,88.252448,30.660632';

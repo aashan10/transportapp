@@ -9,28 +9,28 @@ import {currentAddress, getDriverFeeds} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 import Geolocation from '@react-native-community/geolocation';
-import { requestLocationPermission } from '../helpers/functions';
+import {requestLocationPermission} from '../helpers/functions';
 const HomeScreen = ({navigation}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const {currentLanguage} = useContext(LocalizationContext);
   useEffect(() => {
-    const setMyLocation =() =>{
-    Geolocation.getCurrentPosition(
-      position => {
-        const {latitude, longitude} = position.coords;
-        currentAddress({
-          driverCurrentLat: latitude.toString(),
-          driverCurrentLng: longitude.toString()
-        });
-      },
-      () => {},
-      {},
-    );
+    const setMyLocation = () => {
+      Geolocation.getCurrentPosition(
+        position => {
+          const {latitude, longitude} = position.coords;
+          currentAddress({
+            driverCurrentLat: latitude.toString(),
+            driverCurrentLng: longitude.toString(),
+          });
+        },
+        () => {},
+        {},
+      );
     };
-  
-  let interval: NodeJS.Timeout | false = false;
+
+    let interval: NodeJS.Timeout | false = false;
     requestLocationPermission()
       .then(() => {
         interval = setInterval(setMyLocation, 1000000);
@@ -40,11 +40,10 @@ const HomeScreen = ({navigation}: any) => {
           'Location permission is required to show your data in map!',
         );
       });
-      return () => {
-        interval && clearInterval(interval);
-      };
-    },
-   [navigation, posts, user]);
+    return () => {
+      interval && clearInterval(interval);
+    };
+  }, [navigation, posts, user]);
 
   useEffect(() => {
     return navigation.addListener('focus', () => {
