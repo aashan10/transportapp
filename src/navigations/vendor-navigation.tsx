@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import CreateItem from '../screens/create-item';
 import VendorHomeScreen from '../screens/vendor-home-screen';
 import ItemDetails from '../screens/item-details';
 import ItemDetailsMap from '../screens/item-details-map';
@@ -23,7 +22,6 @@ const DeliveryRequestNavigator = () => {
         name={'createDeliveryRequest'}
         component={CreateDeliveryRequestScreen}
       />
-      <Vendor.Screen name={'home'} component={VendorHomeScreen} />
     </DeliveryRequest.Navigator>
   );
 };

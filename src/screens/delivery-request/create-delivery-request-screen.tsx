@@ -231,7 +231,10 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
                   setPrice(0);
                   setDescription('');
                   ToastAndroid.show(response.message, 5000);
-                  navigation.navigate('home');
+                  // I didn't want to do this but some things has to be done even if you don't like it
+                  navigation.goBack();
+                  navigation.goBack();
+                  navigation.goBack();
                 } catch (e) {
                 } finally {
                   setLoading(false);

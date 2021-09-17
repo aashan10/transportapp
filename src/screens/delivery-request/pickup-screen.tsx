@@ -19,7 +19,6 @@ const PickupScreen = ({navigation}: {navigation: any}) => {
   const [center, setCenter] = useState<Coordinates>([85.318948, 27.690027]);
   const [locationName, setLocationName] = useState<string>('');
   const [showMap, setShowMap] = useState<boolean>(false);
-  // const pickupInfo = props.route.params.dropupLocation;
   const [path, setPath] = useState<FeatureCollection>({
     type: 'FeatureCollection',
     features:[]

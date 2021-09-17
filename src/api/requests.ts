@@ -139,8 +139,8 @@ export const getVendorCancel = async () => {
 export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
-export const getNearYouItem = async () => {
-  return await get(DRIVER_NEAR_YOU);
+export const getNearYouItem = async ({latitude, longitude }: {latitude: number, longitude: number}) => {
+  return await get(DRIVER_NEAR_YOU + `?lat=${latitude}&lng=${longitude}`);
 };
 
 export const registerDriver = async (props: {
@@ -228,8 +228,8 @@ export const registerVendor = async (data: {
 };
 
 export const currentAddress = async (data: {
-  driverCurrentLng: string;
-  driverCurrentLat: string;
+  driverCurrentLng: string | number;
+  driverCurrentLat: string | number;
 }) => {
   return await post(DRIVER_CURRENT_ADDRESS, data);
 };
