@@ -103,6 +103,7 @@ const HomeScreen = ({ navigation }: any) => {
                   longitude: latLng[0]
                 })
                   .then(feeds => {
+                    console.log(feeds)
                     setPosts(feeds.totalItem);
                     if (feeds.totalItem && feeds.totalItem.length === 0) {
                       Alert.alert('', currentLanguage.message5);

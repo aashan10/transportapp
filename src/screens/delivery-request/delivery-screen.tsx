@@ -3,7 +3,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import {Button, Layout} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, useWindowDimensions, View} from 'react-native';
-import {MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../../api/constants';
+import {AUTOCOMPLETE_API_URL, MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../../api/constants';
 import Header from '../../components/header';
 import LocationPicker from '../../components/location-picker';
 import LocalizationContext from '../../contexts/localization-context';
@@ -26,7 +26,7 @@ const DeliveryScreen = (props: any) => {
   });
   useEffect(() => {
     if (pickup && delivery) {
-      const url = `${MAPBOX_DIRECTIONS_API_URL}/${pickup.toString()};${delivery.toString()}?access_token=${MAPBOX_API_KEY}&geometries=geojson`;
+      const url = `${MAPBOX_DIRECTIONS_API_URL}/${pickup.toString()};${delivery.toString()}?access_token=${AUTOCOMPLETE_API_URL}&geometries=geojson`;
 
       fetch(url)
         .then(response => response.json())
