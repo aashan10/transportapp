@@ -1,32 +1,32 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Card, Layout, Text} from '@ui-kitten/components';
-import {ScrollView, View, Alert} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Card, Layout, Text } from '@ui-kitten/components';
+import { ScrollView, View, Alert } from 'react-native';
 import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import {currentAddress, getDriverFeeds} from '../api/requests';
+import { currentAddress, getDriverFeeds } from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 import Geolocation from '@react-native-community/geolocation';
-import {requestLocationPermission} from '../helpers/functions';
-const HomeScreen = ({navigation}: any) => {
+import { requestLocationPermission } from '../helpers/functions';
+const HomeScreen = ({ navigation }: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
-  const {currentLanguage} = useContext(LocalizationContext);
+  const { currentLanguage } = useContext(LocalizationContext);
 
   useEffect(() => {
     const setMyLocation = () => {
       Geolocation.getCurrentPosition(
         position => {
-          const {latitude, longitude} = position.coords;
+          const { latitude, longitude } = position.coords;
           currentAddress({
             driverCurrentLat: latitude.toString(),
             driverCurrentLng: longitude.toString(),
           });
         },
-        () => {},
+        () => { },
         {},
       );
     };
@@ -56,7 +56,7 @@ const HomeScreen = ({navigation}: any) => {
             Alert.alert('', currentLanguage.message5);
           }
         })
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => {
           setLoading(false);
         });
@@ -64,10 +64,10 @@ const HomeScreen = ({navigation}: any) => {
   }, [user.token, navigation, currentLanguage.message5]);
 
   return (
-    <Layout style={{height: '100%', width: '100%'}}>
+    <Layout style={{ height: '100%', width: '100%' }}>
       <Header navigation={navigation} />
       <Layout
-        style={{padding: 5, paddingTop: 10, height: '100%', flex: 1}}
+        style={{ padding: 5, paddingTop: 10, height: '100%', flex: 1 }}
         level={'4'}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -95,11 +95,24 @@ const HomeScreen = ({navigation}: any) => {
               }}
             />
           }
-          style={{height: '100%'}}>
+          style={{ height: '100%' }}>
+          {user.role === 'driver' ? (
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Button
+                style={{ flex: 1 }}
+                onPress={() => {
+                  navigation.navigate('myPickups');
+                }}
+                size={'medium'}>
+                {currentLanguage.myPickups}
+              </Button>
+            </View>
+          ) : null}
           {user.role === 'vendor' ? (
-            <Card style={{borderRadius: 10}}>
+            <Card style={{ borderRadius: 10 }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text>{currentLanguage.request}</Text>
                 <Button
                   onPress={() => {

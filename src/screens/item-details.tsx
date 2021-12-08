@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Card, Icon, Layout, Modal, Text} from '@ui-kitten/components';
+import React, { useContext, useEffect, useState } from 'react';
+import { Card, Icon, Layout, Modal, Text } from '@ui-kitten/components';
 import Header from '../components/header';
-import {Alert, LogBox, Pressable, ScrollView, View} from 'react-native';
+import { Alert, LogBox, Pressable, ScrollView, View } from 'react-native';
 import Button from '../components/button';
 import UserContext from '../contexts/user-context';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import {MAPBOX_API_KEY} from '../api/constants';
+import { MAPBOX_API_KEY } from '../api/constants';
 import LocalizationContext from '../contexts/localization-context';
-import {ThemeContext} from '../contexts/theme-context';
+import { ThemeContext } from '../contexts/theme-context';
 import moment from 'moment';
 import {
   acceptDeliveryRequest,
@@ -17,6 +17,7 @@ import {
 } from '../api/requests';
 import TimelineItem from '../components/timeline-item';
 import RefreshControl from '../components/refresh-control';
+import ConfirmModal from '../components/confirm-modal';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -51,10 +52,10 @@ const ArrowIcon = (props: any) => {
   return <Icon name={'arrow-forward-outline'} {...props} />;
 };
 
-const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
-  const {user} = useContext(UserContext);
-  const {currentLanguage} = useContext(LocalizationContext);
-  const {theme} = useContext(ThemeContext);
+const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
+  const { user } = useContext(UserContext);
+  const { currentLanguage } = useContext(LocalizationContext);
+  const { theme } = useContext(ThemeContext);
   const [item] = useState<RequestInterface>(route.params.item);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [colorScheme, setColorScheme] = useState('warning');
@@ -68,7 +69,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   const [showTooltip, setShowTooltip] = useState<boolean>(true);
 
   useEffect(() => {
-    const {itemReachedAt, acceptedAt, driverAcceptedAt} = item;
+    const { itemReachedAt, acceptedAt, driverAcceptedAt } = item;
 
     if (!itemReachedAt && !acceptedAt && !driverAcceptedAt) {
       setState('pending');
@@ -127,8 +128,8 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
   }, [state, user.role]);
 
   return (
-    <Layout level={'4'} style={{height: '100%'}}>
-      <Layout style={{width: '100%', borderRadius: 20}}>
+    <Layout level={'4'} style={{ height: '100%' }}>
+      <Layout style={{ width: '100%', borderRadius: 20 }}>
         <Header
           back={true}
           navigation={navigation}
@@ -150,7 +151,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           }}
         />
 
-        <View style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+        <View style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           <View>
             <View
               style={{
@@ -160,15 +161,15 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 marginVertical: 15,
                 paddingHorizontal: 20,
               }}>
-              <View style={{flex: 1}}>
-                <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>
                   {item.deliveryFrom}
                 </Text>
               </View>
               <View>
                 <Button appearance={'ghost'} accessoryLeft={ArrowIcon} />
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -186,9 +187,9 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <View style={{marginBottom: 10}}>
+            <View style={{ marginBottom: 10 }}>
               <Text
-                style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>
+                style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>
                 Rs.{' '}
                 {user.role === 'vendor'
                   ? item.deliveryPriceByVendor
@@ -199,7 +200,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               appearance={'outline'}
               status={colorScheme}
               size={'small'}
-              style={{marginBottom: 10, maxWidth: 150}}>
+              style={{ marginBottom: 10, maxWidth: 150 }}>
               {`DELIVERY ${state.toUpperCase()}`}
             </Button>
           </View>
@@ -226,29 +227,29 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           <Button
             appearance={'ghost'}
             onPress={() => {
-              navigation.navigate('map', {item: route.params.item});
+              navigation.navigate('map', { item: route.params.item });
             }}
-            style={{marginBottom: 10, marginTop: 20}}>
+            style={{ marginBottom: 10, marginTop: 20 }}>
             {currentLanguage.viewAddressMap.toUpperCase()}
           </Button>
-          <View style={{marginBottom: 30}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
+          <View style={{ marginBottom: 30 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>
               {currentLanguage.Description}
             </Text>
 
             <Text>{item.itemDescription}</Text>
           </View>
 
-          <View style={{marginBottom: 30}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
+          <View style={{ marginBottom: 30 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>
               {currentLanguage.quantity}
             </Text>
 
             <Text>{`${item.quantity} units`}</Text>
           </View>
 
-          <View style={{marginBottom: 50}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 5}}>
+          <View style={{ marginBottom: 50 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>
               {currentLanguage.timeline}
             </Text>
             <View>
@@ -283,6 +284,117 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 />
               )}
             </View>
+            <View style={{ marginVertical: 20 }}>
+              {actions.indexOf('pick') > -1 && (
+                <ConfirmModal
+                  modalText={'Are you sure you want to pick this request?'}
+                  buttonText={currentLanguage.pickuprequest}
+                  buttonProps={{
+                    appearance: 'outline',
+                    status: 'primary'
+                  }}
+                  onSuccess={(closeModal: CallableFunction) => {
+                    acceptDeliveryRequest({
+                      itemId: item.itemId,
+                      vendorId: item.vendorId,
+                    })
+                      .then(() => {
+                        Alert.alert('Item Picked!');
+                        closeModal(true);
+                        navigation.goBack();
+                      })
+                      .catch(e => {
+                        closeModal(true);
+                        Alert.alert(currentLanguage.mess12);
+                      });
+                  }} />
+              )}
+
+              {actions.indexOf('complete') > -1 && (
+                <ConfirmModal
+                  modalText={'Are you sure you want to complete this request?'}
+                  buttonText={currentLanguage.completereq}
+                  buttonProps={{
+                    appearance: 'outline',
+                    status: 'primary'
+                  }}
+                  onSuccess={(closeModal: CallableFunction) => {
+                    itemReached({
+                      itemId: item.itemId,
+                      vendorId: item.vendorId,
+                    })
+                      .then(() => {
+                        closeModal(true);
+                        Alert.alert('Item Delivered!');
+                        navigation.goBack();
+                      })
+                      .catch(e => {
+                        Alert.alert(
+                          'There was some issue while trying to deliver the request!',
+                        );
+                      });
+                  }} />
+              )}
+
+              {actions.indexOf('cancel') > -1 && (
+                <ConfirmModal
+                  modalText={'Are you sure you want to complete this request?'}
+                  buttonText={currentLanguage.cancelReq}
+                  buttonProps={{
+                    appearance: 'ghost',
+                    status: 'danger'
+                  }}
+                  onSuccess={(closeModal: CallableFunction) => {
+                    if (user.role === 'vendor') {
+                      deleteRequest({
+                        itemId: item.itemId,
+                        vendorId: item.vendorId,
+                      })
+                        .then(response => {
+                          console.log(response);
+
+                          Alert.alert('Item canceled successfully!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert('Something went wrong!');
+                        })
+                        .finally(() => {
+                          closeModal(true);
+                        });
+                    } else if (user.role === 'driver') {
+                      cancelDelivery({
+                        vendorId: item.vendorId,
+                        itemId: item.itemId,
+                      })
+                        .then(() => {
+                          Alert.alert('Delivery canceled!');
+                          navigation.goBack();
+                        })
+                        .catch(e => {
+                          Alert.alert(currentLanguage.mess11);
+                        })
+                        .finally(() => {
+                          closeModal(true);
+                        });;
+                    }
+                  }} />
+              )}
+              {actions.indexOf('delete') > -1 && (
+                <Button
+                  appearance={'ghost'}
+                  status={'danger'}
+                  style={{ marginVertical: 2.5 }}
+                  onPress={() => { }}>
+                  {currentLanguage.deleteReq}
+                </Button>
+              )}
+              {actions.length === 0 && (
+                <Text style={{ textAlign: 'center', marginVertical: 30 }}>
+                  {currentLanguage.mess10}
+                </Text>
+              )}
+            </View>
           </View>
         </ScrollView>
         {showTooltip ? (
@@ -298,7 +410,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
               width: '100%',
               left: 20,
             }}>
-            <Text style={{paddingVertical: 10, fontSize: 12, flex: 1}}>
+            <Text style={{ paddingVertical: 10, fontSize: 12, flex: 1 }}>
               {currentLanguage.okmessage}
             </Text>
             <Button
@@ -306,7 +418,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 setShowTooltip(!showTooltip);
               }}
               appearance={'ghost'}
-              style={{width: 60}}>
+              style={{ width: 60 }}>
               {currentLanguage.ok}
             </Button>
           </Layout>
@@ -320,107 +432,9 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
           onBackdropPress={() => {
             setMenuVisible(false);
           }}
-          backdropStyle={{backgroundColor: theme.backdropColor}}>
-          <Layout style={{borderRadius: 10}}>
-            <View style={{padding: 10}}>
-              {actions.indexOf('pick') > -1 && (
-                <Button
-                  appearance={'outline'}
-                  status={'primary'}
-                  onPress={() => {
-                    acceptDeliveryRequest({
-                      itemId: item.itemId,
-                      vendorId: item.vendorId,
-                    })
-                      .then(() => {
-                        Alert.alert('Item Picked!');
-                        navigation.goBack();
-                      })
-                      .catch(e => {
-                        Alert.alert(currentLanguage.mess12);
-                      });
-                  }}
-                  style={{marginVertical: 2.5}}>
-                  {currentLanguage.pickuprequest}
-                </Button>
-              )}
+          backdropStyle={{ backgroundColor: theme.backdropColor }}>
+          <Layout style={{ borderRadius: 10 }}>
 
-              {actions.indexOf('complete') > -1 && (
-                <Button
-                  appearance={'outline'}
-                  status={'primary'}
-                  onPress={() => {
-                    itemReached({
-                      itemId: item.itemId,
-                      vendorId: item.vendorId,
-                    })
-                      .then(() => {
-                        Alert.alert('Item Delivered!');
-                        navigation.goBack();
-                      })
-                      .catch(e => {
-                        Alert.alert(
-                          'There was some issue while trying to deliver the request!',
-                        );
-                      });
-                  }}
-                  style={{marginVertical: 2.5}}>
-                  {currentLanguage.completereq}
-                </Button>
-              )}
-
-              {actions.indexOf('cancel') > -1 && (
-                <Button
-                  appearance={'ghost'}
-                  status={'danger'}
-                  onPress={() => {
-                    if (user.role === 'vendor') {
-                      deleteRequest({
-                        itemId: item.itemId,
-                        vendorId: item.vendorId,
-                      })
-                        .then(response => {
-                          console.log(response);
-
-                          Alert.alert('Item canceled successfully!');
-                          navigation.goBack();
-                        })
-                        .catch(e => {
-                          Alert.alert('Something went wrong!');
-                        });
-                    } else if (user.role === 'driver') {
-                      cancelDelivery({
-                        vendorId: item.vendorId,
-                        itemId: item.itemId,
-                      })
-                        .then(() => {
-                          Alert.alert('Delivery canceled!');
-                          navigation.goBack();
-                        })
-                        .catch(e => {
-                          Alert.alert(currentLanguage.mess11);
-                        });
-                    }
-                  }}
-                  style={{marginVertical: 2.5}}>
-                  {currentLanguage.cancelReq}
-                </Button>
-              )}
-              {actions.indexOf('delete') > -1 && (
-                <Button
-                  appearance={'ghost'}
-                  status={'danger'}
-                  style={{marginVertical: 2.5}}
-                  onPress={() => {}}>
-                  {currentLanguage.deleteReq}
-                </Button>
-              )}
-              {actions.length === 0 && (
-                <Text style={{textAlign: 'center', marginVertical: 30}}>
-                  {currentLanguage.mess10}
-                </Text>
-              )}
-            </View>
 
             <View
               style={{
@@ -430,7 +444,7 @@ const ItemDetails = ({navigation, route}: ItemDetailsProps) => {
                 padding: 0,
               }}>
               <Button
-                style={{borderRadius: 0}}
+                style={{ borderRadius: 0 }}
                 onPress={() => {
                   setMenuVisible(false);
                 }}
