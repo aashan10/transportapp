@@ -2,21 +2,55 @@ import {Coordinates} from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import {Button, Layout} from '@ui-kitten/components';
 import React, {useContext, useState} from 'react';
+import { useEffect } from 'react';
 import {Image, useWindowDimensions, View} from 'react-native';
+import { MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL } from '../../api/constants';
 import Header from '../../components/header';
 import LocationPicker from '../../components/location-picker';
 import LocalizationContext from '../../contexts/localization-context';
 import {ThemeContext} from '../../contexts/theme-context';
-
+import { FeatureCollection, Feature } from 'geojson';
 const PickupScreen = ({navigation}: {navigation: any}) => {
   const {currentLanguage} = useContext(LocalizationContext);
   const {height, width} = useWindowDimensions();
   const {theme} = useContext(ThemeContext);
+  const [delivery, setDelivery] = useState<Coordinates>([85.318948, 27.690027]);
   const [pickup, setPickup] = useState<Coordinates>([85.318948, 27.690027]);
   const [center, setCenter] = useState<Coordinates>([85.318948, 27.690027]);
   const [locationName, setLocationName] = useState<string>('');
   const [showMap, setShowMap] = useState<boolean>(false);
+  const [path, setPath] = useState<FeatureCollection>({
+    type: 'FeatureCollection',
+    features:[]
+  });
+    useEffect(() => {
+    if (pickup && delivery) {
+      const url = `${MAPBOX_DIRECTIONS_API_URL}/${pickup.toString()};${delivery.toString()}?access_token=${MAPBOX_API_KEY}&geometries=geojson`;
 
+      fetch(url)
+        .then(response => response.json())
+        .then(geoJson => {
+          const featureCollection: FeatureCollection = {
+            type: 'FeatureCollection',
+            features: [],
+          };
+
+          geoJson.routes.map((mapRoute: any) => {
+            const feature: Feature = {
+              type: 'Feature',
+              geometry: mapRoute.geometry,
+              properties: {
+                color: 'green',
+              },
+            };
+            featureCollection.features.push(feature);
+          });
+
+          setPath(featureCollection);
+        })
+        .catch(() => {});
+    }
+  }, [delivery, pickup]);
   return (
     <Layout style={{height: '100%'}} level={'4'}>
       <Layout>

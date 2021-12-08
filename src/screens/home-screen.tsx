@@ -5,7 +5,7 @@ import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import { currentAddress, getDriverFeeds } from '../api/requests';
+import { currentAddress, getNearYouItem } from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 import Geolocation from '@react-native-community/geolocation';
@@ -15,26 +15,45 @@ const HomeScreen = ({ navigation }: any) => {
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const { currentLanguage } = useContext(LocalizationContext);
+  const [latLng, setLatLng] = useState<[number, number]>([1, 1]);
+
+  useEffect(() => {
+    Geolocation.watchPosition((location) => {
+      console.log(location);
+      
+    }, () => {}, {
+      timeout:  5000,
+      maximumAge: 60 * 1000,
+      enableHighAccuracy: true,
+      distanceFilter: 3
+    });
+  });
 
   useEffect(() => {
     const setMyLocation = () => {
       Geolocation.getCurrentPosition(
         position => {
           const { latitude, longitude } = position.coords;
+          setLatLng([longitude, latitude]);
           currentAddress({
             driverCurrentLat: latitude.toString(),
             driverCurrentLng: longitude.toString(),
-          });
+          })
+          console.log(latitude, longitude);
+          
         },
         () => { },
-        {},
+        {
+          enableHighAccuracy: true
+        }
       );
+
     };
 
     let interval: NodeJS.Timeout | false = false;
     requestLocationPermission()
       .then(() => {
-        interval = setInterval(setMyLocation, 1500000);
+        interval = setInterval(setMyLocation, 10000);
       })
       .catch(() => {
         Alert.alert(
@@ -49,7 +68,10 @@ const HomeScreen = ({ navigation }: any) => {
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setLoading(true);
-      getDriverFeeds()
+      getNearYouItem({
+        latitude: latLng[1],
+        longitude: latLng[0]
+      })
         .then(feeds => {
           setPosts(feeds.totalItem);
           if (feeds.totalItem && feeds.totalItem.length === 0) {
@@ -76,8 +98,12 @@ const HomeScreen = ({ navigation }: any) => {
               refreshing={loading}
               onRefresh={() => {
                 setLoading(true);
-                getDriverFeeds()
+                getNearYouItem({
+                  latitude: latLng[1],
+                  longitude: latLng[0]
+                })
                   .then(feeds => {
+                    console.log(feeds)
                     setPosts(feeds.totalItem);
                     if (feeds.totalItem && feeds.totalItem.length === 0) {
                       Alert.alert('', currentLanguage.message5);
@@ -138,5 +164,4 @@ const HomeScreen = ({ navigation }: any) => {
     </Layout>
   );
 };
-
 export default HomeScreen;

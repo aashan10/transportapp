@@ -10,7 +10,6 @@ import ForgotPasswordScreen from '../screens/auth/recover/forgot-password-screen
 import EmailVerificationScreen from '../screens/auth/recover/email-verification-screen';
 import VerifyAccountScreen from '../screens/auth/verify/verify-account-screen';
 import SendVerificationCodeScreen from '../screens/auth/verify/send-verification-code-screen';
-import ItemDetailsMap from '../screens/item-details-map';
 
 const AuthNavigation = () => {
   const {user} = useContext(UserContext);

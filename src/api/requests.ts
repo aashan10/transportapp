@@ -23,6 +23,7 @@ import {
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
+import { Coordinates } from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
 
 export const get = async (url: string, auth: boolean = true) => {
   const payload = {
@@ -99,23 +100,22 @@ export const userInfo = async (token: string) => {
 export const createNewItemRequest = async (props: {
   quantity: number;
   price: number;
-  latitude: number;
   name: string;
-  from: string;
-  to: string;
-  longitude: number;
+  from: {coords: Coordinates, name: string};
+  to: {coords: Coordinates, name: string};
   description: string;
 }) => {
   const data = {
     itemName: props.name,
-    deliveryTo: props.to,
-    deliveryFrom: props.from,
+    deliveryTo: props.to.name,
+    deliveryFrom: props.from.name,
     quantity: props.quantity,
     deliveryPriceByVendor: props.price,
     itemDescription: props.description,
-    // containerSize: props.size,
-    latitudeOfDeliveryFrom: props.latitude,
-    longitudeOfDeliveryFrom: props.longitude,
+    latitudeOfDeliveryFrom: props.from.coords[1],
+    longitudeOfDeliveryFrom: props.from.coords[0],
+    latitudeOfDeliveryTo: props.to.coords[1],
+    longitudeOfDeliveryTo: props.to.coords[0],
   };
   return await post(VENDOR_ITEM_UPLOAD, data);
 };
@@ -139,8 +139,8 @@ export const getVendorCancel = async () => {
 export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
-export const getNearYouItem = async () => {
-  return await get(DRIVER_NEAR_YOU);
+export const getNearYouItem = async ({latitude, longitude }: {latitude: number, longitude: number}) => {
+  return await get(DRIVER_NEAR_YOU + `?lat=${latitude}&lng=${longitude}`);
 };
 
 export const registerDriver = async (props: {
@@ -228,8 +228,8 @@ export const registerVendor = async (data: {
 };
 
 export const currentAddress = async (data: {
-  driverCurrentLng: string;
-  driverCurrentLat: string;
+  driverCurrentLng: string | number;
+  driverCurrentLat: string | number;
 }) => {
   return await post(DRIVER_CURRENT_ADDRESS, data);
 };

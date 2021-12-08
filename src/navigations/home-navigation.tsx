@@ -6,7 +6,6 @@ import UserContext from '../contexts/user-context';
 import VendorNavigation from './vendor-navigation';
 import DriverNavigation from './driver-navigation';
 import LocalizationContext from '../contexts/localization-context';
-import History from '../screens/history-screen';
 import DriverProfileScreen from '../screens/profile-driver';
 import Contact from '../screens/contact-screen';
 import PickupNavigation from './pickup-navigation';

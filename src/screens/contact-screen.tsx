@@ -1,74 +1,119 @@
-import {Icon, Layout, Text} from '@ui-kitten/components';
-import React, {useContext} from 'react';
+import { Icon, Layout, styled, Text, ListItem } from '@ui-kitten/components';
+import React, { useContext } from 'react';
 import LocalizationContext from '../contexts/localization-context';
 import Header from '../components/header';
-import {ScrollView} from 'react-native';
+import { FlatList } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { ThemeContext } from '../contexts/theme-context';
 
-interface contact {
-  navigation: any;
-  item: any;
-  route: any;
+interface Contact {
+  name: string,
+  contact: {
+    phone: string,
+    email: string,
+    web?: string
+  },
+  address: string
 }
 
-const ContactPage = ({navigation}: contact) => {
-  const {currentLanguage} = useContext(LocalizationContext);
+const offices: Array<Contact> = [
+  {
+    name: 'Head Office',
+    contact: {
+      phone: '01-5234834, 9858020193',
+      email: 'jaymataradhika@gmail.com'
+    },
+    address: 'Khasi Bazaar, Kathmandu'
+  },
+  {
+    name: 'Bhairahawa Branch',
+    contact: {
+      phone: '9851057193',
+      email: ''
+    },
+    address: 'Bhairahawa, Rupandehi'
+  },
+  {
+    name: 'Biratnagar Branch',
+    contact: {
+      phone: '9851217028, 9813297693',
+      email: ''
+    },
+    address: 'Biratnagar, Morang'
+  }
+];
 
+
+const ContactPage = ({ navigation }: any) => {
+  const { currentLanguage } = useContext(LocalizationContext);
+  const { theme } = useContext(ThemeContext);
+
+
+
+  const JMRIcon = (props: any) => {
+    return <Icon name={props.name} fill={theme['color-primary-500']} style={{ height: 20, width: 20, marginRight: 15 }} />
+  }
   return (
-    <ScrollView>
-      <Layout style={{height: '100%'}} level={'4'}>
-        <Layout>
-          <Header navigation={navigation} title={currentLanguage.contact} />
+    <Layout style={{ height: '100%' }} level={'4'}>
+      <Layout>
+        <Header navigation={navigation}
+          title={currentLanguage.contact} />
+      </Layout>
+      <Layout style={style.conatiner}>
+        <Layout style={{ flex: 1 }}>
+          <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 25, paddingTop: 20 }}> Jay Mata Radhika Transport Company </Text>
         </Layout>
-        <Layout level={'4'}>
-          <Text
-            style={{
-              fontSize: 15,
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginTop: 20,
-            }}>
-            Head Office
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center', padding: 10}}>
-            01-5234834, 9858020193 {'\n'} Khasi Bazaar, kathmandu
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center'}} />
-          <Text
-            style={{
-              fontSize: 15,
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginTop: 0,
-              padding: 0,
-            }}>
-            Branch
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center', padding: 10}}>
-            9851057193 {'\n'} Bhairahawa, Rupandehi
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center'}}>
-            9851217028, 9813297693 {'\n'} Biratnagar, Morang
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center', padding: 10}}>
-            Email us {'\n'} jayamataradhika@gmail.com
-          </Text>
-          <Text
-            style={{
-              fontSize: 15,
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginTop: 0,
-              padding: 10,
-            }}>
-            Technical Support
-          </Text>
-          <Text style={{fontSize: 15, textAlign: 'center'}}>
-            Scrypt Spider and Mero Rating {'\n'} info@merorating.com {'\n'}{' '}
-            9862658255
-          </Text>
+        <Layout style={{
+          flex: 5,
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <FlatList data={offices} style={{ paddingTop: 10, marginLeft: '10%' }} renderItem={(office) => {
+
+            const { name, address, contact } = office.item;
+
+            return (
+              <View style={{ display: 'flex', flex: 3, paddingLeft: 10, marginTop: 20 }}>
+                <View style={{ display: 'flex', flex: 1 }}>
+                  <Text style={{ fontWeight: 'bold', flex: 1, marginBottom: 10, fontSize: 20 }}>{name}</Text>
+                </View>
+                <View style={{ marginLeft: '10%' }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <JMRIcon name='map-outline' />
+                    <Text>{address}</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <JMRIcon name='phone-outline' />
+                    <Text>{contact.phone}</Text>
+                  </View>
+                  {contact.email.length > 0 && (
+                    <View style={{ flexDirection: 'row' }}>
+                      <JMRIcon name='email-outline' />
+                      <Text>{contact.email}</Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            )
+          }} />
+        </Layout>
+        <Layout style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 10 }}>
+          <Text style={{textAlign: 'center', fontSize: 12}}>Developed By: Scrypt Spider</Text>
         </Layout>
       </Layout>
-    </ScrollView>
+    </Layout>
   );
 };
+const style = StyleSheet.create({
+  conatiner: {
+    flex: 1,
+    display: 'flex',
+    margin: 5, 
+    borderRadius: 10,
+    flexDirection: 'column',
+    overflow: 'hidden'
+  }
+
+
+})
 export default ContactPage;

@@ -47,7 +47,6 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
       });
     }
   }, [item]);
-
   useEffect(() => {
     const setMyLocation = () => {
       Geolocation.getCurrentPosition(

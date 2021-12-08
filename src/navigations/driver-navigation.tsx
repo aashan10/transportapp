@@ -1,11 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import CreateItem from '../screens/create-item';
+import CreateItem from '../screens/delivery-request/delivery-screen';
 import ItemDetails from '../screens/item-details';
 import HomeScreen from '../screens/home-screen';
-import MyPickups from '../screens/my-pickups';
 import ItemDetailsMap from '../screens/item-details-map';
-// import History from '../screens/item-delivery-detail';
 
 const Driver = createStackNavigator();
 

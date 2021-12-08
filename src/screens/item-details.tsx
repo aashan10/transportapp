@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Icon, Layout, Modal, Text } from '@ui-kitten/components';
+import { Icon, Layout, Modal, Text } from '@ui-kitten/components';
 import Header from '../components/header';
-import { Alert, LogBox, Pressable, ScrollView, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import Button from '../components/button';
 import UserContext from '../contexts/user-context';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { MAPBOX_API_KEY } from '../api/constants';
 import LocalizationContext from '../contexts/localization-context';
 import { ThemeContext } from '../contexts/theme-context';
-import moment from 'moment';
 import {
   acceptDeliveryRequest,
   cancelDelivery,
@@ -18,6 +17,7 @@ import {
 import TimelineItem from '../components/timeline-item';
 import RefreshControl from '../components/refresh-control';
 import ConfirmModal from '../components/confirm-modal';
+import messageing from '@react-native-firebase/messaging';
 
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
@@ -39,6 +39,8 @@ export interface RequestInterface {
   vendorId: string;
   latitudeOfDeliveryFrom: number;
   longitudeOfDeliveryFrom: number;
+  latitudeOfDeliveryTo: number;
+  longitudeOfDeliveryTo: number;
   acceptedAt: string | false;
   itemReachedAt: string | false;
   vendorPhoneNumber?: string;
@@ -67,6 +69,7 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
   >([]);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(true);
+  const [deviceId, setDeviceId] = useState<string>('');
 
   useEffect(() => {
     const { itemReachedAt, acceptedAt, driverAcceptedAt } = item;
@@ -127,6 +130,11 @@ const ItemDetails = ({ navigation, route }: ItemDetailsProps) => {
     }
   }, [state, user.role]);
 
+  useEffect(() => {
+    messageing().getToken().then(token => {
+      setDeviceId(token);
+    }).catch(err => { });
+  }, []);
   return (
     <Layout level={'4'} style={{ height: '100%' }}>
       <Layout style={{ width: '100%', borderRadius: 20 }}>
