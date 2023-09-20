@@ -1,9 +1,12 @@
-import {Coordinates} from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import {Coordinates} from '@mapbox/mapbox-sdk';
+import MapboxGL from '@rnmapbox/maps';
 import {Button, Layout} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, useWindowDimensions, View} from 'react-native';
-import {AUTOCOMPLETE_API_URL, MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../../api/constants';
+import {
+  AUTOCOMPLETE_API_URL,
+  MAPBOX_DIRECTIONS_API_URL,
+} from '../../api/constants';
 import Header from '../../components/header';
 import LocationPicker from '../../components/location-picker';
 import LocalizationContext from '../../contexts/localization-context';
@@ -71,7 +74,7 @@ const DeliveryScreen = (props: any) => {
             setCenter(item.center);
             setShowMap(true);
           }}
-          onChangeText={(text: string) => {
+          onChangeText={(_: string) => {
             setShowMap(false);
           }}
         />
@@ -106,7 +109,7 @@ const DeliveryScreen = (props: any) => {
                     backgroundColor: 'red',
                     zIndex: 100,
                   }}>
-                  {path.features.map((feature, id) => {
+                  {path.features.map((_, __) => {
                     return (
                       <MapboxGL.LineLayer
                         id={'line'}

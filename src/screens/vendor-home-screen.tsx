@@ -5,7 +5,7 @@ import Header from '../components/header';
 import RefreshControl from '../components/refresh-control';
 import UserContext from '../contexts/user-context';
 import Button from '../components/button';
-import {Exception, getVendorItemsDetail} from '../api/requests';
+import {getVendorItemsDetail} from '../api/requests';
 import DeliveryRequest from '../components/delivery-request';
 import LocalizationContext from '../contexts/localization-context';
 
@@ -55,7 +55,7 @@ const VendorHomeScreen = ({navigation}: any) => {
                       setPosts(feeds.detail);
                     }
                   })
-                  .catch(e => {
+                  .catch(_ => {
                     Alert.alert(
                       currentLanguage.alert1,
                       currentLanguage.message7,

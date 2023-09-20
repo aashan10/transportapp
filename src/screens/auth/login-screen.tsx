@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Icon, Input, Layout, Spinner, Text } from '@ui-kitten/components';
-import { StyleSheet, View, ToastAndroid, Image } from 'react-native';
-import { Exception, userLogin } from '../../api/requests';
+import React, {useContext, useEffect, useState} from 'react';
+import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
+import {StyleSheet, View, ToastAndroid, Image} from 'react-native';
+import {Exception, userLogin} from '../../api/requests';
 import UserContext from '../../contexts/user-context';
 import Button from '../../components/button';
-import { isEmpty } from '../../helpers/functions';
+import {isEmpty} from '../../helpers/functions';
 import LocalizationContext from '../../contexts/localization-context';
-import { useFocusEffect } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { ThemeContext } from '../../contexts/theme-context';
+import {useFocusEffect} from '@react-navigation/native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {ThemeContext} from '../../contexts/theme-context';
 import messageing from '@react-native-firebase/messaging';
 
 const LoginScreen = (props: any) => {
-  const { user, setUser } = useContext(UserContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const { currentLanguage, setLanguage } = useContext(LocalizationContext);
+  const {user, setUser} = useContext(UserContext);
+  const {theme, toggleTheme} = useContext(ThemeContext);
+  const {currentLanguage, setLanguage} = useContext(LocalizationContext);
   useEffect(() => {
     if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
@@ -25,6 +25,9 @@ const LoginScreen = (props: any) => {
     if (!isEmpty(user.token)) {
       props.navigation.navigate('home');
     }
+    sendToken()
+      .then(id => console.log(id))
+      .catch(err => console.log(err));
   });
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -40,11 +43,11 @@ const LoginScreen = (props: any) => {
   useEffect(() => {
     sendToken()
       .then(token => {
+        console.log(token);
         setDeviceId(token);
       })
-      .catch(err => { });
+      .catch(err => {});
   }, []);
-
 
   const ThemeIcon = (iconProps: any) => {
     return (
@@ -74,7 +77,7 @@ const LoginScreen = (props: any) => {
               borderBottomEndRadius: 0,
             }}
             accessoryLeft={() => {
-              return <Text style={{ fontSize: 20 }}>{currentLanguage.lang}</Text>;
+              return <Text style={{fontSize: 20}}>{currentLanguage.lang}</Text>;
             }}
             onPress={() => {
               if (currentLanguage.login === 'Login') {
@@ -125,7 +128,7 @@ const LoginScreen = (props: any) => {
             placeholder={currentLanguage.username}
           />
           <Input
-            style={[style.spacedComponent, { marginBottom: 50 }]}
+            style={[style.spacedComponent, {marginBottom: 50}]}
             value={password}
             secureTextEntry={!showPassword}
             onChangeText={text => setPassword(text)}
@@ -162,13 +165,13 @@ const LoginScreen = (props: any) => {
               })
                 .then(response => {
                   if (setUser) {
-                    setUser({ token: response.token });
+                    setUser({token: response.token});
                     props.navigation.navigate('home');
                   }
                 })
                 .catch(async (err: Exception) => {
                   try {
-                    const { response } = err;
+                    const {response} = err;
                     if (response.status >= 400 && response.status < 500) {
                       ToastAndroid.show((await response.json()).message, 5000);
                     } else if (response.status >= 500) {
@@ -191,11 +194,11 @@ const LoginScreen = (props: any) => {
               if (!loading) {
                 return <View />;
               }
-              return <Spinner size={'small'} style={{ borderColor: 'white' }} />;
+              return <Spinner size={'small'} style={{borderColor: 'white'}} />;
             }}>
             {loading ? undefined : currentLanguage.login}
           </Button>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Button
               onPress={() => {
                 props.navigation.navigate('register');

@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
-import { Input, Layout, Spinner, Text } from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../components/header';
-import { ScrollView, ToastAndroid, View } from 'react-native';
+import {ScrollView, ToastAndroid, View} from 'react-native';
 import Button from '../../components/button';
-import { createNewItemRequest } from '../../api/requests';
+import {createNewItemRequest} from '../../api/requests';
 import LocalizationContext from '../../contexts/localization-context';
-import { useContext } from 'react';
-import { Coordinates } from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
+import {useContext} from 'react';
+import {Coordinates} from '@mapbox/mapbox-sdk';
 
 interface ErrorState {
   name: string | null;
-  to: string | { latitudeOfDeliveryTo: string, longitudeOfDeliveryTo: string } | null;
-  from: string | { latitudeOfDeliveryFrom: string, longitudeOfDeliveryFrom: string } | null;
+  to:
+    | string
+    | {latitudeOfDeliveryTo: string; longitudeOfDeliveryTo: string}
+    | null;
+  from:
+    | string
+    | {latitudeOfDeliveryFrom: string; longitudeOfDeliveryFrom: string}
+    | null;
   qty: string | null;
   price: string | null;
   description: string | null;
 }
-const validate = ({ name, to, from, qty, price, description }: ErrorState) => {
+const validate = ({name, to, from, qty, price, description}: ErrorState) => {
   let response: ErrorState = {
     name: null,
     to: null,
@@ -48,9 +54,9 @@ const validate = ({ name, to, from, qty, price, description }: ErrorState) => {
   return response;
 };
 
-const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
-  const { pickupLocation, deliveryLocation } = route.params;
-  const { currentLanguage } = useContext(LocalizationContext);
+const CreateDeliveryRequestScreen = ({navigation, route}: any) => {
+  const {pickupLocation, deliveryLocation} = route.params;
+  const {currentLanguage} = useContext(LocalizationContext);
 
   const [name, setName] = useState<string>('');
   const [to, setTo] = useState<string>(deliveryLocation.name);
@@ -70,7 +76,7 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
     description: null,
   });
   return (
-    <Layout style={{ height: '100%' }} level={'4'}>
+    <Layout style={{height: '100%'}} level={'4'}>
       <Layout>
         <Header
           back={true}
@@ -78,24 +84,24 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
           title={currentLanguage.createItems}
         />
       </Layout>
-      <Layout style={{ flex: 1, margin: 5, borderRadius: 10 }} level={'1'}>
-        <ScrollView style={{ flex: 1, padding: 10, paddingVertical: 20 }}>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+      <Layout style={{flex: 1, margin: 5, borderRadius: 10}} level={'1'}>
+        <ScrollView style={{flex: 1, padding: 10, paddingVertical: 20}}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.itemName}
             </Text>
             <Input
               onChangeText={text => {
                 setName(text);
-                setError({ ...error, name: null });
+                setError({...error, name: null});
               }}
               status={error.name ? 'danger' : ''}
               placeholder={'Name of item to be picked'}
             />
             {error?.name ? <Text status={'danger'}>{error.name}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.pickUp}
             </Text>
             <Input
@@ -107,8 +113,8 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
 
             {/* {error?.from ? <Text status={'danger'}>{error.from}</Text> : null} */}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.Drop}
             </Text>
             <Input
@@ -120,8 +126,8 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
             {/* {error?.to ? <Text status={'danger'}>{error.to}</Text> : null} */}
           </View>
 
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.quantity}
             </Text>
             <Input
@@ -129,15 +135,15 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setQty(parseFloat(text));
-                setError({ ...error, qty: null });
+                setError({...error, qty: null});
               }}
               status={error.qty ? 'danger' : ''}
               placeholder={'Quantity of items to be dropped'}
             />
             {error?.qty ? <Text status={'danger'}>{error.qty}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.price}
             </Text>
             <Input
@@ -145,15 +151,15 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
               keyboardType={'numeric'}
               onChangeText={text => {
                 setPrice(parseFloat(text));
-                setError({ ...error, price: null });
+                setError({...error, price: null});
               }}
               status={error.price ? 'danger' : ''}
               placeholder={'Estimated price for delivery'}
             />
             {error?.price ? <Text status={'danger'}>{error.price}</Text> : null}
           </View>
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ paddingBottom: 5, fontWeight: 'bold' }}>
+          <View style={{marginBottom: 15}}>
+            <Text style={{paddingBottom: 5, fontWeight: 'bold'}}>
               {currentLanguage.Description}
             </Text>
             <Input
@@ -163,7 +169,7 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
               value={description}
               onChangeText={text => {
                 setDescription(text);
-                setError({ ...error, description: null });
+                setError({...error, description: null});
               }}
               status={error.description ? 'danger' : ''}
               placeholder={'Delivery Description'}
@@ -183,7 +189,7 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
         }}
         level={'4'}>
         <Button
-          style={{ minWidth: 150 }}
+          style={{minWidth: 150}}
           appearance={'outline'}
           onPress={() => {
             navigation.goBack();
@@ -214,12 +220,14 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
                 setLoading(true);
                 try {
                   setLoading(true);
-                  const from: {coords: Coordinates, name: string} = pickupLocation;
-                  const to: {coords: Coordinates, name: string} = deliveryLocation;
+                  const from: {coords: Coordinates; name: string} =
+                    pickupLocation;
+                  const to: {coords: Coordinates; name: string} =
+                    deliveryLocation;
                   let response = await createNewItemRequest({
                     name: name,
                     from: from,
-                    to: to, 
+                    to: to,
                     quantity: qty,
                     price: price,
                     description: description,
@@ -239,9 +247,6 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
                 } finally {
                   setLoading(false);
                 }
-
-
-
               }
             } catch (err: any) {
               ToastAndroid.show(err.message, 5000);
@@ -253,7 +258,7 @@ const CreateDeliveryRequestScreen = ({ navigation, route }: any) => {
             return loading ? <Spinner size={'small'} /> : <View />;
           }}
           disabled={loading}
-          style={{ minWidth: 150 }}>
+          style={{minWidth: 150}}>
           {currentLanguage.createItems}
         </Button>
       </Layout>

@@ -8,7 +8,7 @@ import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
 
-const MyPickups = ({navigation, route}: any) => {
+const MyPickups = ({navigation, _}: any) => {
   const [posts, setPosts] = useState<Array<any>>([]);
   const {user} = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);

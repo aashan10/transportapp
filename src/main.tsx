@@ -56,7 +56,6 @@ If you want to use these features, please press 'I Agree' to consent to providin
               .then(permission => {
                 RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
                   interval: 10000,
-                  fastInterval: 5000,
                 }).catch(() => {});
                 if (permission !== RESULTS.GRANTED) {
                   Alert.alert(

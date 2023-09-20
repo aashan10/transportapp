@@ -3,8 +3,7 @@ import {Icon, Input, Layout, Spinner, Text} from '@ui-kitten/components';
 import Header from '../../../components/header';
 import {View, Alert} from 'react-native';
 import Button from '../../../components/button';
-import {EMAIL_REGEX} from '../../../helpers/constants';
-import {changePassword, Exception, forgotPassword} from '../../../api/requests';
+import {changePassword, Exception} from '../../../api/requests';
 import {useContext} from 'react';
 import LocalizationContext from '../../../contexts/localization-context';
 

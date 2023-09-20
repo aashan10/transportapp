@@ -23,7 +23,7 @@ import {
 import {ImageOrVideo} from 'react-native-image-crop-picker';
 import {requestLocationPermission} from '../helpers/functions';
 import Geolocation from '@react-native-community/geolocation';
-import { Coordinates } from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
+import {Coordinates} from '@mapbox/mapbox-sdk';
 
 export const get = async (url: string, auth: boolean = true) => {
   const payload = {
@@ -101,8 +101,8 @@ export const createNewItemRequest = async (props: {
   quantity: number;
   price: number;
   name: string;
-  from: {coords: Coordinates, name: string};
-  to: {coords: Coordinates, name: string};
+  from: {coords: Coordinates; name: string};
+  to: {coords: Coordinates; name: string};
   description: string;
 }) => {
   const data = {
@@ -139,7 +139,13 @@ export const getVendorCancel = async () => {
 export const getDeliveryItemList = async () => {
   return await get(DRIVER_ITEM_ACCEPTED_LIST);
 };
-export const getNearYouItem = async ({latitude, longitude }: {latitude: number, longitude: number}) => {
+export const getNearYouItem = async ({
+  latitude,
+  longitude,
+}: {
+  latitude: number;
+  longitude: number;
+}) => {
   return await get(DRIVER_NEAR_YOU + `?lat=${latitude}&lng=${longitude}`);
 };
 

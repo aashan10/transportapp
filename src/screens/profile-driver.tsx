@@ -1,9 +1,8 @@
-import {Icon, Layout, ListItem, Modal, Text} from '@ui-kitten/components';
+import {Layout, Modal, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
-  Pressable,
   ScrollView,
   View,
   TouchableOpacity,
@@ -26,7 +25,7 @@ interface profileDetailPros {
 const ProfileImage = ({email}: {email: string}) => {
   return (
     <Image
-      source={{uri: 'https://gravatar.com/avatar/' + md5(email)}}
+      source={{uri: 'https://gravatar.com/avatar/' + md5(email ?? 'hello')}}
       style={{
         height: 75,
         width: 75,
@@ -45,7 +44,7 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
   const {user} = useContext(UserContext);
   const {currentLanguage} = useContext(LocalizationContext);
   const {theme} = useContext(ThemeContext);
-  const {height, width} = Dimensions.get('window');
+  const {width} = Dimensions.get('window');
   const [licenseVisible, setLicenseVisible] = useState<boolean>(false);
   const [billBookVisible, setBillBookVisible] = useState<boolean>(false);
 
@@ -82,7 +81,6 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
   }, [user, width]);
   return (
     <Layout style={{height: '100%'}} level={'4'}>
-      
       <Layout
         style={{
           flexDirection: 'column',
@@ -115,7 +113,7 @@ const ProfileScreen = ({navigation}: profileDetailPros) => {
                 textAlign: 'center',
                 color: 'gray',
               }}>
-              {user.email.toLowerCase()}
+              {user.email?.toLowerCase()}
             </Text>
           </Layout>
         </Layout>

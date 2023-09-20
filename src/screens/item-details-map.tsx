@@ -1,4 +1,4 @@
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import MapboxGL from '@rnmapbox/maps';
 import {Button, Icon, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect} from 'react';
 import {useState} from 'react';
@@ -200,7 +200,7 @@ const ItemDetailsMap = ({navigation, route}: ItemDetailsMapProps) => {
                 backgroundColor: 'red',
                 zIndex: 100,
               }}>
-              {path.features.map((feature, id) => {
+              {path.features.map((_, __) => {
                 return (
                   <MapboxGL.LineLayer
                     id={'line'}

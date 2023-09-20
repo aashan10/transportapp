@@ -1,29 +1,29 @@
-import {Coordinates} from '@mapbox/mapbox-sdk/lib/classes/mapi-request';
-import MapboxGL from '@react-native-mapbox-gl/maps';
+import {Coordinates} from '@mapbox/mapbox-sdk';
+import MapboxGL from '@rnmapbox/maps';
 import {Button, Layout} from '@ui-kitten/components';
 import React, {useContext, useState} from 'react';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import {Image, useWindowDimensions, View} from 'react-native';
-import { MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL } from '../../api/constants';
+import {MAPBOX_API_KEY, MAPBOX_DIRECTIONS_API_URL} from '../../api/constants';
 import Header from '../../components/header';
 import LocationPicker from '../../components/location-picker';
 import LocalizationContext from '../../contexts/localization-context';
 import {ThemeContext} from '../../contexts/theme-context';
-import { FeatureCollection, Feature } from 'geojson';
+import {FeatureCollection, Feature} from 'geojson';
 const PickupScreen = ({navigation}: {navigation: any}) => {
   const {currentLanguage} = useContext(LocalizationContext);
   const {height, width} = useWindowDimensions();
   const {theme} = useContext(ThemeContext);
-  const [delivery, setDelivery] = useState<Coordinates>([85.318948, 27.690027]);
+  const [delivery] = useState<Coordinates>([85.318948, 27.690027]);
   const [pickup, setPickup] = useState<Coordinates>([85.318948, 27.690027]);
   const [center, setCenter] = useState<Coordinates>([85.318948, 27.690027]);
   const [locationName, setLocationName] = useState<string>('');
   const [showMap, setShowMap] = useState<boolean>(false);
   const [path, setPath] = useState<FeatureCollection>({
     type: 'FeatureCollection',
-    features:[]
+    features: [],
   });
-    useEffect(() => {
+  useEffect(() => {
     if (pickup && delivery) {
       const url = `${MAPBOX_DIRECTIONS_API_URL}/${pickup.toString()};${delivery.toString()}?access_token=${MAPBOX_API_KEY}&geometries=geojson`;
 

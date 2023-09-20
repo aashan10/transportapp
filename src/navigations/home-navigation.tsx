@@ -18,7 +18,7 @@ const HomeNavigation = () => {
 
   return (
     <Drawer.Navigator
-      drawerType={'front'}
+      screenOptions={{headerShown: false}}
       drawerContent={(props: any) => <DrawerComponent {...props} />}>
       <Drawer.Screen
         name={'home'}

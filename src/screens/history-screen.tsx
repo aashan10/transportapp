@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, Layout} from '@ui-kitten/components';
+import {Layout} from '@ui-kitten/components';
 import Header from '../components/header';
 import UserContext from '../contexts/user-context';
 import LocalizationContext from '../contexts/localization-context';
-import {getDeliveryitemDetail, getDeliveryItemList} from '../api/requests';
+import {getDeliveryitemDetail} from '../api/requests';
 import {Alert, ScrollView} from 'react-native';
 import DeliveryRequest from '../components/delivery-request';
 import RefreshControl from '../components/refresh-control';
